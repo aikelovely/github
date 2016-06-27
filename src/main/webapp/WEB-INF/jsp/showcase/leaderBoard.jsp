@@ -871,7 +871,7 @@
                 }
                 if(chartMeta.placeholderCode === 'DSHSCRISK'){
                     config.yAxis.min = 90;
-                    config.yAxis.tickInterval= 2;
+                    config.yAxis.tickInterval= 3;
                 }
                 $container.highcharts(config);
             }
