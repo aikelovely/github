@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.cards.CardsCommonFilterMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getMacroRegions" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_zp_card_api.get_regions)
+        order by sort_order
+    </select>
+
+    <select id="getRegions" resultType="ru.alfabank.dmpr.model.ChildEntity">
+        select id, name, id as parentid
+        from table(pkg_zp_card_api.get_regions)
+        order by sort_order
+    </select>
+
+    <select id="getCities" resultType="ru.alfabank.dmpr.model.ChildEntity">
+        select id, name, parentid
+        from table(pkg_zp_card_api.get_cities)
+        order by id
+    </select>
+
+    <select id="getBranchTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_zp_card_api.get_branch_types)
+        order by sort_order
+    </select>
+
+    <select id="getBranches" resultType="ru.alfabank.dmpr.model.cards.Branch">
+        select DO_CODE Id, DO_Name Name, DO_Name branchName, City_Id CityId, Branch_Type_Id BranchTypeId
+        from table(pkg_zp_card_api.get_DOs)
+        order by sort_order
+    </select>
+
+    <select id="getCardCategories" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_zp_card_api.get_card_categories)
+        order by sort_order
+    </select>
+
+    <select id="getDebitOrCredits" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select 1 Id, 'Дебет' Name from dual
+        union select 2 Id, 'Кредит' Name from dual
+    </select>
+
+    <select id="getClientSegments" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select Id, Name
+        from table(pkg_zp_card_api.get_client_segments)
+        order by sort_order
+    </select>
+
+    <select id="getSystemUnits" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select Id, Name
+        from table(pkg_zp_card_api.get_dimensions)
+        order by sort_order
+    </select>
+
+    <select id="getMvkSigns" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select Id, Name
+        from table(pkg_zp_card_api.get_mvk_type)
+        order by sort_order
+    </select>
+
+    <select id="getReissueSpeeds" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select Id, Name
+        from table(pkg_zp_card_api.get_reissue_speed)
+        order by sort_order
+    </select>
+
+    <select id="getZPSigns" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_zp_card_api.get_zp_type)
+        order by sort_order
+    </select>
+
+    <select id="getPYTypes" resultType="ru.alfabank.dmpr.model.ChildEntity">
+        <![CDATA[
+        select Code Id, Name, ParentId
+        from table(pkg_zp_card_api.get_srvpacks)
+        where Code < '200'
+        ]]>
+    </select>
+
+    <select id="getTimeUnits" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select Id, Name
+        from table(pkg_zp_card_api.get_timeunits)
+        order by sort_order
+    </select>
+</mapper>

@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.unitCost.UnitCostMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getCostDistribution" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostDataItem">
+        <![CDATA[
+        SELECT
+          value_day as calcDate,
+          grptype_value_uk as groupId,
+          grptype_value_ccode as groupCode,
+          grptype_value_name as groupName,
+          bpinnerendproduct_dk as innerEndProductId,
+          bpinnerendproduct_ccode as innerEndProductCode,
+          bpinnerendproduct_name as innerEndProductName,
+          totalsum_rur_amt as totalRurSum,
+          totalsum_usd_amt as totalUsdSum,
+          indexchangeprevmon_factor as indexChangeFactor,
+          unitcostsum_rur_amt as unitCostRurSum,
+          unitcostsum_usd_amt as unitCostUsdSum,
+          totallaborvalue_cnt as totalLaborValueCnt
+        FROM TABLE (pkg_unitcost_api.get_UC_distribution (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate},
+          p_CalcTypeID  => #{calcTypeId},
+          p_DirectionIDs => #{directionIds}
+        ))
+        ]]>
+    </select>
+
+    <select id="getCostDistributionFot" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostDataItem">
+        <![CDATA[
+        SELECT
+          value_day as calcDate,
+          grptype_value_uk as groupId,
+          grptype_value_ccode as groupCode,
+          grptype_value_name as groupName,
+          bpinnerendproduct_dk as innerEndProductId,
+          bpinnerendproduct_ccode as innerEndProductCode,
+          bpinnerendproduct_name as innerEndProductName,
+          totalsum_rur_amt as totalRurSum,
+          totalsum_usd_amt as totalUsdSum,
+          indexchangeprevmon_factor as indexChangeFactor,
+          unitcostsum_rur_amt as unitCostRurSum,
+          unitcostsum_usd_amt as unitCostUsdSum,
+          totallaborvalue_cnt as totalLaborValueCnt
+        FROM TABLE (pkg_unitcost_api.get_UC_distribution_fot (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate},
+          p_CalcTypeID  => #{calcTypeId},
+          p_DirectionIDs => #{directionIds}
+        ))
+        ]]>
+    </select>
+
+    <select id="getCostDistributionOperBlock" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostDataItem">
+        <![CDATA[
+        SELECT
+          value_day as calcDate,
+          grptype_value_uk as groupId,
+          grptype_value_ccode as groupCode,
+          grptype_value_name as groupName,
+          bpinnerendproduct_dk as innerEndProductId,
+          bpinnerendproduct_ccode as innerEndProductCode,
+          bpinnerendproduct_name as innerEndProductName,
+          totalsum_rur_amt as totalRurSum,
+          totalsum_usd_amt as totalUsdSum,
+          indexchangeprevmon_factor as indexChangeFactor,
+          unitcostsum_rur_amt as unitCostRurSum,
+          unitcostsum_usd_amt as unitCostUsdSum,
+          totallaborvalue_cnt as totalLaborValueCnt
+        FROM TABLE (pkg_unitcost_api.get_UC_distribution_oper_div (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate},
+          p_CalcTypeID  => #{calcTypeId}
+        ))
+        ]]>
+    </select>
+
+    <select id="getDataByFunction" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostDataItem">
+        <![CDATA[
+        SELECT
+          value_day as calcDate,
+          grptype_value_uk as groupId,
+          grptype_value_ccode as groupCode,
+          grptype_value_name as groupName,
+          bpinnerendproduct_dk as innerEndProductId,
+          bpinnerendproduct_ccode as innerEndProductCode,
+          bpinnerendproduct_name as innerEndProductName,
+          totalsum_rur_amt as totalRurSum,
+          totalsum_usd_amt as totalUsdSum,
+          indexchangeprevmon_factor as indexChangeFactor,
+          unitcostsum_rur_amt as unitCostRurSum,
+          unitcostsum_usd_amt as unitCostUsdSum,
+          totallaborvalue_cnt as totalLaborValueCnt
+        FROM TABLE (pkg_unitcost_api.get_UC_data_by_function (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate},
+          p_CalcTypeID  => #{calcTypeId},
+          p_DirectionIDs => #{directionIds}
+        ))
+        ]]>
+    </select>
+
+    <select id="getDataByFunctionDrillDown" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostDataItem">
+        <![CDATA[
+        SELECT
+          value_day as calcDate,
+          grptype_value_uk as groupId,
+          grptype_value_ccode as groupCode,
+          grptype_value_name as groupName,
+          bpinnerendproduct_dk as innerEndProductId,
+          bpinnerendproduct_ccode as innerEndProductCode,
+          bpinnerendproduct_name as innerEndProductName,
+          totalsum_rur_amt as totalRurSum,
+          totalsum_usd_amt as totalUsdSum,
+          indexchangeprevmon_factor as indexChangeFactor,
+          unitcostsum_rur_amt as unitCostRurSum,
+          unitcostsum_usd_amt as unitCostUsdSum,
+          totallaborvalue_cnt as totalLaborValueCnt
+        FROM TABLE (pkg_unitcost_api.get_UC_data_by_function (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate},
+          p_CalcTypeID  => #{calcTypeId},
+          p_GrpUkID     => #{groupId},
+          p_DirectionIDs => #{directionIds}
+        ))
+        ]]>
+    </select>
+
+    <select id="getDataByDirection" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostDataItem">
+        <![CDATA[
+        SELECT
+          value_day as calcDate,
+          grptype_value_uk as groupId,
+          grptype_value_ccode as groupCode,
+          grptype_value_name as groupName,
+          bpinnerendproduct_dk as innerEndProductId,
+          bpinnerendproduct_ccode as innerEndProductCode,
+          bpinnerendproduct_name as innerEndProductName,
+          totalsum_rur_amt as totalRurSum,
+          totalsum_usd_amt as totalUsdSum,
+          indexchangeprevmon_factor as indexChangeFactor,
+          unitcostsum_rur_amt as unitCostRurSum,
+          unitcostsum_usd_amt as unitCostUsdSum,
+          totallaborvalue_cnt as totalLaborValueCnt
+        FROM TABLE (pkg_unitcost_api.get_UC_data_by_direction (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate},
+          p_CalcTypeID  => #{calcTypeId},
+          p_DirectionIDs => #{directionIds}
+        ))
+        ]]>
+    </select>
+
+    <select id="getDataByDirectionDrillDown" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostDataItem">
+        <![CDATA[
+        SELECT
+          value_day as calcDate,
+          grptype_value_uk as groupId,
+          grptype_value_ccode as groupCode,
+          grptype_value_name as groupName,
+          bpinnerendproduct_dk as innerEndProductId,
+          bpinnerendproduct_ccode as innerEndProductCode,
+          bpinnerendproduct_name as innerEndProductName,
+          totalsum_rur_amt as totalRurSum,
+          totalsum_usd_amt as totalUsdSum,
+          indexchangeprevmon_factor as indexChangeFactor,
+          unitcostsum_rur_amt as unitCostRurSum,
+          unitcostsum_usd_amt as unitCostUsdSum,
+          totallaborvalue_cnt as totalLaborValueCnt
+        FROM TABLE (pkg_unitcost_api.get_UC_data_by_direction (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate},
+          p_CalcTypeID  => #{calcTypeId},
+          p_GrpUkID     => #{groupId},
+          p_DirectionIDs => #{directionIds}
+        ))
+        ]]>
+    </select>
+
+    <select id="getDataTopN" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostDataItem">
+        <![CDATA[
+        SELECT
+          value_day as calcDate,
+          grptype_value_uk as groupId,
+          grptype_value_ccode as groupCode,
+          grptype_value_name as groupName,
+          bpinnerendproduct_dk as innerEndProductId,
+          bpinnerendproduct_ccode as innerEndProductCode,
+          bpinnerendproduct_name as innerEndProductName,
+          totalsum_rur_amt as totalRurSum,
+          totalsum_usd_amt as totalUsdSum,
+          indexchangeprevmon_factor as indexChangeFactor,
+          unitcostsum_rur_amt as unitCostRurSum,
+          unitcostsum_usd_amt as unitCostUsdSum,
+          totallaborvalue_cnt as totalLaborValueCnt,
+          topByField
+        FROM TABLE (pkg_unitcost_api.get_UC_data_topN (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate},
+          p_CalcTypeID  => #{calcTypeId},
+          p_DirectionIDs => #{directionIds},
+          p_TopCount    => 20
+        ))
+        ]]>
+    </select>
+
+    <select id="getDataByBlock" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostDataItem">
+        <![CDATA[
+        SELECT
+          value_day as calcDate,
+          grptype_value_uk as groupId,
+          grptype_value_ccode as groupCode,
+          grptype_value_name as groupName,
+          bpinnerendproduct_dk as innerEndProductId,
+          bpinnerendproduct_ccode as innerEndProductCode,
+          bpinnerendproduct_name as innerEndProductName,
+          totalsum_rur_amt as totalRurSum,
+          totalsum_usd_amt as totalUsdSum,
+          indexchangeprevmon_factor as indexChangeFactor,
+          unitcostsum_rur_amt as unitCostRurSum,
+          unitcostsum_usd_amt as unitCostUsdSum,
+          totallaborvalue_cnt as totalLaborValueCnt
+        FROM TABLE (pkg_unitcost_api.get_UC_data_by_block (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate},
+          p_CalcTypeID  => #{calcTypeId}
+        ))
+        ]]>
+    </select>
+
+    <select id="getDataGrouped" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostDataItem">
+        <![CDATA[
+        SELECT
+          value_day as calcDate,
+          grptype_value_uk as groupId,
+          grptype_value_ccode as groupCode,
+          grptype_value_name as groupName,
+          bpinnerendproduct_dk as innerEndProductId,
+          bpinnerendproduct_ccode as innerEndProductCode,
+          bpinnerendproduct_name as innerEndProductName,
+          totalsum_rur_amt as totalRurSum,
+          totalsum_usd_amt as totalUsdSum,
+          indexchangeprevmon_factor as indexChangeFactor,
+          unitcostsum_rur_amt as unitCostRurSum,
+          unitcostsum_usd_amt as unitCostUsdSum,
+          totallaborvalue_cnt as totalLaborValueCnt,
+          unitcostsum_rur_amt_cumulative as unitCostRurSumCumulative,
+          unitcostsum_usd_amt_cumulative as unitCostUsdSumCumulative,
+          quantity_cnt as quantityCnt
+        FROM TABLE (pkg_unitcost_api.get_UC_data_grouped (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate},
+          p_CalcTypeID  => #{calcTypeId}
+        ))
+        ]]>
+    </select>
+
+    <select id="getReport1" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostReportDataItem">
+        <![CDATA[
+        SELECT
+          DIRECTION_NAME as directionName,
+          PRDTYPE_NAME as calcType,
+          VALUE_DAY as calcDate,
+          BPINNERENDPRODUCT_CCODE as innerEndProductCode,
+          BPINNERENDPRODUCT_NAME as innerEndProductName,
+          BPORGREGION_CCODE as regionCode,
+          PROFITCENTER_RUS_CCODE as profitCenterCode,
+          TOTALLABORVALUE_CNT as totalLaborCnt,
+          TOTALBPIEPQUANTITY_CNT as totalBpiepQuantityCnt,
+          UNITCOSTVALUE_USD_AMT as unitCostUsdSum,
+          UNITCOSTVALUE_RUR_AMT as unitCostRurSum,
+          TOTALCOSTVALUE_USD_AMT as totalUsdSum,
+          TOTALCOSTVALUE_RUR_AMT as totalRurSum
+        FROM TABLE (pkg_unitcost_api.get_UC_report1 (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate},
+          p_CalcTypeID  => #{calcTypeId},
+          p_DirectionIDs => #{directionIds}
+        ))
+        ]]>
+    </select>
+
+    <select id="getReport2" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostReportDataItem">
+        <![CDATA[
+        SELECT
+          DIRECTION_NAME as directionName,
+          PRDTYPE_NAME as calcType,
+          VALUE_DAY as calcDate,
+          BPINNERENDPRODUCT_CCODE as innerEndProductCode,
+          BPINNERENDPRODUCT_NAME as innerEndProductName,
+          BPORGREGION_CCODE as regionCode,
+          PROFITCENTER_RUS_CCODE as profitCenterCode,
+          TOTALLABORVALUE_CNT as totalLaborCnt,
+          TOTALBPIEPQUANTITY_CNT as totalBpiepQuantityCnt,
+          UNITCOSTVALUE_USD_AMT as unitCostUsdSum,
+          UNITCOSTVALUE_RUR_AMT as unitCostRurSum,
+          TOTALCOSTVALUE_USD_AMT as totalUsdSum,
+          TOTALCOSTVALUE_RUR_AMT as totalRurSum
+        FROM TABLE (pkg_unitcost_api.get_UC_report2 (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate},
+          p_CalcTypeID  => #{calcTypeId},
+          p_DirectionIDs => #{directionIds}
+        ))
+        ]]>
+    </select>
+
+</mapper>

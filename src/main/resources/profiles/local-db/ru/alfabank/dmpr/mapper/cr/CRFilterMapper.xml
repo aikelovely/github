@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.cr.CRFilterMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getBLTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table (pkg_cr_api.get_BLType())
+        order by sort_order
+    </select>
+
+    <select id="getBLs" resultType="ru.alfabank.dmpr.model.ChildEntity">
+        select id, name, parentId
+        from table (pkg_cr_api.get_BL())
+        order by sort_order
+    </select>
+
+    <select id="getProcesses" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table (pkg_cr_api.get_processes())
+        order by sort_order
+    </select>
+
+    <select id="getBPTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table (pkg_cr_api.get_BPType())
+        order by sort_order
+    </select>
+
+    <select id="getCommittees" resultType="ru.alfabank.dmpr.model.ChildEntity">
+        select
+            committee_id as Id,
+            committee_name as Name
+        from table (pkg_bpd_api.get_committees())
+    </select>
+
+    <select id="getDopOffices" resultType="ru.alfabank.dmpr.model.ChildEntity">
+        select id, name, parentId
+        from table (pkg_cr_api.get_dopoffice())
+        order by sort_order
+    </select>
+</mapper>

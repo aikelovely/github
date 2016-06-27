@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.zp.ZPFilterMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getBushes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_zp_api.get_bushes)
+        order by sort_order
+    </select>
+
+    <select id="getOperationOffices" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_zp_api.get_oos)
+        order by sort_order
+    </select>
+
+    <select id="getCities" resultType="ru.alfabank.dmpr.model.zp.City">
+        select code as id,
+        name,
+        additional_info as RegionName,
+        bush_id as BushId,
+        oo_id as OperationOfficeId
+        from table(pkg_zp_api.get_cities())
+        order by sort_order
+    </select>
+
+    <select id="getManagers" resultType="ru.alfabank.dmpr.model.zp.ManagerDto">
+        select
+            code as id,
+            name,
+            additional_info as cityIds
+        from table(pkg_zp_api.get_managers())
+        order by sort_order
+    </select>
+
+    <select id="getRoManagers" resultType="ru.alfabank.dmpr.model.zp.ManagerDto">
+        select
+        code as id,
+        name,
+        additional_info as cityIds
+        from table(pkg_zp_api.get_ro_managers())
+        order by sort_order
+    </select>
+
+    <select id="getCompanies" resultType="ru.alfabank.dmpr.model.zp.CompanyDto">
+        select pin_eq as id,
+            company_name as name,
+            city_codes as CityIds,
+            manager_code as ManagerId,
+            COMPANY_INN as INN
+        from table(pkg_zp_api.get_companies())
+    </select>
+
+    <select id="getProcessStages" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_zp_api.get_bp_stages)
+        order by sort_order
+    </select>
+
+    <select id="getSubProcessStages" resultType="ru.alfabank.dmpr.model.ChildEntity">
+        select
+          id,
+          name,
+          parentid
+        from table(pkg_zp_api.get_bp_sub_stages)
+        order by sort_order
+    </select>
+
+    <select id="getSystemUnits" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_zp_api.get_dimensions)
+        order by sort_order
+    </select>
+
+    <select id="getTimeUnits" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        <![CDATA[
+        select
+        id,
+        name
+        from table(pkg_zp_api.get_timeunits())
+        where id <> 2
+        order by sort_order
+        ]]>
+    </select>
+
+    <select id="getOpeningSchemaTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_zp_api.get_acc_open_schemes)
+        order by sort_order
+    </select>
+
+    <select id="getSchemaTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_zp_api.get_zp_schemes)
+        order by sort_order
+    </select>
+
+    <select id="getOpeningTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_zp_api.get_acc_open_types)
+        order by sort_order
+    </select>
+</mapper>

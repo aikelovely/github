@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.pilAndCC.PILAndCCFilterMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getRegions" resultType="ru.alfabank.dmpr.model.BaseEntity" parameterType="map">
+        select id, name
+        from table(pkg_pilcc_api.get_regions(
+            pStartDate      => #{startDate},
+            pEndDate        => #{endDate},
+            pBPKPI_IDs      => #{kpiIds}
+        ))
+        order by sort_order
+    </select>
+
+    <select id="getCities" resultType="ru.alfabank.dmpr.model.BaseEntity" parameterType="map">
+        select id, name
+        from table(pkg_pilcc_api.get_cities(
+            pStartDate      => #{startDate},
+            pEndDate        => #{endDate},
+            pRegion_IDs     => #{regionIds},
+            pBPKPI_IDs      => #{kpiIds}
+        ))
+        order by sort_order
+    </select>
+
+    <select id="getBranches" resultType="ru.alfabank.dmpr.model.BaseEntity" parameterType="map">
+        select id, branch_name as name
+        from table(pkg_pilcc_api.get_branches(
+            pStartDate      => #{startDate},
+            pEndDate        => #{endDate},
+            pRegion_IDs     => #{regionIds},
+            pCity_IDs       => #{cityIds},
+            pBPKPI_IDs      => #{kpiIds}
+        ))
+        order by sort_order
+    </select>
+
+    <select id="getUsers" resultType="ru.alfabank.dmpr.model.BaseEntity" parameterType="map">
+        select id, name
+        from table(pkg_pilcc_api.get_users(
+            pStartDate      => #{startDate},
+            pEndDate        => #{endDate},
+            pRegion_IDs     => #{regionIds},
+            pCity_IDs       => #{cityIds},
+            pBranch_IDs     => #{branchIds},
+            pBPKPI_IDs      => #{kpiIds}
+        ))
+        order by sort_order
+    </select>
+
+    <select id="getBranchTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_pilcc_api.get_branch_types())
+        order by sort_order
+    </select>
+
+    <select id="getProductTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_pilcc_api.get_producttypes())
+        order by sort_order
+    </select>
+
+    <select id="getProducts" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_pilcc_api.get_products())
+        order by sort_order
+    </select>
+
+    <select id="getKPIs" resultType="ru.alfabank.dmpr.model.BaseEntity" parameterType="map">
+        select id, name
+        from table(pkg_pilcc_api.get_BPKPIs(
+            pProductTypeIDs => #{productTypeIds},
+            pProductIDs     => #{productIds}
+        ))
+        order by sort_order
+    </select>
+
+    <select id="getTimeUnits" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_pilcc_api.get_timeunits())
+        order by sort_order
+    </select>
+
+    <select id="getDimensions" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_pilcc_api.get_dimensions())
+        order by sort_order
+    </select>
+
+    <select id="getManualChecks" resultType="ru.alfabank.dmpr.model.BaseEntity" parameterType="map">
+        select id, name
+        from table(pkg_pilcc_api.get_ManualChecks(
+            pBPKPI_IDs => #{kpiIds}
+        ))
+        order by sort_order
+    </select>
+
+    <select id="getClientSegments" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_pilcc_api.get_ClientSegments())
+        order by sort_order
+    </select>
+
+    <select id="getFactValueTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_pilcc_api.get_FactValueTypes())
+        order by sort_order
+    </select>
+
+    <select id="getRequestStatusTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_pilcc_api.get_RequestStatusTypes())
+        order by sort_order
+    </select>
+
+    <select id="getSortDirections" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_pilcc_api.get_SortDirections())
+        order by sort_order
+    </select>
+
+    <select id="getSortTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_pilcc_api.get_SortTypes())
+        order by sort_order
+    </select>
+
+    <select id="getModules" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_pilcc_api.get_Modules())
+        order by sort_order
+    </select>
+
+    <select id="getChannels" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_pilcc_api.get_Channels())
+        order by sort_order
+    </select>
+
+    <select id="getQuotaDesc" resultType="ru.alfabank.dmpr.model.pilAndCC.QuotaDescription">
+        select
+            Quota_Type Type,
+            Kpi_Or_Metric_Desc TypeDescription,
+            Description,
+            Is_Bold_Text Bold,
+            Avg_Quota_Desc AverageTimeQuotaDescription,
+            Pc_Quota_Desc PercentQuotaDescription,
+            Comments,
+            SortOrder
+        from table(PKG_PILCC_API.get_QuotaDesc(
+            pQuota_Type => null
+        ))
+        order by sortOrder
+    </select>
+
+    <select id="getSevenFieldsCheck" resultType="ru.alfabank.dmpr.model.BaseEntityWithCode">
+        select ccode as code, name, sort_order as id
+        from table(pkg_pilcc_api.get_7fieldscheck)
+        order by sort_order
+    </select>
+</mapper>

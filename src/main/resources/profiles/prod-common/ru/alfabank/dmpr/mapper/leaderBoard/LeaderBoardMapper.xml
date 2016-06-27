@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.leaderBoard.LeaderBoardMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getKPIs" resultType="ru.alfabank.dmpr.model.BaseEntityWithCode">
+      <![CDATA[
+        select
+          id,
+          name,
+          ccode as code
+        from table(pkg_leaderboard_api.get_KPIs)
+        ]]>
+    </select>
+
+    <select id="getKpiData" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions"
+            resultType="ru.alfabank.dmpr.model.leaderBoard.KpiDataItem">
+        <![CDATA[
+        select
+          VALUE_DAY as calcDate,                     -- Отчетная дата
+          KPI_UK as kpiId,                           -- Показатель (UK)
+          KPI_CCODE as kpiCode,                      -- Показатель (CCODE)
+          KPI_NAME as kpiName,                       -- Показатель (Наименование)
+          DivisionGroup_UK as divisionGroupId,       -- Группы подразделений (UK)
+          DivisionGroup_CCODE as divisionGroupCode,  -- Группы подразделений (CCODE)
+          DivisionGroup_NAME as divisionGroupName,   -- Группы подразделений (Наименование)
+          PREV_FACTVALUE as prevValue,               -- Предыдущее факт. значение показателя (-12 мес. от текущей даты)
+          FACTVALUE as currentValue,                 -- Фактическое значение показателя
+          PLANVALUE_HIHBOUND_CNT as planValue,        -- Плановое значение показателя
+          Fact_Description as description
+        from table(PKG_LEADERBOARD_API.get_kpi_data (
+          p_DateFrom        => #{startDate},
+          p_DateTill        => #{endDate},
+          p_KPIIDs           => #{kpiIds},
+          p_DateIntervalType => #{dateIntervalType},
+          p_DivisionGroupIDs => #{divisionGroupId}
+        ))
+        ]]>
+    </select>
+
+    <select id="getKpiDataLastFact" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions"
+            resultType="ru.alfabank.dmpr.model.leaderBoard.KpiDataItem">
+        <![CDATA[
+        select
+          VALUE_DAY as calcDate,                     -- Отчетная дата
+          KPI_UK as kpiId,                           -- Показатель (UK)
+          KPI_CCODE as kpiCode,                      -- Показатель (CCODE)
+          KPI_NAME as kpiName,                       -- Показатель (Наименование)
+          DivisionGroup_UK as divisionGroupId,       -- Группы подразделений (UK)
+          DivisionGroup_CCODE as divisionGroupCode,  -- Группы подразделений (CCODE)
+          DivisionGroup_NAME as divisionGroupName,   -- Группы подразделений (Наименование)
+          PREV_FACTVALUE as prevValue,               -- Предыдущее факт. значение показателя (-12 мес. от текущей даты)
+          FACTVALUE as currentValue,                 -- Фактическое значение показателя
+          PLANVALUE_HIHBOUND_CNT as planValue,        -- Плановое значение показателя
+          Fact_Description as description
+        from table(PKG_LEADERBOARD_API.get_kpi_data_lastfact (
+          p_DateFrom        => #{startDate},
+          p_DateTill        => #{endDate},
+          p_KPIIDs           => #{kpiIds},
+          p_DateIntervalType => #{dateIntervalType},
+          p_DivisionGroupIDs => #{divisionGroupId}
+        ))
+        ]]>
+    </select>
+
+    <select id="getLayout" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions"
+            resultType="ru.alfabank.dmpr.model.leaderBoard.ChartMetaData">
+        <![CDATA[
+        select
+          parent_bg_dk as placeholderId,
+          parent_bg_ccode as placeholderCode,
+          bg_dk as groupId,
+          bg_order_num as groupOrder,
+          bg_COLUMN_CNT as columnCount,
+          bg_row_height_px as rowHeight,
+          block_dk as chartId,
+          block_col_number as columnIndex,
+          block_row_number as rowIndex,
+          block_name as chartName,
+          decode(block_showname_flag, 'Y', 1, 0) as showName,
+          decode(block_shownorm_flag, 'Y', 1, 0) as showNormative,
+          decode(block_showfact_flag, 'Y', 1, 0) as showFact,
+          decode(block_showsl_flag, 'Y', 1, 0) as showSL,
+          decode(block_hidecaption_flag, 'Y', 1, 0) as hideCaption,
+          block_WIDTH as width,
+          block_HEIGTH as height,
+          block_INTERVAL_CCODE as intervalType,
+          block_UNIT_CCODE as unitCode,
+          block_WIDGETTYPE_CCODE as widgetType,
+          block_data_range as dataMinMax,
+          decode(block_HIDE_IF_EMPTY_FLAG, 'Y', 1, 0) as hideIfEmpty,
+          bpkpi_dk as kpiId,
+          barcolor_ccode as seriesColor,
+          order_num as chartOrder,
+          DATALABEL_POSITION as dataLabelPosition,
+          DATALABEL_PRECISION as dataLabelPrecision,
+          SERIESTYPE_CCODE as seriesType,
+          SERIES_CODE as seriesCode,
+          FONTCOLOR_CCODE as fontColor,
+          BAR_WIDTH_PCT as barWidth
+        from table(pkg_leaderboard_api.get_layout)
+        ]]>
+    </select>
+</mapper>

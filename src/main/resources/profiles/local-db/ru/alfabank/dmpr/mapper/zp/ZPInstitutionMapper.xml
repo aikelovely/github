@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.zp.ZPInstitutionMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getDynamic" useCache="false"
+            resultType="ru.alfabank.dmpr.model.zp.ZPKPIDataItem"
+            parameterType="ru.alfabank.dmpr.model.zp.ZPInstitutionOptions">
+        <![CDATA[
+            select
+              UnitCode,
+              UnitName,
+              TimeUnitDD as CalcDate,
+              SortOrder,
+              InKPICount,
+              TotalCount,
+              round(TotalDuration/TotalCount, 1) as AvgDuration,
+              TotalDuration,
+              TotalCWCount,
+              KPINorm,
+              InKPIRatioAvg,
+              LoadedFlCount,
+              RetardedCount,
+              FullOkCount,
+              S1StartDate,
+              round(S1Duration, 1) as S1Duration,
+              S2StartDate,
+              round(S2Duration, 1) as S2Duration,
+              S3StartDate,
+              round(S3Duration, 1) as S3Duration,
+              CompanyINN
+            from table
+            (
+              pkg_zp_api.get_kpi_data(
+                  p_DateFrom => #{startDate},
+                  p_DateTill   => #{endDate},
+                  p_BushIDs => #{bushIds},
+                  p_OOIDs => #{operationOfficeIds},
+                  p_CityCodes => #{cityIds},
+                  p_CompanyPINs => #{companyIds},
+                  p_ManagerCodes => #{managerIds},
+                  p_ZPSchemeIDs => #{schemaTypeIds},
+                  p_TimeUnitID => #{timeUnitId}
+            ))
+            order by SortOrder
+        ]]>
+    </select>
+
+    <select id="getTiles" useCache="false"
+            resultType="ru.alfabank.dmpr.model.zp.ZPTile"
+            parameterType="ru.alfabank.dmpr.model.zp.ZPInstitutionOptions">
+        <![CDATA[
+            select
+                StageId,
+                StageName,
+                SubStageId,
+                SubStageName,
+                KPINorm,
+                InKPINorm,
+                InKPICount,
+                TotalCount,
+                TotalDuration
+            from table
+            (
+              pkg_zp_api.get_kpi_tile_data(
+                  p_DateFrom => #{startDate},
+                  p_DateTill   => #{endDate},
+                  p_BushIDs => #{bushIds},
+                  p_OOIDs => #{operationOfficeIds},
+                  p_CityCodes => #{cityIds},
+                  p_CompanyPINs => #{companyIds},
+                  p_ManagerCodes => #{managerIds},
+                  p_TimeUnitID => #{timeUnitId},
+                  p_ZPSchemeIDs => #{schemaTypeIds}
+            ))
+        ]]>
+    </select>
+</mapper>

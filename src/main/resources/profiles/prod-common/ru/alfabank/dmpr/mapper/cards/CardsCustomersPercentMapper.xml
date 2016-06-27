@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.cards.CardsCustomersPercentMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getKpi2DataItems" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.cards.customersPercent.CardsCustomersPercentOptions"
+            resultType="ru.alfabank.dmpr.model.cards.customersPercent.CardsCustomersPercentItem">
+        <![CDATA[
+        SELECT
+            TimeUnitDD         Calcdate,
+            UnitCode,
+            UnitName,
+            MacroRegionId,
+            RegionID,
+            CityID,
+            DOCode             BranchId,
+            TakenCardCount,
+            UntakenCardCount,
+            DestructedCardCount,
+            LostCardCount,
+            StartCardCount,
+            FinishCardCount,
+            UntakenCardCountDIV,
+            UntakenCardKPIRate UntakenCardKPI,
+            RCDOCardCount,
+            RCDOCardCountDIV,
+            RCDOCardKPIRate    RCDOCardKPI
+        FROM TABLE (pkg_card_api.get_kpi2_data (
+        p_DateFrom             => #{startDate}, -- Дата начала периода
+        p_DateTill             => #{endDate}, -- Дата окончания периода
+        p_IsReissued           => #{reissueId}, -- 1 - перевыпущенные, 0 - не перевыпущенные, null - все
+        p_MacroRegionIDs       => #{macroRegionIds}, -- ИД макро регионов
+        p_RegionIDs            => #{regionIds}, -- ИД регионов
+        p_CityIDs              => #{cityIds}, -- ИД городов
+        p_BranchTypeIDs        => #{branchTypeIds}, -- Типы ДО
+        p_SaleplaceIDs         => #{branchIds}, -- ИД ДО
+        p_ZPTypeIDs            => #{zpSignIds}, -- Типы ЗП
+        p_SrvPackIDs           => #{pyTypeIds}, -- Типы ПУ
+        p_CardCategoryIDs      => #{cardCategoryIds}, -- Категории карт
+        p_DCIDs                => #{debitOrCreditIds}, -- Дебит/Кредит
+        p_ClientSegmentIDs     => #{clientSegmentIds}, -- Клиентские сегменты
+        p_DimesionID           => #{systemUnitId}, -- Уровень деталзации (0- макрорегион, 1-регион,2-город,3 - ДО)
+        p_TimeUnitID           => #{timeUnitId}   -- Уровень деталзации по времени
+        ))
+        ]]>
+    </select>
+    <select id="getKpi2UnTakenDetailsDataItems" useCache="false" fetchSize="1000"
+            parameterType="ru.alfabank.dmpr.model.cards.customersPercent.CardsCustomersPercentOptions"
+            resultType="ru.alfabank.dmpr.model.cards.customersPercent.CardsCustomersPercentDetailsItem">
+        <![CDATA[
+        SELECT
+            ACCOUNT_OWNER_CODE AccountOwnerCode,
+            CARDHOLDER_CODE CardHolderCode,
+            CARD_NUM CardNo,
+            Report_INN reportINN,
+            VALID_FROM ValidFrom,
+            VALID_THRU ValidThru,
+            CARD_ACTIVITY_DURATION CardActivityDuration,
+            ACTION_WITH_CARD ActionWithCard,
+            ACCEPT_DO_DATE AcceptDoDate,
+            SRVPACK_NAME SRVPack,
+            CARD_TYPE CardType,
+            CARD_CATEGORY_NAME CardCategory,
+            CARD_KIND_NAME CardKindName,
+            DC DebetOrCredit,
+            ORDER_DATE OrderDate,
+            ORDER_CITY_NAME CityName,
+            ORDER_DO_NAME BranchName,
+            CARD_READY_DATE CardReadyDate,
+            DLVR_CITY_NAME DeliverCityName,
+            DLVR_DO_NAME DeliverBranchName,
+            APP_USER_NAME AppUserName,
+            CARD_CONTRACT_CODE cardContractCode,
+            CARD_CONTRACT_NAME cardContractName
+        FROM TABLE (pkg_card_api.get_kpi2_untaken_detail (
+        p_DateFrom             => #{startDate}, -- Дата начала периода
+        p_DateTill             => #{endDate}, -- Дата окончания периода
+        p_IsReissued           => #{reissueId}, -- 1 - перевыпущенные, 0 - не перевыпущенные, null - все
+        p_MacroRegionIDs       => #{macroRegionIds}, -- ИД макро регионов
+        p_RegionIDs            => #{regionIds}, -- ИД регионов
+        p_CityIDs              => #{cityIds}, -- ИД городов
+        p_BranchTypeIDs        => #{branchTypeIds}, -- Типы ДО
+        p_SaleplaceIDs         => #{branchIds}, -- ИД ДО
+        p_ZPTypeIDs            => #{zpSignIds}, -- Типы ЗП
+        p_SrvPackIDs           => #{pyTypeIds}, -- Типы ПУ
+        p_CardCategoryIDs      => #{cardCategoryIds}, -- Категории карт
+        p_DCIDs                => #{debitOrCreditIds}, -- Дебит/Кредит
+        p_ClientSegmentIDs     => #{clientSegmentIds} -- Клиентские сегменты
+        ))
+        ]]>
+    </select>
+    <select id="getKpi2LostCardsDetailsDataItems" useCache="false" fetchSize="1000"
+            parameterType="ru.alfabank.dmpr.model.cards.customersPercent.CardsCustomersPercentOptions"
+            resultType="ru.alfabank.dmpr.model.cards.customersPercent.CardsCustomersPercentDetailsItem">
+        <![CDATA[
+        SELECT
+            CARD_NUM CardNo,
+            Report_INN reportINN,
+            VALID_FROM ValidFrom,
+            VALID_THRU ValidThru,
+            ACCOUNT_OWNER_CODE AccountOwnerCode,
+            CARDHOLDER_CODE CardHolderCode,
+            ACTION_WITH_CARD ActionWithCard,
+            CARD_TYPE CardType,
+            CARD_KIND_NAME CardKindName,
+            CARD_CATEGORY_NAME CardCategory,
+            DC DebetOrCredit,
+            SRVPACK_NAME SRVPack,
+            ORDER_DATE OrderDate,
+            ORDER_CITY_NAME CityName,
+            ORDER_DO_NAME BranchName,
+            CARD_READY_DATE CardReadyDate,
+            DLVR_CITY_NAME DeliverCityName,
+            DLVR_DO_NAME DeliverBranchName,
+            CARD_CONTRACT_CODE cardContractCode,
+            CARD_CONTRACT_NAME cardContractName
+        FROM TABLE (pkg_card_api.get_lost_cards (
+        p_DateFrom             => #{startDate}, -- Дата начала периода
+        p_DateTill             => #{endDate} -- Дата окончания периода
+        ))
+        ]]>
+    </select>
+</mapper>

@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.cr.ClientTimeFilterMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getKpiMetrics" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table (pkg_cr_bpd_api.get_kpi_metrics())
+        order by sort_order
+    </select>
+
+    <select id="getProductTypes" resultType="ru.alfabank.dmpr.model.BaseEntity" parameterType="map">
+        select id, name
+        from table (pkg_cr_bpd_api.get_product_types(
+          p_KPIMetricID => #{kpiMetricId}
+        ))
+        order by sort_order
+    </select>
+
+    <select id="getTimeUnits" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table (pkg_cr_bpd_api.get_timeunits())
+        order by sort_order
+    </select>
+
+    <select id="getDeptHierarchy" resultType="ru.alfabank.dmpr.model.cr.ClientTime.DeptHierarchyDto">
+        select
+            bltype_id as BLTypeId,
+            bltype_name as BLTypeName,
+            bl_id as BLId,
+            bl_name as BLName,
+            dopoffice_id as DopOfficeId,
+            dopoffice_name as DopOfficeName,
+            depart_id as DepartId,
+            depart_name as DepartName
+        from table (pkg_cr_bpd_api.get_dept_hierarchy())
+    </select>
+
+    <select id="getCreditDeptHierarchy" resultType="ru.alfabank.dmpr.model.cr.ClientTime.CreditDeptHierarchyDto">
+        select
+            dopoffice_id as DopOfficeId,
+            dopoffice_name as DopOfficeName,
+            credit_depart_id as CreditDepartId,
+            credit_depart_name as CreditDepartName
+        from table (pkg_cr_bpd_api.get_credit_departs())
+    </select>
+
+    <select id="getStageHierarchy" resultType="ru.alfabank.dmpr.model.cr.ClientTime.StageHierarchyDto">
+        select
+            stage_id as StageId,
+            stage_name as StageName,
+            bpkind_id as BPKindId,
+            bpkind_name as BPKindName,
+            child_bpkind_id as ChildBPKindId,
+            child_bpkind_name as ChildBPKindName
+        from table (pkg_cr_bpd_api.get_stage_hierarchy())
+    </select>
+
+    <select id="getFuncGroups" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table (pkg_cr_bpd_api.get_FGs())
+        order by sort_order
+    </select>
+</mapper>

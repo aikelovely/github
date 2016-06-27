@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.unitCost.UnitCostFilterMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getCalcTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_unitcost_api.get_calctypes)
+        order by sort_order
+    </select>
+
+    <select id="getDirections" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_unitcost_api.get_directions)
+        order by sort_order
+    </select>
+
+    <select id="getCurrencies" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_unitcost_api.get_currencies)
+        order by sort_order
+    </select>
+
+</mapper>

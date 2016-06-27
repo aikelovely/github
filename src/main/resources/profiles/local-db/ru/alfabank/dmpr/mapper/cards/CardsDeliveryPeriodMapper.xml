@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.cards.CardsDeliveryPeriodMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getKpi1DataItems" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.cards.deliveryPeriod.CardsDeliveryPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.cards.deliveryPeriod.CardsDeliveryPeriodItem">
+        <![CDATA[
+        SELECT
+            TimeUnitDD calcDate,
+            UnitCode,
+            UnitName,
+            DurGRPDays DayGroupId,
+            DurGRPDaysName DayGroupName,
+            RegionId as macroRegionId,
+            RegionId,
+            CityId,
+            DOCode as SalesPlaceId,
+            CardCount,
+            InKPICardCount,
+            TotalDuration,
+            ReissueSpeedID,
+            ReissueSpeedDays,
+            KPIDurationDays DurationNormative,
+            KPIRateTreshold PercentNormative
+        FROM TABLE (pkg_zp_card_api.get_kpi1_data (
+        p_DateFrom             => #{startDate}, -- Дата начала периода
+        p_DateTill             => #{endDate}, -- Дата окончания периода
+        p_RegionIDs            => #{regionIds}, -- ИД регионов
+        p_CityIDs              => #{cityIds}, -- ИД городов
+        p_BranchTypeIDs        => #{branchTypeIds}, -- Типы ДО
+        p_DOCodes              => #{salePlaceIds}, -- ИД ДО
+        p_ZPTypeIDs            => #{zpSignIds}, -- Типы ЗП
+        p_SrvPackCodes         => #{pyTypeIds}, -- Типы ПУ
+        p_CardCategoryIDs      => #{cardCategoryIds}, -- Категории карт
+        p_DCCodes              => #{debitOrCreditIds}, -- Дебит/Кредит
+        p_ClientSegmentIDs     => #{clientSegmentIds}, -- Клиентские сегменты
+        p_DimesionID           => #{systemUnitId}, -- Уровень деталзации (1-регион,2-город,3 - ДО)
+        p_TimeUnitID           => #{timeUnitId},   -- Уровень деталзации по времени
+        p_IsDurGrp             => #{dayGrouped},    -- Детализировать по длительности (1)
+        p_IsAutoProlongation   => #{automaticExtensionMode}, -- Фильтр автопролонгации (1 - только АП, иное - все, кроме ПА).
+        p_mvk                  => #{mvkSignId}          --  Признак МВК
+        ))
+        ]]>
+    </select>
+    <select id="getKpi1Details" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.cards.deliveryPeriod.CardsDeliveryPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.cards.deliveryPeriod.CardsDeliveryPeriodDetailsItem">
+        <![CDATA[
+        SELECT
+            AccountOwnerCode,
+            CardHolderCode,
+            CardNumber CardNo,
+            ValidThru,
+            OrderDate CreationDate,
+            AcceptDODate AcceptDate,
+            OrderToDLVRDuration Duration,
+            EmitentDOCode BranchId,
+            DeliveryDO BranchName,
+            DeliveryCity CityName,
+            DeliveryRegion RegionName,
+            Abs(ReissueSpeedDays) ReissueSpeedDays
+        FROM TABLE (pkg_zp_card_api.get_kpi1_data_detail (
+        p_DateFrom             => #{startDate}, -- Дата начала периода
+        p_DateTill             => #{endDate}, -- Дата окончания периода
+        p_RegionIDs            => #{regionIds}, -- ИД регионов
+        p_CityIDs              => #{cityIds}, -- ИД городов
+        p_BranchTypeIDs        => #{branchTypeIds}, -- Типы ДО
+        p_DOCodes              => #{salePlaceIds}, -- ИД ДО
+        p_ZPTypeIDs            => #{zpSignIds}, -- Типы ЗП
+        p_SrvPackCodes         => #{pyTypeIds}, -- Типы ПУ
+        p_CardCategoryIDs      => #{cardCategoryIds}, -- Категории карт
+        p_DCCodes              => #{debitOrCreditIds}, -- Дебит/Кредит
+        p_ClientSegmentIDs     => #{clientSegmentIds}, -- Клиентские сегменты
+        p_IsAutoProlongation   => #{automaticExtensionMode}, -- Фильтр автопролонгации (1 - только АП, иное - все, кроме ПА).
+        p_LowDuration          => #{daysLowerBound},    -- Нижняя граница отсечения по длительности
+        p_mvk                  => #{mvkSignId}          --  Признак МВК
+        ))
+        ]]>
+    </select>
+</mapper>

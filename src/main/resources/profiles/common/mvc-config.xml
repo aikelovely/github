@@ -1,0 +1,52 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:mvc="http://www.springframework.org/schema/mvc"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+
+    <import resource="app-context.xml"/>
+
+    <mvc:annotation-driven>
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+                <property name="objectMapper" ref="objectMapper"/>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+
+    <bean id="objectMapper" class="org.springframework.http.converter.json.Jackson2ObjectMapperFactoryBean">
+        <property name="modules">
+            <array>
+                <bean class="ru.alfabank.dmpr.infrastructure.spring.json.JodaCustomModule"/>
+            </array>
+        </property>
+        <property name="serializers">
+            <array>
+                <bean class="ru.alfabank.dmpr.infrastructure.spring.json.ColorJsonSerializer"/>
+            </array>
+        </property>
+    </bean>
+
+    <bean id="customResourceLoader" class="ru.alfabank.dmpr.infrastructure.spring.CustomResourceLoader">
+        <property name="resource" value="${ext.properties.dir:classpath:}support-btn-markup.html"/>
+    </bean>
+
+    <context:component-scan base-package="ru.alfabank.dmpr.controller"/>
+
+    <!-- Exclude static content from Spring MVC request processing -->
+    <mvc:resources mapping="/report/**" location="/report/"/>
+    <mvc:resources mapping="/app/**" location="/app/"/>
+    <mvc:resources mapping="/images/**" location="/images/"/>
+    <mvc:resources mapping="/libs/**" location="/libs/"/>
+    <mvc:resources mapping="/styles/**" location="/styles/"/>
+    <mvc:resources mapping="/files/**" location="/files/"/>
+    <mvc:resources mapping="/bundle/**" location="/bundle/"/>
+    <mvc:resources mapping="/jawr/**" location="/jawr/"/>
+
+    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/jsp/"/>
+        <property name="suffix" value=".jsp"/>
+    </bean>
+</beans>

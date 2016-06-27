@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.ob.ObQualityMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getRatingData" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.ob.ObQualityQueryOptions"
+            resultType="ru.alfabank.dmpr.model.ob.ObQualityDataItem">
+        <![CDATA[
+        select
+          kpiKindName,
+          unitCode,
+          unitName,
+          bpDivisionGroupId,
+          bpDivisionGroupName,
+          bpOrgRegionId,
+          bpOrgRegionName,
+          kpiId,
+          kpiName,
+          timeUnitDD,
+          sortOrder,
+          kpiNorm,
+          inKpiCount,
+          totalCount,
+          kpiRatioAvg,
+          kpi2RatioAvg,
+          prevKpiRatioAvg,
+          prevKpi2RatioAvg
+        from table(pkg_kpiob_api.get_kpi_data(
+          p_DateFrom           => #{startDate},
+          p_DateTill           => #{endDate},
+          p_DimCode            => #{systemUnitCode},
+          p_KPIKindCode        => #{kpiKindCode},
+          p_BPDivisionGroupIDs => #{directionIds},
+          p_BushIDs            => #{regionIds},
+          p_DUODRFlag          => #{doudrFlag},
+          p_KPIIDs             => #{kpiIds}
+        ))
+        ]]>
+    </select>
+
+    <select id="getDynamicData" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.ob.ObQualityQueryOptions"
+            resultType="ru.alfabank.dmpr.model.ob.ObQualityDataItem">
+        <![CDATA[
+        select
+          kpiKindName,
+          unitCode,
+          unitName,
+          bpDivisionGroupId,
+          bpDivisionGroupName,
+          bpOrgRegionId,
+          bpOrgRegionName,
+          kpiId,
+          kpiName,
+          timeUnitDD,
+          sortOrder,
+          kpiNorm,
+          inKpiCount,
+          totalCount,
+          kpiRatioAvg,
+          kpi2RatioAvg,
+          prevKpiRatioAvg,
+          prevKpi2RatioAvg
+        from table(pkg_kpiob_api.get_kpi_data(
+          p_DateFrom           => #{startDate},
+          p_DateTill           => #{endDate},
+          p_TimeUnitID         => #{timeUnitId},
+          p_DimCode            => #{systemUnitCode},
+          p_KPIKindCode        => #{kpiKindCode},
+          p_BPDivisionGroupIDs => #{directionIds},
+          p_BushIDs            => #{regionIds},
+          p_DUODRFlag          => #{doudrFlag},
+          p_KPIIDs             => #{kpiIds}
+        ))
+        ]]>
+    </select>
+
+    <select id="getDetailsData" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.ob.ObQualityQueryOptions"
+            resultType="ru.alfabank.dmpr.model.ob.ObQualityDataItem">
+        <![CDATA[
+        select
+          kpiKindName,
+          unitCode,
+          unitName,
+          bpDivisionGroupId,
+          bpDivisionGroupName,
+          bpOrgRegionId,
+          bpOrgRegionName,
+          kpiId,
+          kpiName,
+          timeUnitDD,
+          sortOrder,
+          kpiNorm,
+          inKpiCount,
+          totalCount,
+          kpiRatioAvg,
+          kpi2RatioAvg,
+          prevKpiRatioAvg,
+          prevKpi2RatioAvg,
+          description
+        from table(pkg_kpiob_api.get_kpi_data(
+          p_DateFrom           => #{startDate},
+          p_DateTill           => #{endDate},
+          p_DimCode            => #{systemUnitCode},
+          p_KPIKindCode        => #{kpiKindCode},
+          p_BPDivisionGroupIDs => #{directionIds},
+          p_BushIDs            => #{regionIds},
+          p_DUODRFlag          => #{doudrFlag},
+          p_KPIIDs             => #{kpiIds},
+          p_DetailMode         => #{detailsMode}
+        ))
+        ]]>
+    </select>
+</mapper>

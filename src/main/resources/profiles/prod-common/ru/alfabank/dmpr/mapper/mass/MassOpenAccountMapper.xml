@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.mass.MassOpenAccountMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getDynamic" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.mass.openAccount.MassOpenAccountOptions"
+            resultType="ru.alfabank.dmpr.model.mass.openAccount.KpiDataItem">
+        <![CDATA[
+        select
+            unit_id as UnitId,
+            unit_name as UnitName,
+            timeunit_dd as CalcDate,
+            bp_cnt as BpCount,
+            bp_cnt_grp1 as BpCountGrp1,
+            bp_cnt_grp2 as BpCountGrp2,
+            bp_cnt_grp3 as BpCountGrp3,
+            bp_cnt_grp4 as BpCountGrp4,
+            bp_cnt_grp5 as BpCountGrp5,
+            round(sum_durationhrs, 2) as SumDurationInHours,
+            round(max_durationhrs, 2) as MaxDurationInHours
+        from table(
+        pkg_mass_api.get_kpi(
+            p_StartDate => #{startDate},
+            p_EndDate => #{endDate},
+            p_City_IDs => #{cityIds},
+            p_DopOffice_IDs => #{dopOfficeIds},
+            p_SaleChannel_IDs => #{salesChannelIds},
+            p_BPType_IDs => #{bpTypeIds},
+            p_HourIntervalStr => #{hourIntervals},
+            p_TimeUnit_ID => #{timeUnitId},
+            p_IncludeOnfInRk => #{includeOnfInRk},
+            p_IncludeDecisionInRk => #{includeDecisionInRk}
+        ))
+        order by calcdate
+        ]]>
+    </select>
+
+    <select id="getDonut" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.mass.openAccount.MassOpenAccountOptions"
+            resultType="ru.alfabank.dmpr.model.mass.openAccount.KpiDataItem">
+        <![CDATA[
+        select
+            bp_cnt as BpCount,
+            bp_cnt_grp1 as BpCountGrp1,
+            bp_cnt_grp2 as BpCountGrp2,
+            bp_cnt_grp3 as BpCountGrp3,
+            bp_cnt_grp4 as BpCountGrp4,
+            bp_cnt_grp5 as BpCountGrp5
+        from table(
+        pkg_mass_api.get_kpi(
+            p_StartDate => #{startDate},
+            p_EndDate => #{endDate},
+            p_City_IDs => #{cityIds},
+            p_DopOffice_IDs => #{dopOfficeIds},
+            p_SaleChannel_IDs => #{salesChannelIds},
+            p_BPType_IDs => #{bpTypeIds},
+            p_HourIntervalStr => '0-1;1-24;24-72;72-',
+            p_IncludeOnfInRk => #{includeOnfInRk},
+            p_IncludeDecisionInRk => #{includeDecisionInRk}
+        ))
+        ]]>
+    </select>
+
+    <select id="getDetailsTable" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.mass.openAccount.MassOpenAccountOptions"
+            resultType="ru.alfabank.dmpr.model.mass.openAccount.KpiDataItem">
+        <![CDATA[
+        select
+            unit_id as UnitId,
+            unit_name as UnitName,
+            timeunit_dd as CalcDate,
+            bp_cnt as BpCount,
+            bp_cnt_grp1 as BpCountGrp1,
+            bp_cnt_grp2 as BpCountGrp2,
+            bp_cnt_grp3 as BpCountGrp3,
+            bp_cnt_grp4 as BpCountGrp4,
+            bp_cnt_grp5 as BpCountGrp5,
+            round(sum_durationhrs, 2) as SumDurationInHours,
+            round(max_durationhrs, 2) as MaxDurationInHours,
+            client_inn as clientInn,
+            client_pin as clientPin,
+            client_branch_name as branchName,
+            client_branch_mnemonic as branchMnemonic
+        from table(
+        pkg_mass_api.get_kpi(
+            p_StartDate => #{startDate},
+            p_EndDate => #{endDate},
+            p_City_IDs => #{cityIds},
+            p_DopOffice_IDs => #{dopOfficeIds},
+            p_SaleChannel_IDs => #{salesChannelIds},
+            p_BPType_IDs => #{bpTypeIds},
+            p_HourIntervalStr => '0-24;24-;24-72;72-120;120-',
+            p_RCB_Unit_ID => #{rcbUnitId},
+            p_IncludeOnfInRk => #{includeOnfInRk},
+            p_IncludeDecisionInRk => #{includeDecisionInRk}
+        ))
+        order by calcdate
+        ]]>
+    </select>
+
+    <select id="getRating" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.mass.openAccount.MassOpenAccountOptions"
+            resultType="ru.alfabank.dmpr.model.mass.openAccount.KpiDataItem">
+        <![CDATA[
+        select
+            unit_id as UnitId,
+            unit_name as UnitName,
+            bp_cnt as BpCount,
+            bp_cnt_grp1 as BpCountGrp1,
+            round(BP_GRP1_CHANGE_RATIO, 4) Diff
+        from table(
+        pkg_mass_api.get_kpi_top_n(
+            p_StartDate => #{startDate},
+            p_EndDate => #{endDate},
+            p_City_IDs => #{cityIds},
+            p_DopOffice_IDs => #{dopOfficeIds},
+            p_SaleChannel_IDs => #{salesChannelIds},
+            p_BPType_IDs => #{bpTypeIds},
+            p_TopCount => #{topCount},
+            p_RCB_Unit_ID => #{rcbUnitId}
+        ))
+        ]]>
+    </select>
+</mapper>

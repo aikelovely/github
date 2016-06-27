@@ -1,0 +1,43 @@
+package ru.alfabank.dmpr.repository.ob;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+import ru.alfabank.dmpr.mapper.ob.ObQualityMapper;
+import ru.alfabank.dmpr.model.ob.ObQualityDataItem;
+import ru.alfabank.dmpr.model.ob.ObQualityQueryOptions;
+
+/**
+ * Маппер, отвечающий за загрузку данных для графиков витрины "Показатели качества ОБ".
+ */
+@Repository
+public class ObQualityRepository {
+    @Autowired
+    private ObQualityMapper mapper;
+
+    /**
+     * Возвращает данные для графика рейтинга
+     * @param options Текущие значения фильтров
+     * @return
+     */
+    public ObQualityDataItem[] getRatingData(ObQualityQueryOptions options){
+        return mapper.getRatingData(options);
+    }
+
+    /**
+     * Возвращает данные для динамики
+     * @param options Текущие значения фильтров
+     * @return
+     */
+    public ObQualityDataItem[] getDynamicData(ObQualityQueryOptions options){
+        return mapper.getDynamicData(options);
+    }
+
+    /**
+     * Возвращает данные для таблицы с детализацией за отчетный период
+     * @param options Текущие значения фильтров
+     * @return
+     */
+    public ObQualityDataItem[] getDetailsData(ObQualityQueryOptions options){
+        return mapper.getDetailsData(options);
+    }
+}

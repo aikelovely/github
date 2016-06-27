@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.leaderBoard.LeaderBoardFilterMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getDivisionGroups"
+            parameterType="org.joda.time.LocalDate"
+            resultType="ru.alfabank.dmpr.model.BaseEntity">
+    <![CDATA[
+        select id, name
+        from table(pkg_leaderboard_api.get_DivisionGroups(
+            p_DateFrom => #{startDate}
+        ))
+    ]]>
+    </select>
+</mapper>

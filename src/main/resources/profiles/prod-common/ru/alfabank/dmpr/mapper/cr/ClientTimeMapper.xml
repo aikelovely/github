@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.cr.ClientTimeMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getKpiData" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.cr.ClientTime.ClientTimeOptions"
+            resultType="ru.alfabank.dmpr.model.cr.ClientTime.KpiDataItem">
+        <![CDATA[
+        SELECT
+            unitcode,
+            unitname,
+            process_id as ProcessId,
+            timeunitdd as CalcDate,
+            sortOrder,
+            totalDuration,
+            bpCount,
+            InKPIBpCount,
+            KpiNorm as quotaInDays,
+            pcKPINorm as quotaPercent
+        FROM TABLE (pkg_cr_bpd_api.get_kpi_data(
+            p_DateFrom => #{startDate},
+            p_DateTill   => #{endDate},
+            p_KPIMetricID => #{kpiId},
+            p_ProductTypeIDs  => #{productTypeIds},
+            p_TimeUnitID => #{timeUnitId},
+            p_DimensionId => #{systemUnitId},
+            p_BLTypeIDs  => #{blTypeIds},
+            p_BLIDs      => #{blIds},
+            p_DopOfficeIDs => #{dopOfficeIds},
+            p_DepartIDs  => #{departIds},
+            p_CreditDepartIDs => #{creditDepartIds},
+            p_CommitteeIDs => #{committeeIds},
+            p_StageIDs => #{stageIds},
+            p_BPKindIDs => #{bpKindIds},
+            p_FGIDs => #{funcGroupIds},
+            p_ClientLevelID => #{clientLevelId}
+        ))
+        ]]>
+    </select>
+
+    <select id="getKpiDetailsData" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.cr.ClientTime.ClientTimeOptions"
+            resultType="ru.alfabank.dmpr.model.cr.ClientTime.KpiDetailsDataItem">
+        <![CDATA[
+        select
+            root_request_id as rootRequestId,
+            lm_id as lmId,
+            lm_dealstate as lmDealState,
+            request_type_name as requestTypeName,
+            comitte_name as comitteName,
+            first_fs_datetime as firstFsDateTime,
+            last_fs_datetime as lastFsDateTime,
+            bl_type_name as blTypeName,
+            bl_name as blName,
+            do_name as doName,
+            dept_name as deptName,
+            credit_dept_name as creditDeptName,
+            stage_name as stageName,
+            bp_name as bpName,
+            dp_name as dpName,
+            dp_request_id as dpRequestId,
+            min_start_datetime as minStartDateTime,
+            max_finish_datetime as maxFinishDateTime,
+            request_start_time as requestStartDateTime,
+            request_finish_time as requestFinishDateTime,
+            action_name as actionName,
+            actiondatetime as actionDateTime,
+            action_duration_days as actionDurationDays,
+            action_duration_hours as actionDurationHours,
+            rolegroup_name as roleGroupName,
+            rolename as roleName,
+            userid as userId,
+            user_fio as userFio,
+            city_name as cityName,
+            block_name as blockName,
+            department_name as depatrmentName,
+            subdep1 as subDep1,
+            subdep2 as subDep2,
+            subdep3 as subDep3,
+            subdep4 as subDep4,
+            lastdept as lastDep,
+            rk_dept_id as rkDepId,
+            rk_dept_name as rkDepName,
+            rk_parent_dept_name as rkParentDepName,
+            windowslogin as windowsLogin,
+            business_line as businessLine,
+            s_fun as sFun,
+            processtype_name as processTypeName,
+            prodtp_name as prodTpName,
+            sortorder as sortOrder
+        from table(pkg_cr_bpd_api.get_kpi_data_detail(
+          p_DateFrom => #{startDate},
+          p_DateTill => #{endDate},
+          p_TimeUnitID => #{timeUnitId},
+          p_DimensionId => #{systemUnitId},
+          p_KPIMetricID => #{kpiId},
+          p_ProductTypeIDs  => #{productTypeIds},
+          p_BLTypeIDs => #{blTypeIds},
+          p_BLIDs => #{blIds},
+          p_DopOfficeIDs => #{dopOfficeIds},
+          p_DepartIDs => #{departIds},
+          p_CreditDepartIDs => #{creditDepartIds},
+          p_CommitteeIDs => #{committeeIds},
+          p_StageIDs => #{stageIds},
+          p_BPKindIDs => #{bpKindIds},
+          p_FGIDs => #{funcGroupIds},
+          p_ProcessTypeID => #{processId},
+          p_ClientLevelId => #{clientLevelId}
+        ))
+        order by sortorder
+        ]]>
+    </select>
+</mapper>

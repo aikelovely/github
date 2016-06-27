@@ -1,0 +1,96 @@
+<bean:beans xmlns="http://www.springframework.org/schema/security"
+            xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+            xmlns:bean="http://www.springframework.org/schema/beans"
+            xsi:schemaLocation="
+            http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+            http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
+
+    <http pattern="/app/**" security="none"/>
+    <http pattern="/libs/**" security="none"/>
+    <http pattern="/fonts/**" security="none"/>
+    <http pattern="/styles/**" security="none"/>
+    <http pattern="/images/**" security="none"/>
+    <http pattern="/error" security="none"/>
+    <http pattern="/login" security="none"/>
+    <http pattern="/logout" security="none"/>
+    <http pattern="/access-denied" security="none"/>
+
+    <global-method-security secured-annotations="enabled" pre-post-annotations="enabled"/>
+
+    <bean:bean id="contextSource" class="org.springframework.security.ldap.DefaultSpringSecurityContextSource">
+        <bean:constructor-arg value="ldap://amphora-systems.ru"/>
+    </bean:bean>
+
+    <http auto-config="false" entry-point-ref="errorPageAuthenticationEntryPoint">
+        <custom-filter position="PRE_AUTH_FILTER" ref="myCustomPreAuthFilter" />
+        <logout logout-url="/logout" logout-success-url="/logout" invalidate-session="true" delete-cookies="JSESSIONID" />
+
+        <intercept-url pattern="/" access="isAuthenticated()" />
+        <intercept-url pattern="/welcome" access="isAuthenticated()" />
+
+        <!-- CIBUSER -->
+        <intercept-url pattern="/showcase/TTYAndTTM" access="hasAuthority('CIBUSER') or hasAuthority('ADMIN')" />
+        <intercept-url pattern="/showcase/clientTime" access="hasAuthority('CIBUSER') or hasAuthority('ADMIN')" />
+
+        <!-- CARDUSER -->
+        <intercept-url pattern="/showcase/cardsCustomersPercent" access="hasAuthority('CARDUSER') or hasAuthority('ADMIN')" />
+        <intercept-url pattern="/showcase/cardsDeliveryPeriod" access="hasAuthority('CARDUSER') or hasAuthority('ADMIN')" />
+
+        <!-- PILCCUSER -->
+        <intercept-url pattern="/showcase/pilAndCC" access="hasAuthority('PILCCUSER') or hasAuthority('ADMIN')" />
+        <intercept-url pattern="/showcase/operKpiHunter" access="hasAuthority('PILCCUSER') or hasAuthority('ADMIN')" />
+        <intercept-url pattern="/showcase/operKpiRbp" access="hasAuthority('PILCCUSER') or hasAuthority('ADMIN')" />
+        <intercept-url pattern="/showcase/operKpiScor" access="hasAuthority('PILCCUSER') or hasAuthority('ADMIN')" />
+
+        <!-- ZPUSER -->
+        <intercept-url pattern="/showcase/zpOpeningSpeed" access="hasAuthority('ZPUSER') or hasAuthority('ADMIN')" />
+        <intercept-url pattern="/showcase/zpInstitution" access="hasAuthority('ZPUSER') or hasAuthority('ADMIN')" />
+
+        <!-- MASSUSER -->
+        <intercept-url pattern="/showcase/massOpenAccount" access="hasAuthority('MASSUSER') or hasAuthority('ADMIN')" />
+        <intercept-url pattern="/showcase/massDecomposition" access="hasAuthority('MASSUSER') or hasAuthority('ADMIN')" />
+
+        <!-- NOMUSER -->
+        <intercept-url pattern="/showcase/nom" access="hasAuthority('NOMUSER') or hasAuthority('ADMIN')" />
+
+        <!-- KPIOBUSER -->
+        <intercept-url pattern="/showcase/leaderBoard" access="hasAuthority('KPIOBUSER') or hasAuthority('ADMIN')" />
+        <intercept-url pattern="/showcase/leaderBoard2" access="hasAuthority('KPIOBUSER') or hasAuthority('ADMIN')" />
+
+        <!-- UCUSER -->
+        <intercept-url pattern="/showcase/unitCost" access="hasAuthority('UCUSER') or hasAuthority('ADMIN')" />
+
+        <!-- CTQOBUSER -->
+        <intercept-url pattern="/showcase/obQuality" access="hasAuthority('CTQOBUSER') or hasAuthority('ADMIN')" />
+
+        <!-- CTQBANKUSER -->
+        <intercept-url pattern="/showcase/CTQDashboard" access="hasAuthority('CTQBNKUSER') or hasAuthority('ADMIN')" />
+        <intercept-url pattern="/showcase/CTQDashboardDynamic" access="hasAuthority('CTQBNKUSER') or hasAuthority('ADMIN')" />
+        <intercept-url pattern="/showcase/CTQDashboardReport" access="hasAuthority('CTQBNKUSER') or hasAuthority('ADMIN')" />
+
+        <!-- Workload -->
+        <intercept-url pattern="/showcase/workload" access="hasAuthority('CPUUSER') or hasAuthority('ADMIN')" />
+
+        <intercept-url pattern="/showcase/*" access="hasAuthority('ADMIN')" />
+        <intercept-url pattern="/**" access="isAuthenticated()" />
+
+        <csrf disabled="true"/>
+        <access-denied-handler error-page="/access-denied" />
+    </http>
+
+    <bean:bean id="webexpressionHandler" class="org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler" />
+
+    <bean:bean id="myCustomPreAuthFilter" class="org.springframework.security.web.authentication.preauth.j2ee.J2eePreAuthenticatedProcessingFilter">
+        <bean:property name="authenticationManager" ref="authenticationManager" />
+    </bean:bean>
+
+    <bean:bean id="errorPageAuthenticationEntryPoint" class="ru.alfabank.dmpr.infrastructure.spring.security.ErrorPageAuthenticationEntryPoint">
+        <bean:property name="errorPageUrl" value="/error"/>
+    </bean:bean>
+
+    <bean:bean id="customAuthenticationProvider" class="ru.alfabank.dmpr.infrastructure.spring.security.CustomAuthenticationProvider" />
+
+    <authentication-manager alias="authenticationManager">
+        <authentication-provider ref="customAuthenticationProvider" />
+    </authentication-manager>
+</bean:beans>

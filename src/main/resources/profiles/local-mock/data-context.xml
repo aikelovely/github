@@ -1,0 +1,120 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <bean class="ru.alfabank.dmpr.infrastructure.spring.ApplicationContextProvider"/>
+    <context:component-scan base-package="ru.alfabank.dmpr.repository"/>
+    <context:component-scan base-package="ru.alfabank.dmpr.mapperMock"/>
+
+    <!-- data access -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="oracle.jdbc.OracleDriver"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dataSource"/>
+    </bean>
+
+
+
+    <bean id="sqlSessionFactory_mock" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource"/>
+        <property name="configLocation" value="classpath:mybatis-config.xml"/>
+    </bean>
+
+    <bean class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="sqlSessionFactory_mock"/>
+    </bean>
+
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.authorization.UIAccessMapper"/>
+    </bean>
+
+    <!-- Cards -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.cards.CardsCommonFilterMapper"/>
+    </bean>
+    <!-- NOM -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.nom.NomFilterMapper"/>
+    </bean>
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.nom.NomMapper"/>
+    </bean>
+    <!-- UnitCost -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.unitCost.UnitCostMapper"/>
+    </bean>
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.unitCost.UnitCostFilterMapper"/>
+    </bean>
+    <!-- LeaderBoard -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.leaderBoard.LeaderBoardFilterMapper"/>
+    </bean>
+    <!-- PIL&CC -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.pilAndCC.PILAndCCFilterMapper"/>
+    </bean>
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.pilAndCC.PILAndCCMapper"/>
+    </bean>
+    <!-- ZP -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.zp.ZPFilterMapper"/>
+    </bean>
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.zp.ZPInstitutionMapper"/>
+    </bean>
+    <!-- OB -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.ob.ObQualityFilterMapper"/>
+    </bean>
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.ob.ObQualityMapper"/>
+    </bean>
+    <!-- CR -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.cr.CRFilterMapper"/>
+    </bean>
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.cr.TTYAndTTMMapper"/>
+    </bean>
+    <!-- CTQ -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.ctq.CTQFilterMapper"/>
+    </bean>
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.ctq.CTQMapper"/>
+    </bean>
+    <!-- СlientTime -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.cr.ClientTimeFilterMapper"/>
+    </bean>
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.cr.ClientTimeMapper"/>
+    </bean>
+    <!-- Mass -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.mass.MassFilterMapper"/>
+    </bean>
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.mass.MassOpenAccountMapper"/>
+    </bean>
+    <!-- OperKpi -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.operKpi.OperKpiMapper"/>
+    </bean>
+    <!-- WorkLoad -->
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.workload.WorkloadFilterMapper"/>
+    </bean>
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.workload.WorkloadMapper"/>
+    </bean>
+</beans>

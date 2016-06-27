@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.cr.TTYAndTTMMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getRating" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.cr.TTYAndTTM.TTYAndTTMOptions"
+            resultType="ru.alfabank.dmpr.model.cr.TTYAndTTM.Rating">
+        <![CDATA[
+        SELECT
+            valueid as id,
+            valuename as name,
+            value as averagevalue,
+            minvalueall as minvalue,
+            maxvalueall as maxvalue,
+            quota as quotaindays,
+            pcQuota as QuotaPercent,
+            processtypename as processname,
+            Cnt_In_Quota inKPICount,
+            Cnt_Out_Quota outOfKPICount
+        FROM TABLE (pkg_cr_api.get_KPI_AVG(
+            pStartDate => #{startDate},
+            pEndDate   => #{endDate},
+            pProcess_IDs => #{processIds},
+            pCommittee_IDs => #{committeeIds},
+            pBPType_ID => #{bpTypeId},
+            pProductType_IDs  => #{productTypeIds},
+            pBLType_IDs  => #{blTypeIds},
+            pBL_IDs      => #{blIds},
+            pDopOffice_IDs => #{dopOfficeIds},
+            pSortOrder => #{orderBy},
+            pAttrFieldID => #{systemUnitId},
+            pDepart_IDs => '',
+            pClientLevel_ID => #{clientLevelId}
+        ))
+        where processtypename is not null
+        ]]>
+    </select>
+
+    <select id="getRatingDetails" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.cr.TTYAndTTM.TTYAndTTMOptions"
+            resultType="ru.alfabank.dmpr.model.cr.TTYAndTTM.Rating">
+        <![CDATA[
+        SELECT
+            valueid as id,
+            valuename as name,
+            diff as averagevalue,
+            minvalue as minvalue,
+            maxvalue as maxvalue,
+            processtypeid as processid,
+            processtypename as processname,
+            dealcount,
+            round(ttxduration, 2) as ttxduration
+        FROM TABLE (pkg_cr_api.get_KPI_AVG(
+            pStartDate => #{startDate},
+            pEndDate   => #{endDate},
+            pProcess_IDs => #{processIds},
+            pCommittee_IDs => #{committeeIds},
+            pBPType_ID => #{bpTypeId},
+            pProductType_IDs  => #{productTypeIds},
+            pBLType_IDs  => #{blTypeIds},
+            pBL_IDs      => #{blIds},
+            pDopOffice_IDs => #{dopOfficeIds},
+            pSortOrder => #{orderBy},
+            pAttrFieldID => #{systemUnitId},
+            pDepart_IDs => '',
+            pClientLevel_ID => #{clientLevelId}
+        ))
+        ]]>
+    </select>
+
+    <select id="getDynamic" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.cr.TTYAndTTM.TTYAndTTMOptions"
+            resultType="ru.alfabank.dmpr.model.cr.TTYAndTTM.Dynamic">
+        <![CDATA[
+        SELECT
+            valueid as id,
+            valuename as name,
+            processtypeid as processid,
+            processtypename as processname,
+            round(value, 2) as AverageValue,
+            Calcdate,
+            dealcount,
+            round(ttxduration, 2) as ttxduration,
+            quota as QuotaInDays,
+            pcQuota as QuotaPercent,
+            Cnt_In_Quota inKPICount,
+            Cnt_Out_Quota outOfKPICount
+        FROM TABLE (pkg_cr_api.get_KPI_AVG_DYN(
+            pStartDate => #{startDate},
+            pEndDate   => #{endDate},
+            pProcess_IDs => #{processIds},
+            pCommittee_IDs => #{committeeIds},
+            pBPType_ID => #{bpTypeId},
+            pProductType_IDs  => #{productTypeIds},
+            pBLType_IDs  => #{blTypeIds},
+            pBL_IDs      => #{blIds},
+            pDopOffice_IDs => #{dopOfficeIds},
+            pSortOrder => #{orderBy},
+            pDepart_IDs => '',
+            pClientLevel_ID => #{clientLevelId},
+            pIsSmoothMetric => #{isSmoothMetric}
+        ))
+        ]]>
+    </select>
+
+    <select id="getDynamicDetails" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.cr.TTYAndTTM.TTYAndTTMOptions"
+            resultType="ru.alfabank.dmpr.model.cr.TTYAndTTM.Dynamic">
+        <![CDATA[
+        SELECT
+            valueid as id,
+            valuename as name,
+            processtypeid as processid,
+            processtypename as processname,
+            round(value, 2) as AverageValue,
+            Calcdate,
+            dealcount,
+            round(ttxduration, 2) as ttxduration,
+            quota as QuotaInDays,
+            pcQuota as QuotaPercent,
+            Cnt_In_Quota inKPICount,
+            Cnt_Out_Quota outOfKPICount
+        FROM TABLE (pkg_cr_api.get_KPI_AVG_DYN(
+            pStartDate => #{startDate},
+            pEndDate   => #{endDate},
+            pProcess_IDs => #{processIds},
+            pCommittee_IDs => #{committeeIds},
+            pBPType_ID => #{bpTypeId},
+            pProductType_IDs  => #{productTypeIds},
+            pBLType_IDs  => #{blTypeIds},
+            pBL_IDs      => #{blIds},
+            pDopOffice_IDs => #{dopOfficeIds},
+            pSortOrder => #{orderBy},
+            pAttrFieldID => #{systemUnitId},
+            pDepart_IDs => '',
+            pClientLevel_ID => #{clientLevelId}
+        ))
+        ]]>
+    </select>
+</mapper>

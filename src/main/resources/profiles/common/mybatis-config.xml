@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <settings>
+        <setting name="cacheEnabled" value="true"/>
+        <setting name="jdbcTypeForNull" value="NULL"/>
+        <setting name="defaultFetchSize" value="100"/>
+    </settings>
+    <typeHandlers>
+        <typeHandler jdbcType="VARCHAR" handler="ru.alfabank.dmpr.infrastructure.mybatis.handler.LongArrayTypeHandler"/>
+        <typeHandler jdbcType="VARCHAR" handler="ru.alfabank.dmpr.infrastructure.mybatis.handler.IntArrayTypeHandler"/>
+        <typeHandler jdbcType="VARCHAR" handler="ru.alfabank.dmpr.infrastructure.mybatis.handler.StringArrayTypeHandler"/>
+        <typeHandler jdbcType="DATE" handler="ru.alfabank.dmpr.infrastructure.mybatis.handler.LocalDateTypeHandler"/>
+        <typeHandler jdbcType="DATE" handler="ru.alfabank.dmpr.infrastructure.mybatis.handler.LocalDateTimeTypeHandler"/>
+        <typeHandler jdbcType="TIMESTAMP" handler="ru.alfabank.dmpr.infrastructure.mybatis.handler.LocalDateTimeTypeHandler"/>
+    </typeHandlers>
+    <plugins>
+        <plugin interceptor="ru.alfabank.dmpr.infrastructure.mybatis.tracer.SqlQueryTracer">
+            <property name="disable" value="false"/>
+        </plugin>
+    </plugins>
+</configuration>
