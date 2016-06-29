@@ -174,7 +174,12 @@
 
         }
         self.getParamValue = function (map, paramName, defaultValue) {
+
             if (map[paramName]) {
+                var arr = map[paramName].split(',');
+                if (arr.length > 1) {
+                    return arr;
+                }
                 return map[paramName];
             }
             return defaultValue;
