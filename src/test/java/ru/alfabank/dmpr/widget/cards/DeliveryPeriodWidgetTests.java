@@ -118,6 +118,7 @@ public class DeliveryPeriodWidgetTests extends BaseWidgetTests {
         options.startDate = new LocalDate(2014, 1, 28);
         options.endDate = new LocalDate(2014, 2, 6);
         options.timeUnitId = 2;
+        options.widgetUrl = "CardsDeliveryPeriodDynamic";
         return options;
     }
 }
