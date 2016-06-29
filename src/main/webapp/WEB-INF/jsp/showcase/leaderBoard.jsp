@@ -1835,12 +1835,23 @@
 
             app.init(config, function (viewModel) {
                 var startDate = viewModel.getFilter("default.startDate");
+                var divisionGroupId = viewModel.getFilter("divisionGroupId");
 
                 startDate.value.subscribe(function (newValue) {
                     var year = moment(newValue).year();
                     var kpi8MonthObs = viewModel.getFilter("kpi8.startDate").value;
                     var kpi8Date = moment(kpi8MonthObs()).set("year", year + 1).startOf("year").add(-1, "d").toDate();
                     kpi8MonthObs(kpi8Date);
+                });
+
+                divisionGroupId.value.subscribe(function (newValue) {
+                    var selectedOption = viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];
+                    if (selectedOption) {
+                        $("#link-ob-quality").html("" +
+                        "<a href=/showcase/obQuality?divisionGroupId="+selectedOption.id+ " >" +
+                        selectedOption.name +
+                        "</a>");
+                    }
                 });
 
                 // Раскрашиваем табы
@@ -1890,10 +1901,8 @@
 
                 <p class="scrollable-chart-title">Измерение Unit Cost по «конечным продуктам» ОБ</p>
 
-                <p class="link">
-                    <a href='<c:url value="/showcase/obQuality?periodType=4&region=1000650015,1000650042" />'>
-                        UnitCost. Витрина 1
-                    </a>
+                <p id="link-ob-quality">
+
                 </p>
             </tab>
                 <tab>
