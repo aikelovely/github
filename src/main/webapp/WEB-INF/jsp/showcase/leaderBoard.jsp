@@ -1891,7 +1891,7 @@
                 <p class="scrollable-chart-title">Измерение Unit Cost по «конечным продуктам» ОБ</p>
 
                 <p class="link">
-                    <a href='<c:url value="/showcase/unitCost1" />'>
+                    <a href='<c:url value="/showcase/obQuality?periodType=4&region=1000650015,1000650042" />'>
                         UnitCost. Витрина 1
                     </a>
                 </p>

@@ -141,12 +141,12 @@
         Основная функция. Создает viewModel (см. DynamicViewModel) на основе config.
         */
         self.init = function (config, extendDynamicViewModel) {
-            app.ajaxUtils.ping().done(function(){
+            app.ajaxUtils.ping().done(function () {
                 var viewModel = new window.app.DynamicViewModel(config);
                 viewModel.init();
 
-                if(extendDynamicViewModel){
-                    if(!_.isFunction(extendDynamicViewModel)){
+                if (extendDynamicViewModel) {
+                    if (!_.isFunction(extendDynamicViewModel)) {
                         console.error("extendDynamicViewModel parameter should be function.");
                         return;
                     }
@@ -159,10 +159,29 @@
             });
 
             // Раз в минуту пингуем сервер чтобы не "умирала" сессия.
-            setInterval(function(){
+            setInterval(function () {
                 app.ajaxUtils.ping();
             }, 60000);
         }
+        self.getUrlVars = function () {
+            var vars = {};
+            var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi,
+                function (m, key, value) {
+                    vars[key] = value;
+                });
+
+            return vars;
+
+        }
+        self.getParamValue = function (map, paramName, defaultValue) {
+            if (map[paramName]) {
+                return map[paramName];
+            }
+            return defaultValue;
+
+
+        }
+
     };
 
     window.app = new App();

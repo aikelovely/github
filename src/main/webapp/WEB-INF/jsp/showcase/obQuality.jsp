@@ -29,6 +29,9 @@
     request.setAttribute("endDateId", new ObjectMapper().writeValueAsString((endDateDefaultOption.id)));
 %>
 
+
+
+
 <t:layout title="${title}">
     <jsp:attribute name="css">
         <style scoped>
@@ -137,6 +140,10 @@
 
 <jsp:attribute name="js">
         <script>
+           var map2 = window.app.getUrlVars();
+           var periodType = window.app.getParamValue(map2,'periodType',3);
+           var region = window.app.getParamValue(map2,'region',[1000650042,1000650015]);
+
             var config = {
                 groups: [{
                     name: "default",
@@ -148,7 +155,7 @@
                             dataSource: {
                                 url: "obQualityFilter/timeUnits"
                             },
-                            defaultValue: 3,
+                            defaultValue: periodType,
                             width: 150
                         },
                         regionIds: {
@@ -160,9 +167,11 @@
                                 url: "obQualityFilter/regions"
                             },
                             width: 230,
+                            defaultValue: region,
                             onHide: function () {
                                 app.viewModel.groups.default.showCharts();
                             }
+
                         },
                         directionIds: {
                             type: "Select",
