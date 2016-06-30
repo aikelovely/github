@@ -4,6 +4,7 @@ import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import ru.alfabank.dmpr.infrastructure.spring.security.UserContext;
 import ru.alfabank.dmpr.infrastructure.spring.security.UserPrincipal;
 
@@ -14,7 +15,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 
-@Component
+@Service
 public class StatisticService {
 
     private static final Logger logger = Logger.getLogger(StatisticService.class);
