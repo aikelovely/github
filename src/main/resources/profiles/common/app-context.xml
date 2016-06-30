@@ -8,6 +8,7 @@
 
     <context:component-scan base-package="ru.alfabank.dmpr.filter"/>
     <context:component-scan base-package="ru.alfabank.dmpr.widget"/>
+    <context:component-scan base-package="ru.alfabank.dmpr.statistic"/>
 
     <context:component-scan base-package="ru.alfabank.dmpr.infrastructure.export"/>
 </beans>

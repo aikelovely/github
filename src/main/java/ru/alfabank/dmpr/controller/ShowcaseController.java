@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 import ru.alfabank.dmpr.infrastructure.spring.CustomResourceLoader;
+import ru.alfabank.dmpr.statistic.StatisticService;
 
 /**
  * Контроллер отвечающий за отображение витрин.
@@ -15,6 +16,8 @@ import ru.alfabank.dmpr.infrastructure.spring.CustomResourceLoader;
 public class ShowcaseController {
     @Autowired
     CustomResourceLoader resourceLoader;
+    @Autowired
+    StatisticService statisticService;
 
     @ModelAttribute("supportBtnMarkup")
     public String getSupportBtnMarkup() {
@@ -51,6 +54,9 @@ public class ShowcaseController {
      */
     @RequestMapping("showcase/{showcaseName}")
     public String displayShowcase(@PathVariable("showcaseName") String showcaseName) {
-        return "showcase/" + showcaseName;
+        String page = "showcase/" + showcaseName;
+        statisticService.serveStatistic(page);
+
+        return page;
     }
 }
