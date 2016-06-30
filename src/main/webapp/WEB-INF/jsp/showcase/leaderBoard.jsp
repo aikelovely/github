@@ -869,9 +869,20 @@
 
                 } catch (e) {
                 }
-                if(chartMeta.placeholderCode === 'DSHSCRISK'){
-                    config.yAxis.min = 90;
-                    config.yAxis.tickInterval= 2;
+                if(chartMeta.widgetType === 'PFAREA' ||
+                        chartMeta.widgetType === 'PFPFH'){
+//                    _.forEach(jsonData, function(data) {
+//
+//                    });
+                    var min = Math.min.apply(
+                            Math,
+                            jsonData.map(function (o) {
+                                        return o.currentValue;
+                                    }
+                            ));
+                    var yAxisMin = Math.trunc(min * 10) / 10;
+                    config.yAxis.min = yAxisMin * 100;
+//                    config.yAxis.tickInterval= Math.trunc((100 - yAxisMin * 100) / 5);
                 }
                 $container.highcharts(config);
             }
