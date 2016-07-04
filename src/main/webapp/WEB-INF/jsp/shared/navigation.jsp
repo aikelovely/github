@@ -163,7 +163,7 @@
                         <% if (isAdmin || UserContext.isNomUser()) { %>
                         <li>
                             <a href='<c:url value="/showcase/nom" />'>
-                                Количество конечных продуктов для расчета UC ОБ
+                                Количество конечных продуктов
                             </a>
                         </li>
                         <% } else { %>

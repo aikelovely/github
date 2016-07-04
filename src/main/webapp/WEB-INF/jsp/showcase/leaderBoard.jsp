@@ -228,10 +228,20 @@
                             dataSource: "LeaderBoardPlaceholderChart",
                             customParams: {code: "DSHSCCLIENT"}
                         },
-                        placeholder3: {
+                        placeholder5: {
                             jsFunc: createChartPlaceholder,
                             dataSource: "LeaderBoardPlaceholderChart",
                             customParams: {code: "DSHSCRISK"}
+                        },
+                        placeholder3: {
+                            jsFunc: createChartPlaceholder,
+                            dataSource: "LeaderBoardPlaceholderChart",
+                            customParams: {code: "DSHSCPROC"}
+                        },
+                        placeholder4: {
+                            jsFunc: createChartPlaceholder,
+                            dataSource: "LeaderBoardPlaceholderChart",
+                            customParams: {code: "DSHSCEFF"}
                         },
                         kpi5Chart: {
                             jsFunc: createKpi5Chart,
@@ -869,20 +879,40 @@
 
                 } catch (e) {
                 }
-                if(chartMeta.widgetType === 'PFAREA' ||
-                        chartMeta.widgetType === 'PFPFH'){
+                if(chartMeta.widgetType === 'PFAREA'  && chartMeta.intervalType === 'M'
+//                        ||
+//                        chartMeta.widgetType === 'PFPFH'
+                ){
 //                    _.forEach(jsonData, function(data) {
 //
 //                    });
+                    var filterJsonData = jsonData.filter(function(data){
+                        return data.currentValue!=0 && data.currentValue!=null ;
+                    });
                     var min = Math.min.apply(
                             Math,
-                            jsonData.map(function (o) {
+                            filterJsonData.map(function (o) {
+                                       return o.currentValue;
+                                    }
+                            ));
+                    var max = Math.max.apply(
+                            Math,
+                            filterJsonData.map(function (o) {
                                         return o.currentValue;
                                     }
                             ));
-                    var yAxisMin = Math.trunc(min * 10) / 10;
+
+                    var yAxisMin = Math.floor(min * 10) / 10;
+                    if (chartMeta.widgetType === 'PFAREA' && chartMeta.intervalType === 'M') {
+                        if (max - min < 0.2) {
+                            yAxisMin = Math.floor(min * 320) / 320;
+                        }
+                        else {
+                            yAxisMin = Math.floor(min * 60) / 60;
+                        }
+                    }
+
                     config.yAxis.min = yAxisMin * 100;
-//                    config.yAxis.tickInterval= Math.trunc((100 - yAxisMin * 100) / 5);
                 }
                 $container.highcharts(config);
             }
@@ -1859,7 +1889,7 @@
                     var selectedOption = viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];
                     if (selectedOption) {
                         $("#link-ob-quality").html("" +
-                        "<a href=/showcase/obQuality?divisionGroupId="+selectedOption.id+ " >" +
+                        "<a href=${pageContext.request.contextPath}/showcase/obQuality?divisionGroupId="+selectedOption.id+ " >" +
                         selectedOption.name +
                         "</a>");
                     }
@@ -1939,6 +1969,7 @@
                         </div>
                     </div>
                     <chart params="name: 'kpi21Chart'" class="mb-0"></chart>
+                    <chart params="name: 'placeholder3'" class="mb-0"></chart>
                 </tab>
                 <tab>
                     <chart params="name: 'kpi19Chart'"></chart>
@@ -2014,9 +2045,9 @@
                         <div class="col-xs-4">
                             <chart params="name: 'kpi15ByYearChart'"></chart>
                         </div>
-
+                        <chart params="name: 'placeholder4'" class="mb-0"></chart>
                     </div>
-                    <chart params="name: 'placeholder3'" class="mb-0"></chart>
+                    <chart params="name: 'placeholder5'" class="mb-0"></chart>
                 </tab>
             </tab-strip>
         </div>

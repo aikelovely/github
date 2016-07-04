@@ -425,11 +425,11 @@
 
                                 var css;
                                 var value = (item.workloadRate * 100).toFixed(0);
-                                if(value < 75){
+                                if(value < 85){
                                     css = yellowCss;
-                                } else if (value < 130){
+                                } else if (value < 115){
                                     css = greenCss;
-                                } else if (value < 150) {
+                                } else if (value < 130) {
                                     css = yellowCss;
                                 } else {
                                     css = redCss;

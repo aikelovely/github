@@ -2,7 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="title" value="Количество конечных продуктов для расчета UC ОБ"/>
+<c:set var="title" value="Количество конечных продуктов"/>
 
 <t:layout title="${title}">
     <jsp:attribute name="css">
