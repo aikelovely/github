@@ -2036,6 +2036,7 @@
                     <div class="mb-0">
                         <chart params="name: 'kpi18Chart', group: 'default'"></chart>
                     </div>
+                    <chart params="name: 'placeholder4'" class="mb-0"></chart>
                 </tab>
                 <tab>
                     <div class="row mb-0">
@@ -2045,9 +2046,9 @@
                         <div class="col-xs-4">
                             <chart params="name: 'kpi15ByYearChart'"></chart>
                         </div>
-                        <chart params="name: 'placeholder4'" class="mb-0"></chart>
+                        <chart params="name: 'placeholder5'" class="mb-0"></chart>
                     </div>
-                    <chart params="name: 'placeholder5'" class="mb-0"></chart>
+
                 </tab>
             </tab-strip>
         </div>
