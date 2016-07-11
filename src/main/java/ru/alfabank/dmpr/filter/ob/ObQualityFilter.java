@@ -10,6 +10,7 @@ import ru.alfabank.dmpr.infrastructure.linq.Predicate;
 import ru.alfabank.dmpr.infrastructure.spring.Param;
 import ru.alfabank.dmpr.model.*;
 import ru.alfabank.dmpr.model.Period;
+import ru.alfabank.dmpr.model.ob.ObQualityOptions;
 import ru.alfabank.dmpr.repository.ob.ObQualityFilterRepository;
 
 /**
@@ -66,6 +67,7 @@ public class ObQualityFilter {
     public BaseEntity[] getKPIs(@Param("startYear") LocalDate startYear, @Param("endYear") LocalDate endYear,
                                 @Param("startDateId") int startDateId, @Param("endDateId") int endDateId,
                                 @Param("kpiKindId") final long kpiKindId, @Param("directionIds[]") final String[] directionIds,
+                                @Param("regionIds[]") final String[] regionIds,
                                 @Param("timeUnitId") long timeUnitId){
         BasePeriodOptions options = new BasePeriodOptions();
         options.startYear = startYear;
@@ -76,8 +78,14 @@ public class ObQualityFilter {
 
         LocalDate[] dates = PeriodSelectHelper.getDatesByBasePeriodOptions(options, filterRepository.getWeeks());
 
-        return LinqWrapper.from(filterRepository.getKPIs(dates[0].toLocalDateTime(LocalTime.MIDNIGHT),
-                dates[1].toLocalDateTime(LocalTime.MIDNIGHT))).filter(new Predicate<ChildEntityWithInfo>() {
+        ObQualityOptions obQualityOptions = new ObQualityOptions();
+        obQualityOptions.startDate = dates[0].toLocalDateTime(LocalTime.MIDNIGHT);
+        obQualityOptions.endDate = dates[1].toLocalDateTime(LocalTime.MIDNIGHT);
+        obQualityOptions.directionIds = directionIds;
+        obQualityOptions.regionIds = regionIds;
+
+        return LinqWrapper.from(filterRepository.getKPIs(obQualityOptions
+                )).filter(new Predicate<ChildEntityWithInfo>() {
             @Override
             public boolean check(ChildEntityWithInfo item) {
                 String[] addInfoArray = item.additionalInfo != null ? item.additionalInfo.split(",") : new String[0];

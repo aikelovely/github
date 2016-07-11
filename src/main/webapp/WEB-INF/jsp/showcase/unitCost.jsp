@@ -8,6 +8,7 @@
 
     <jsp:attribute name="js">
         <script>
+
             Highcharts.setOptions({
                 colors: [
                     "#337ab7",

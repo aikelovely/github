@@ -17,11 +17,13 @@
     ]]>
     </select>
 
-    <select id="getKPI" resultType="ru.alfabank.dmpr.model.ChildEntityWithInfo" parameterType="map">
+    <select id="getKPI" resultType="ru.alfabank.dmpr.model.ChildEntityWithInfo" parameterType="ru.alfabank.dmpr.model.ob.ObQualityOptions">
         <![CDATA[
         select id, parentId, name, additional_Info additionalInfo from table(pkg_kpiob_api.get_kpis(
-          p_DateFrom => #{startDate},
-          p_DateTill => #{endDate}
+         p_DateFrom => #{startDate},
+          p_DateTill => #{endDate},
+          p_BPDivisionGroupIDs => #{directionIds},
+          p_BushIDs => #{regionIds}
         )) order by sort_order
     ]]>
     </select>
@@ -36,5 +38,15 @@
         <![CDATA[
         select id, name from table(pkg_kpiob_api.get_bpdivisiongroups) order by sort_order
     ]]>
+    </select>
+
+    <select id="getWeeks" resultType="ru.alfabank.dmpr.model.Week">
+        select
+        week_id as id,
+        week_year as year,
+        week_num as weekNum,
+        week_start_date as startDate,
+        week_end_date as endDate
+        from table(pkg_kpiob_api.get_weeks)
     </select>
 </mapper>

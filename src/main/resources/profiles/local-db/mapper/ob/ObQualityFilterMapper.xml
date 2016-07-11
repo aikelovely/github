@@ -21,9 +21,7 @@
         <![CDATA[
         select id, parentId, name, additional_Info additionalInfo from table(pkg_kpiob_api.get_kpis(
           p_DateFrom => #{startDate},
-          p_DateTill => #{endDate},
-          p_BPDivisionGroupIDs => #{directionIds},
-          p_BushIDs => #{regionIds}
+          p_DateTill => #{endDate}
         )) order by sort_order
     ]]>
     </select>

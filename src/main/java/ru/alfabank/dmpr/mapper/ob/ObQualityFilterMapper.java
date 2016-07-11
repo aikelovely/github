@@ -5,6 +5,7 @@ import org.joda.time.LocalDateTime;
 import ru.alfabank.dmpr.model.BaseEntity;
 import ru.alfabank.dmpr.model.ChildEntityWithInfo;
 import ru.alfabank.dmpr.model.Week;
+import ru.alfabank.dmpr.model.ob.ObQualityOptions;
 
 /**
  * Маппер, отвечающий за загрузку фильтров для витрины "Показатели качества ОБ".
@@ -28,8 +29,7 @@ public interface ObQualityFilterMapper {
      * @param endDate Значение фильтра "Год" + "Период, по"
      * @return
      */
-    ChildEntityWithInfo[] getKPI(@Param("startDate") LocalDateTime startDate,
-                                 @Param("endDate") LocalDateTime endDate);
+    ChildEntityWithInfo[] getKPI(ObQualityOptions obQualityOptions);
 
     /**
      * Возвращает данные для фильтра "Регион"

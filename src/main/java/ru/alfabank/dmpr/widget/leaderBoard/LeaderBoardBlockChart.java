@@ -28,12 +28,12 @@ public class LeaderBoardBlockChart extends BaseWidget<LeaderBoardOptions, KpiDat
 
     @Override
     public KpiDataItem[] getData(LeaderBoardOptions options) {
-        if(options.divisionGroupId == null){
+        if (options.divisionGroupId == null) {
             BaseEntity allDivision = filterRepository.getDivisionGroupByCode(options.startDate, options.endDate, "ОБ");
             options.divisionGroupId = allDivision == null ? null : allDivision.id;
         }
 
-        if(options.endDate == null){
+        if (options.endDate == null) {
             options.endDate = options.startDate.plusYears(1).plusDays(-1);
         }
 
@@ -46,6 +46,18 @@ public class LeaderBoardBlockChart extends BaseWidget<LeaderBoardOptions, KpiDat
                         return kpiDataItem.calcDate;
                     }
                 });
+        boolean returnEmpty = true;
+        for (KpiDataItem kpiDataItem : data) {
+            if (kpiDataItem.currentValue != null
+                    || kpiDataItem.planValue != null
+                    || kpiDataItem.prevValue != null) {
+                returnEmpty = false;
+                break;
+            }
+        }
+        if (returnEmpty) {
+            return new KpiDataItem[0];
+        }
 
         return data.toArray(KpiDataItem.class);
     }

@@ -25,7 +25,19 @@ public class LeaderBoardFilterRepository {
      */
     public BaseEntityWithCode[] getDivisionGroups(LocalDate startDate, LocalDate endDate) {
         LocalDate fixedEndDate = endDate != null ? endDate : startDate.plusYears(1).plusDays(-1);
-        return mapper.getDivisionGroups(startDate, fixedEndDate);
+
+
+        BaseEntityWithCode[] divisionGroups = mapper.getDivisionGroups(startDate, fixedEndDate);
+
+//      подставляет то что надо послеfilter(new) (ctrl + пробел)   return LinqWrapper.from(divisionGroups).filter(new Predicate<BaseEntityWithCode>() {
+        return LinqWrapper.from(divisionGroups).filter(new Predicate<BaseEntityWithCode>() {
+            @Override
+            public boolean check(BaseEntityWithCode item) {
+                return !item.code.equals("ДРиД");
+            }
+        }).toArray(BaseEntityWithCode.class);
+
+
     }
 
     /**

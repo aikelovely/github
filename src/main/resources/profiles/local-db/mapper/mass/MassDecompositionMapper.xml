@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.mass.MassDecompositionMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getKpiData" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.mass.decomposition.MassDecompositionOptions"
+            resultType="ru.alfabank.dmpr.model.mass.decomposition.KpiDataItem">
+        <![CDATA[
+        select
+            unit_id as UnitId,
+            unit_name as UnitName,
+            timeunit_dd as CalcDate,
+            bp_cnt as BpCount,
+            stage_id as StageId,
+            substage_id as SubStageId,
+            inlimitbpcnt as InLimitBpCount,
+            totalDurationH as TotalDuration
+        from table(pkg_mass_api.get_kpi_db2(
+            pStartDate => #{startDate},
+            pEndDate => #{endDate},
+            pCity_IDs => #{cityIds},
+            pBranch_IDs => #{dopOfficeIds},
+            pSaleChannel_IDs => #{salesChannelIds},
+            pDurationLimitHours => #{durationLimitHours},
+            pRCB_Unit_ID => #{systemUnitId},
+            pTimeUnit_ID => #{timeUnitId},
+            pStageDD => #{stageDetalization}
+        ))
+        order by calcdate
+        ]]>
+    </select>
+
+    <select id="getStages" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.mass.decomposition.MassDecompositionOptions"
+            resultType="ru.alfabank.dmpr.model.mass.decomposition.StageInfo">
+        <![CDATA[
+        select id, name, norm_hours as Normative, id_detailed_by_branch as Show2DetalizationLevel
+        from table(pkg_mass_api.getStage_db2())
+        ]]>
+    </select>
+
+    <select id="getTresholds" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.mass.decomposition.MassDecompositionOptions"
+            resultType="ru.alfabank.dmpr.model.mass.decomposition.TresholdItem">
+        <![CDATA[
+        select metric_code code,
+               case when metric_code = 'AVG_LENINHOUR' then warningtreshold else warningtreshold/100 end warning,
+               case when metric_code = 'AVG_LENINHOUR' then errortreshold else errortreshold/100 end error
+        from table(pkg_mass_api.get_KPIMetricTreshold)
+        ]]>
+    </select>
+
+    <select id="getSlowCompaniesData" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.mass.decomposition.MassDecompositionOptions"
+            resultType="ru.alfabank.dmpr.model.mass.decomposition.SlowCompanyItem">
+        <![CDATA[
+        select
+            client_name as clientName,
+            PIN_EQ as pin,
+            Account_Number as accountNumber,
+            startDate,
+            finishDate,
+            City_Name as cityName,
+            SaleChannel_Name as saleChannelName,
+            Branch_Name as branchName,
+            Opening_Office as openingOfficeName,
+            leninhours as duration,
+            manager_name as managerName
+        from table(pkg_mass_api.get_slow_companies(
+            pStartDate => #{startDate},
+            pEndDate => #{endDate},
+            pCity_IDs => #{cityIds},
+            pBranch_IDs => #{dopOfficeIds},
+            pSaleChannel_IDs => #{salesChannelIds},
+            pDurationLimitHours => #{durationLimitHours},
+            pStageId => #{stageId},
+            pBPType_IDs => 7
+        ))
+        ]]>
+    </select>
+</mapper>

@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.pilAndCC.PILAndCCMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+    <select id="getAvgDynamic" useCache="false"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.KpiDataItem"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+            reportTypeId,
+            value_day as CalcDate,
+            factvalue as Value,
+            factvalue_cnt as Count,
+            factvalue_in_quota_cnt as InQuotaCount,
+            planValue
+        from table(pkg_pilcc_api.get_KPI_avg (
+            pStartDate               => #{startDate},
+            pEndDate                 => #{endDate},
+            pTimeUnit_ID             => #{timeUnitId},
+            pBPKPI_IDs               => #{kpiId},
+            pProductType_IDs         => #{productTypeId},
+            pManualCheck_IDs         => #{manualCheckId},
+            pClientSegment_IDs       => #{clientSegmentIds},
+            pRegion_IDs              => #{regionIds},
+            pCity_IDs                => #{cityIds},
+            pBranch_IDs              => #{doKkoIds},
+            pUser_IDs                => #{managerIds},
+            pRequestStatusType_IDs   => #{requestTypeId},
+            pModule_IDs              => #{sourceSystemIds},
+
+            pFactValueType_ID        => #{valueTypeId}
+        ))
+    </select>
+
+    <select id="getRequestByGroup" useCache="false"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.KpiDataItem"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+            reportTypeId,
+            value_day as CalcDate,
+            value_id as ValueId,
+            value_name as ValueName,
+            factvalue as Value,
+            factvalue_cnt as Count
+        from table(pkg_pilcc_api.get_KPI_DURATION (
+            pStartDate               => #{startDate},
+            pEndDate                 => #{endDate},
+            pTimeUnit_ID             => #{timeUnitId},
+            pBPKPI_IDs               => #{kpiId},
+            pProductType_IDs         => #{productTypeId},
+            pManualCheck_IDs         => #{manualCheckId},
+            pClientSegment_IDs       => #{clientSegmentIds},
+            pRegion_IDs              => #{regionIds},
+            pCity_IDs                => #{cityIds},
+            pBranch_IDs              => #{doKkoIds},
+            pUser_IDs                => #{managerIds},
+            pRequestStatusType_IDs   => #{requestTypeId},
+            pModule_IDs              => #{sourceSystemIds}
+        ))
+    </select>
+
+    <select id="getRating" useCache="false"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.KpiRating"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+            reportTypeId,
+            value_id as ValueId,
+            value_name as ValueName,
+            factvalue as Value,
+            factvalue_cnt as Count,
+            bpoperation_dk as OperationId,
+            bpoperation_name as OperationName,
+            sort_order as SortOrder
+        from table(pkg_pilcc_api.get_KPI_AVG_RATING (
+            pStartDate               => #{startDate},
+            pEndDate                 => #{endDate},
+            pBPKPI_IDs               => #{kpiId},
+            pProductType_IDs         => #{productTypeId},
+            pManualCheck_IDs         => #{manualCheckId},
+            pClientSegment_IDs       => #{clientSegmentIds},
+            pRegion_IDs              => #{regionIds},
+            pCity_IDs                => #{cityIds},
+            pBranch_IDs              => #{doKkoIds},
+            pUser_IDs                => #{managerIds},
+            pRequestStatusType_IDs   => #{requestTypeId},
+            pModule_IDs              => #{sourceSystemIds},
+
+            pDimension_ID            => #{systemUnitId},
+            pFactValueType_ID        => #{valueTypeId},
+            pSortDirection_ID        => #{sortOrderId}
+        ))
+        order by sortOrder
+    </select>
+
+    <select id="getTimeRatioDynamic" useCache="false"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.KpiDurationDynamic"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+        reportTypeId,
+        value_day as CalcDate,
+        bpoperation_dk as operationId,
+        bpoperation_name as operationName,
+        factvalue as Value,
+        factvalue_cnt as groupDuration
+        from table(pkg_pilcc_api.get_OPER_DUR_RATIO (
+        pStartDate               => #{startDate},
+        pEndDate                 => #{endDate},
+        pTimeUnit_ID             => #{timeUnitId},
+        pBPKPI_IDs               => #{kpiId},
+        pProductType_IDs         => #{productTypeId},
+        pManualCheck_IDs         => #{manualCheckId},
+        pClientSegment_IDs       => #{clientSegmentIds},
+        pRegion_IDs              => #{regionIds},
+        pCity_IDs                => #{cityIds},
+        pBranch_IDs              => #{doKkoIds},
+        pUser_IDs                => #{managerIds},
+        pRequestStatusType_IDs   => #{requestTypeId},
+        pModule_IDs              => #{sourceSystemIds}
+        ))
+    </select>
+
+    <select id="getCardActivityDynamic" useCache="false"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.KpiDataItem"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+        reportTypeId,
+        value_day as CalcDate,
+        factvalue as Value,
+        factvalue_cnt as Count,
+        planValue
+        from table(pkg_pilcc_api.get_KPI_CARD_ACTIVATE (
+        pStartDate               => #{startDate},
+        pEndDate                 => #{endDate},
+        pTimeUnit_ID             => #{timeUnitId},
+        pProductType_IDs         => #{productTypeId},
+        pManualCheck_IDs         => #{manualCheckId},
+        pClientSegment_IDs       => #{clientSegmentIds},
+        pRegion_IDs              => #{regionIds},
+        pCity_IDs                => #{cityIds},
+        pBranch_IDs              => #{doKkoIds},
+        pUser_IDs                => #{managerIds},
+        pRequestStatusType_IDs   => #{requestTypeId},
+        pModule_IDs              => #{sourceSystemIds}
+        ))
+    </select>
+
+    <select id="getRejectDynamic" useCache="false"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.KpiDataItem"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+        reportTypeId,
+        value_day as CalcDate,
+        factvalue as Value,
+        factvalue_cnt as Count,
+        planValue
+        from table(pkg_pilcc_api.get_KPI_CLIENT_REJECT (
+        pStartDate               => #{startDate},
+        pEndDate                 => #{endDate},
+        pTimeUnit_ID             => #{timeUnitId},
+        pProductType_IDs         => #{productTypeId},
+        pManualCheck_IDs         => #{manualCheckId},
+        pClientSegment_IDs       => #{clientSegmentIds},
+        pRegion_IDs              => #{regionIds},
+        pCity_IDs                => #{cityIds},
+        pBranch_IDs              => #{doKkoIds},
+        pUser_IDs                => #{managerIds},
+        pRequestStatusType_IDs   => #{requestTypeId},
+        pModule_IDs              => #{sourceSystemIds}
+        ))
+    </select>
+
+    <select id="getStageInfo" useCache="false"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.KpiStageInfo"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+        reporttypeid,
+        bpoperation_dk as operationid,
+        bpoperation_name as operationname,
+        decode(analysisgrp_alertlevel_ccode, 'ВПЛАНЕ', 1, 'ВПЛАНЕ2', 2, 0) inQuota,
+        sort_order as sortOrder
+        from table(pkg_pilcc_api.get_OPER_AVG_RATING (
+        pStartDate               => #{startDate},
+        pEndDate                 => #{endDate},
+        pBPKPI_IDs               => #{kpiId},
+        pProductType_IDs         => #{productTypeId},
+        pManualCheck_IDs         => #{manualCheckId},
+        pClientSegment_IDs       => #{clientSegmentIds},
+        pRegion_IDs              => #{regionIds},
+        pCity_IDs                => #{cityIds},
+        pBranch_IDs              => #{doKkoIds},
+        pUser_IDs                => #{managerIds},
+        pRequestStatusType_IDs   => #{requestTypeId},
+        pModule_IDs              => #{sourceSystemIds},
+
+        pFactValueType_ID        => #{valueTypeId}
+        ))
+    </select>
+
+    <select id="getDynamicByStage" useCache="false"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.KpiDynamicByStage"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+        reportTypeId,
+        value_day as CalcDate,
+        bpoperation_dk as operationid,
+        bpoperation_name as operationname,
+        auto_dur_cnt as autoOperDuration,
+        manual_dur_cnt as manualOperDuration,
+        waittime_dur_cnt as waitTimeOperDuration,
+        factvalue as value,
+        planValue,
+        quota_category_id as quotaCategoryId,
+        quota_category_name as quotaCategoryName
+        from table(pkg_pilcc_api.get_OPER_AVG (
+        pStartDate               => #{startDate},
+        pEndDate                 => #{endDate},
+        pTimeUnit_ID             => #{timeUnitId},
+        pBPKPI_IDs               => #{kpiId},
+        pBPOperation_IDs         => #{operationId},
+        pProductType_IDs         => #{productTypeId},
+        pManualCheck_IDs         => #{manualCheckId},
+        pClientSegment_IDs       => #{clientSegmentIds},
+        pRegion_IDs              => #{regionIds},
+        pCity_IDs                => #{cityIds},
+        pBranch_IDs              => #{doKkoIds},
+        pUser_IDs                => #{managerIds},
+        pRequestStatusType_IDs   => #{requestTypeId},
+        pModule_IDs              => #{sourceSystemIds},
+
+        pFactValueType_ID        => #{valueTypeId}
+        ))
+    </select>
+
+    <select id="getAfterDrawDynamic" useCache="false"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.KpiAfterDrawDynamic"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+        reportTypeId,
+        value_day as CalcDate,
+        factvalue as value,
+        factvalue_cnt as count,
+        bpoperation_cnt as decCount
+        from table(pkg_pilcc_api.get_OPER_AFTERCHECK_RATIO (
+        pStartDate               => #{startDate},
+        pEndDate                 => #{endDate},
+        pTimeUnit_ID             => #{timeUnitId},
+        pBPKPI_IDs               => #{kpiId},
+        pProductType_IDs         => #{productTypeId},
+        pManualCheck_IDs         => #{manualCheckId},
+        pClientSegment_IDs       => #{clientSegmentIds},
+        pRegion_IDs              => #{regionIds},
+        pCity_IDs                => #{cityIds},
+        pBranch_IDs              => #{doKkoIds},
+        pUser_IDs                => #{managerIds},
+        pRequestStatusType_IDs   => #{requestTypeId},
+        pModule_IDs              => #{sourceSystemIds}
+        ))
+    </select>
+
+    <select id="getStagesRepeatKoeff" useCache="false"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.KpiDynamicByStage"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+        reportTypeId,
+        value_day as CalcDate,
+        bpoperation_dk as operationid,
+        bpoperation_name as operationname,
+        factvalue as value,
+        planValue
+        from table(pkg_pilcc_api.get_OPER_REPEAT_RATIO  (
+        pStartDate               => #{startDate},
+        pEndDate                 => #{endDate},
+        pTimeUnit_ID             => #{timeUnitId},
+        pBPKPI_IDs               => #{kpiId},
+        pBPOperation_IDs         => #{operationId},
+        pProductType_IDs         => #{productTypeId},
+        pManualCheck_IDs         => #{manualCheckId},
+        pClientSegment_IDs       => #{clientSegmentIds},
+        pRegion_IDs              => #{regionIds},
+        pCity_IDs                => #{cityIds},
+        pBranch_IDs              => #{doKkoIds},
+        pUser_IDs                => #{managerIds},
+        pRequestStatusType_IDs   => #{requestTypeId},
+        pModule_IDs              => #{sourceSystemIds}
+        ))
+    </select>
+
+
+    <select id="getKpiDetailDataСsvReport" useCache="false" fetchSize="1000"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.ReportRow"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+            DEAL_REF as dealRef,
+            LOANAPPL_REF_PARENT as loanapplRefParent,
+            BPKPI_NAME as bpKpiName,
+            PRODUCT_TYPE as productType,
+            CHANNEL_NAME as channelName,
+            MANUALCHECK_FLAG as manualCheckFlag,
+            CLIENTSEGMENT_NAME as clientSegmentName,
+            BPKPI_START_TIME as bpKpiStartTime,
+            BPKPI_START_YEAR as bpKpiStartYear,
+            BPKPI_START_MONTH as bpKpiStartMonth,
+            BPKPI_START_WEEK as bpKpiStartWeek,
+            BPKPI_START_DAY as bpKpiStartDay,
+            BPKPI_END_TIME as bpKpiEndTime,
+            BPKPI_END_YEAR as bpKpiEndYear,
+            BPKPI_END_MONTH as bpKpiEndMonth,
+            BPKPI_END_WEEK as bpKpiEndWeek,
+            BPKPI_END_DAY as bpKpiEndDay,
+            ANALYSISGRP_REGION_NAME as regionName,
+            ANALYSISGRP_CITY_NAME as cityName,
+            USER_SALESAGENT_NAME as userSaleAgentName,
+            BRANCH_NAME as branchName,
+            CLIENTWAIT_DUR_CNT as clientWaitDurCnt,
+            KPI_DUR_CNT as kpiDurCnt,
+            KPI_PLAN_VALUE_AVG as kpiPlanValueAvg,
+            KPI_PLAN_FACT_VALUE_AVG as kpiPlanFactValueAvg,
+            KPI_IN_QUOTA_FLAG as kpiInQuotaFlag,
+            LOANAPPLSTATUS_TYPE_NAME as loanapplStatusTypeName,
+            CARD_ACTIVATE_FLAG as cardActivateFlag,
+            CLIENTSELFREJECT_FLAG as clientSelfRejectFlag,
+            ANALYSISGRP_KPI_DURATION_NAME as kpiDurationName,
+            MODULE_NAME as ModuleName
+        from table(pkg_pilcc_api.get_KPI_DETAIL_DATA  (
+            pStartDate               => #{startDate},
+            pEndDate                 => #{endDate},
+            pBPKPI_IDs               => #{kpiId},
+            pProductType_IDs         => #{productTypeId},
+            pManualCheck_IDs         => #{manualCheckId},
+            pClientSegment_IDs       => #{clientSegmentIds},
+            pRegion_IDs              => #{regionIds},
+            pCity_IDs                => #{cityIds},
+            pBranch_IDs              => #{doKkoIds},
+            pUser_IDs                => #{managerIds},
+            pRequestStatusType_IDs   => #{requestTypeId},
+            pModule_IDs              => #{sourceSystemIds},
+            pReportType_IDs          => #{reportTypeId}
+        ))
+    </select>
+
+    <select id="getOperDetailDataCsvReport" useCache="false" fetchSize="1000"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.ReportRow"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+            DEAL_REF as dealRef,
+            LOANAPPL_REF_PARENT as loanapplRefParent,
+            BPKPI_NAME as bpKpiName,
+            PRODUCT_TYPE as productType,
+            CHANNEL_NAME as channelName,
+            MANUALCHECK_FLAG as manualCheckFlag,
+            CLIENTSEGMENT_NAME as clientSegmentName,
+            BPKPI_START_TIME as bpKpiStartTime,
+            BPKPI_START_YEAR as bpKpiStartYear,
+            BPKPI_START_MONTH as bpKpiStartMonth,
+            BPKPI_START_WEEK as bpKpiStartWeek,
+            BPKPI_START_DAY as bpKpiStartDay,
+            BPKPI_END_TIME as bpKpiEndTime,
+            BPKPI_END_YEAR as bpKpiEndYear,
+            BPKPI_END_MONTH as bpKpiEndMonth,
+            BPKPI_END_WEEK as bpKpiEndWeek,
+            BPKPI_END_DAY as bpKpiEndDay,
+
+            OP_START_TIME as opStartTime,
+            OP_START_YEAR as opStartYear,
+            OP_START_MONTH as opStartMonth,
+            OP_START_WEEK as opStartWeek,
+            OP_START_DAY as opStartDay,
+            OP_END_TIME as opEndTime,
+            OP_END_YEAR as opEndYear,
+            OP_END_MONTH as opEndMonth,
+            OP_END_WEEK as opEndWeek,
+            OP_END_DAY as opEndDay,
+            BPOPERATION_NAME as bpOperationName,
+            BPOPERATION_DUR_CNT as bpOperationDurCnt,
+            MANUAL_DUR_CNT as manualDurCnt,
+            AUTO_DUR_CNT as autoDurCnt,
+            WAITTIME_DUR_CNT as waitTimeDurCnt,
+            WAITTIME_PRE_DUR_CNT as waitTimePreDurCnt,
+            OPER_QUOTA_1_VALUE as operQuota1Value,
+            OPER_QUOTA_2_VALUE as operQuota2Value,
+            OPER_QUOTA_1_DIF_VALUE as operQuota1DifValue,
+            OPER_QUOTA_2_DIF_VALUE as operQuota2DifValue,
+            OPER_IN_QUOTA_1_FLAG as operInQuota1Flag,
+            OPER_IN_QUOTA_2_FLAG as operInQuota2Flag,
+            KPI_IN_QUOTA_FLAG as kpiInQuotaFlag,
+            ANALYSISGRP_REGION_NAME as regionName,
+            ANALYSISGRP_CITY_NAME as cityName,
+            USER_SALESAGENT_NAME as userSaleAgentName,
+            BRANCH_NAME as branchName,
+            KPI_PLAN_FACT_VALUE_AVG as kpiPlanFactValueAvg,
+            LOANAPPLSTATUS_TYPE_NAME as loanapplStatusTypeName,
+            CARD_ACTIVATE_FLAG as cardActivateFlag,
+            CLIENTSELFREJECT_FLAG as clientSelfRejectFlag,
+            ANALYSISGRP_KPI_DURATION_NAME as kpiDurationName,
+            MODULE_NAME as ModuleName
+        from table(pkg_pilcc_api.get_OPER_DETAIL_DATA  (
+            pStartDate               => #{startDate},
+            pEndDate                 => #{endDate},
+            pBPKPI_IDs               => #{kpiId},
+            pProductType_IDs         => #{productTypeId},
+            pManualCheck_IDs         => #{manualCheckId},
+            pClientSegment_IDs       => #{clientSegmentIds},
+            pRegion_IDs              => #{regionIds},
+            pCity_IDs                => #{cityIds},
+            pBranch_IDs              => #{doKkoIds},
+            pUser_IDs                => #{managerIds},
+            pRequestStatusType_IDs   => #{requestTypeId},
+            pModule_IDs              => #{sourceSystemIds},
+            pReportType_IDs          => #{reportTypeId}
+        ))
+    </select>
+
+    <select id="getKpiDataReport" useCache="false" fetchSize="1000"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.ReportRow"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+            P_START_DATE as startDate,
+            P_END_DATE as endDate,
+
+            BPKPI_NAME as bpKpiName,
+            PRODUCT_TYPE as productType,
+            CHANNEL_NAME as channelName,
+
+            KPI_FACT_VALUE_AVG as kpiFactValueAvg,
+            KPI_FACT_VALUE_PC as kpiFactValuePc,
+
+            KPI_PLAN_VALUE_AVG as kpiPlanValueAvg,
+            KPI_PLAN_VALUE_PC as kpiPlanValuePc,
+
+            KPI_PLAN_FACT_VALUE_AVG as kpiPlanFactValueAvg,
+            KPI_PLAN_FACT_VALUE_PC as kpiPlanFactValuePc
+        from table(pkg_pilcc_api.get_EXCEL_REPORT_KPI_DATA  (
+            pStartDate               => #{startDate},
+            pEndDate                 => #{endDate},
+            pBPKPI_IDs               => #{kpiId},
+            pTimeUnit_ID             => #{timeUnitId},
+            pProductType_IDs         => #{productTypeId},
+            pManualCheck_IDs         => #{manualCheckId},
+            pClientSegment_IDs       => #{clientSegmentIds},
+            pRegion_IDs              => #{regionIds},
+            pCity_IDs                => #{cityIds},
+            pBranch_IDs              => #{doKkoIds},
+            pUser_IDs                => #{managerIds},
+            pRequestStatusType_IDs   => #{requestTypeId},
+            pModule_IDs              => #{sourceSystemIds},
+            pReportType_IDs          => #{reportTypeId}
+        ))
+    </select>
+
+    <select id="getOperDetailDataReport" useCache="false" fetchSize="1000"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.ReportRow"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+            P_START_DATE as startDate,
+            P_END_DATE as endDate,
+
+            BPKPI_NAME as bpKpiName,
+            PRODUCT_TYPE as productType,
+            CHANNEL_NAME as channelName,
+            PRODUCT_TYPE as productType,
+            BPOPERATION_NAME as bpOperationName,
+            MODULE_NAME as moduleName,
+            OP_MANUAL_AVG as opManualAvg,
+            OP_AUTO_AVG as opAutoAvg,
+            OP_WAIT_AVG as opWaitAvg,
+            OP_WAITTIME_PRE_AVG as opWaitTimePreAvg,
+            OP_LEN_AVG as opLenAvg,
+            OP_IN_QUOTA_PC as opInQuotaAvg,
+            OPER_QUOTA_NAME as operQuotaName,
+            OP_PLAN_VALUE_AVG as opPlanValueAvg,
+            OP_PLAN_FACT_VALUE_AVG as opPlanFactValueAvg,
+            OP_REPEAT_RATIO as opRepeatRatio
+        from table(pkg_pilcc_api.get_EXCEL_REPORT_OPER_DATA  (
+            pStartDate               => #{startDate},
+            pEndDate                 => #{endDate},
+            pTimeUnit_ID             => #{timeUnitId},
+            pBPKPI_IDs               => #{kpiId},
+            pProductType_IDs         => #{productTypeId},
+            pManualCheck_IDs         => #{manualCheckId},
+            pClientSegment_IDs       => #{clientSegmentIds},
+            pRegion_IDs              => #{regionIds},
+            pCity_IDs                => #{cityIds},
+            pBranch_IDs              => #{doKkoIds},
+            pUser_IDs                => #{managerIds},
+            pRequestStatusType_IDs   => #{requestTypeId},
+            pModule_IDs              => #{sourceSystemIds},
+            pReportType_IDs          => #{reportTypeId}
+        ))
+    </select>
+
+    <select id="getCardActivateReport" useCache="false" fetchSize="1000"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.ReportRow"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+            P_START_DATE as startDate,
+            P_END_DATE as endDate,
+
+            BPKPI_NAME as bpKpiName,
+            CHANNEL_NAME as channelName,
+            PRODUCT_TYPE as productType,
+            MODULE_NAME as ModuleName,
+
+            KPI_FACT_VALUE_PC as kpiFactValuePc,
+            KPI_PLAN_VALUE_PC as kpiPlanValuePc,
+            KPI_PLAN_FACT_VALUE_PC as kpiPlanFactValuePc
+        from table(pkg_pilcc_api.get_EXCEL_REPORT_CARD_ACTIVATE (
+            pStartDate               => #{startDate},
+            pEndDate                 => #{endDate},
+            pTimeUnit_ID             => #{timeUnitId},
+            pProductType_IDs         => #{productTypeId},
+            pClientSegment_IDs       => #{clientSegmentIds},
+            pRegion_IDs              => #{regionIds},
+            pCity_IDs                => #{cityIds},
+            pBranch_IDs              => #{doKkoIds},
+            pUser_IDs                => #{managerIds},
+            pRequestStatusType_IDs   => #{requestTypeId},
+            pModule_IDs              => #{sourceSystemIds},
+            pReportType_IDs          => #{reportTypeId}
+        ))
+    </select>
+
+    <select id="getAfterCheckReport" useCache="false" fetchSize="1000"
+            resultType="ru.alfabank.dmpr.model.pilAndCC.ReportRow"
+            parameterType="ru.alfabank.dmpr.model.pilAndCC.PILAndCCOptions">
+        select
+            P_START_DATE as startDate,
+            P_END_DATE as endDate,
+
+            BPKPI_NAME as bpKpiName,
+            CHANNEL_NAME as channelName,
+            PRODUCT_TYPE as productType,
+            MODULE_NAME as ModuleName,
+
+            KPI_FACT_VALUE_PC as kpiFactValuePc,
+            KPI_PLAN_VALUE_PC as kpiPlanValuePc,
+            KPI_PLAN_FACT_VALUE_PC as kpiPlanFactValuePc
+        from table(pkg_pilcc_api.get_EXCEL_REPORT_AFTERCHECK (
+            pStartDate               => #{startDate},
+            pEndDate                 => #{endDate},
+            pTimeUnit_ID             => #{timeUnitId},
+            pBPKPI_IDs               => #{kpiId},
+            pProductType_IDs         => #{productTypeId},
+            pManualCheck_IDs         => #{manualCheckId},
+            pClientSegment_IDs       => #{clientSegmentIds},
+            pRegion_IDs              => #{regionIds},
+            pCity_IDs                => #{cityIds},
+            pBranch_IDs              => #{doKkoIds},
+            pUser_IDs                => #{managerIds},
+            pRequestStatusType_IDs   => #{requestTypeId},
+            pModule_IDs              => #{sourceSystemIds},
+            pReportType_IDs          => #{reportTypeId}
+        ))
+    </select>
+</mapper>

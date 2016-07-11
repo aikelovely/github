@@ -27,6 +27,7 @@
         <report-button params="group: group, reportUrl: reportUrl"></report-button>
         <!-- /ko -->
         <div class="chart-container"></div>
+        <div class='chart-url'></div>
         <!-- /ko -->
 
         <!-- /ko -->

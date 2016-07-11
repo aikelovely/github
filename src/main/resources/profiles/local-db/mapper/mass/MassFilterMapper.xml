@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.mass.MassFilterMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache">
+        <property name="timeToLiveSeconds" value="600"/>
+    </cache>
+
+    <select id="getRegions" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_mass_api.get_Region())
+    </select>
+
+    <select id="getCities" resultType="ru.alfabank.dmpr.model.ChildEntity">
+        select id, name, parent_id as parentId
+        from table(pkg_mass_api.get_City())
+    </select>
+
+    <select id="getDopOffices" resultType="ru.alfabank.dmpr.model.ChildEntity">
+        select id, name, parent_id as parentId
+        from table(pkg_mass_api.get_dopoffice())
+    </select>
+
+    <select id="getSystemUnits" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_mass_api.get_systemunit())
+    </select>
+
+    <select id="getBpTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_mass_api.get_bptype())
+    </select>
+
+    <select id="getSalesChannel" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_mass_api.get_salechannel())
+    </select>
+
+    <select id="getTimeUnits" resultType="ru.alfabank.dmpr.model.mass.TimeUnit">
+        select id, name, regexp_substr(additional_info,'(MaxDays=)([0-9]{1,})(;)',1,1,null,2) MaxDays
+        from table(pkg_mass_api.get_TimeUnit)
+    </select>
+</mapper>

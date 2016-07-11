@@ -1,6 +1,9 @@
 package ru.alfabank.dmpr.model.ob;
 
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import ru.alfabank.dmpr.model.BasePeriodOptions;
+
 
 /**
  * Набор параметров для получения данных на витрине "Показатели качества ОБ".
@@ -28,6 +31,9 @@ public class ObQualityOptions extends BasePeriodOptions implements Cloneable {
 
 
     public String doudrFlag;
+
+    public LocalDateTime startDate;
+    public LocalDateTime endDate;
 
     @Override
     protected ObQualityOptions clone() throws CloneNotSupportedException {

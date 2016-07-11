@@ -3,12 +3,14 @@ package ru.alfabank.dmpr.repository.ob;
 import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import ru.alfabank.dmpr.filter.ob.ObQualityFilter;
 import ru.alfabank.dmpr.infrastructure.linq.LinqWrapper;
 import ru.alfabank.dmpr.infrastructure.linq.Predicate;
 import ru.alfabank.dmpr.mapper.ob.ObQualityFilterMapper;
 import ru.alfabank.dmpr.model.BaseEntity;
 import ru.alfabank.dmpr.model.ChildEntityWithInfo;
 import ru.alfabank.dmpr.model.Week;
+import ru.alfabank.dmpr.model.ob.ObQualityOptions;
 
 /**
  * Репозиторий, отвечающий за загрузку фильтров для витрины "Показатели качества ОБ".
@@ -40,8 +42,8 @@ public class ObQualityFilterRepository {
      * @param endDate Значение фильтра "Год" + "Период, по"
      * @return
      */
-    public ChildEntityWithInfo[] getKPIs(LocalDateTime startDate, LocalDateTime endDate) {
-        return mapper.getKPI(startDate, endDate);
+    public ChildEntityWithInfo[] getKPIs(ObQualityOptions obQualityOptions) {
+        return mapper.getKPI(obQualityOptions);
     }
 
     /**

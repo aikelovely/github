@@ -274,6 +274,7 @@
                                         params: [
                                             {name: "kpiKindId", group: "default", required: true},
                                             {name: "directionIds", group: "default", required: false},
+                                            {name: "regionIds", group: "default", required: false},
                                             {name: "startYear", group: "default", required: true},
                                             {name: "endYear", group: "default", required: true},
                                             {name: "startDateId", group: "default", required: true},
@@ -851,7 +852,8 @@
             <div class="ob-section">
                 <header>
                     <!-- ko text: groups.default.filters.kpiKindId.getSelectedOptions().length ?
-                                  groups.default.filters.kpiKindId.getSelectedOptions()[0].name : "" -->
+                                  groups.default.filters.kpiKindId.getSelectedOptions()[0].name
+                                   : "" -->
                     <!-- /ko -->
                     <filter params="name: 'kpiId', group: 'DirectionsDetails'">
                     </filter>

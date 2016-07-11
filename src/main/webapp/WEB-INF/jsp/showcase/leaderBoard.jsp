@@ -676,7 +676,18 @@
 
             function createBlockChart($container, filterData, jsonData, seriesMetaData) {
                 var chartMeta = seriesMetaData[0];
+                if (chartMeta.chartName == 'UC по конечным продуктам операционного блока в разрезе Дирекций.'){
+                 var selectedOption = app.viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];
+                    if (!selectedOption) {
+                        selectedOption = app.viewModel.getFilter("divisionGroupId").options()[0];
 
+                    }
+                    $container.parent().find(".chart-url").html("" +
+                            "<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId="+selectedOption.id+ " >" +
+                            "На витрину UnitCost"+
+//                        selectedOption.name +
+                            "</a>");
+                }
                 var config = {
                     chart: {
                         height: chartMeta.rowHeight
@@ -820,7 +831,10 @@
                                     text: 'План: {0}{1}'.format(planValue.toFixed(dataPrecision), valueSuffix),
                                     zIndex: 8,
                                     x: 5,
-                                    rotation: 0
+                                    rotation: 0,
+                                    align: 'center',
+                                    y: -10
+
                                 }
                             }];
                         }
@@ -889,19 +903,36 @@
                     var filterJsonData = jsonData.filter(function(data){
                         return data.currentValue!=0 && data.currentValue!=null ;
                     });
-                    var min = Math.min.apply(
-                            Math,
-                            filterJsonData.map(function (o) {
-                                       return o.currentValue;
-                                    }
-                            ));
-                    var max = Math.max.apply(
+                    var minC = Math.min.apply(
                             Math,
                             filterJsonData.map(function (o) {
                                         return o.currentValue;
                                     }
                             ));
+                    var minP = Math.min.apply(
+                            Math,
+                            filterJsonData.map(function (o) {
+                                        if (!o.planValue) {
+                                            return 100;
+                                        }
+                                        return o.planValue;
+                                    }
+                            ));
+                    var maxC = Math.max.apply(
+                            Math,
+                            filterJsonData.map(function (o) {
+                                        return o.currentValue;
+                                    }
+                            ));
+                    var maxP = Math.max.apply(
+                            Math,
+                            filterJsonData.map(function (o) {
+                                        return o.planValue;
+                                    }
+                            ));
 
+                    var min = Math.min(minC, minP);
+                    var max = Math.max(maxC, maxP);
                     var yAxisMin = Math.floor(min * 10) / 10;
                     if (chartMeta.widgetType === 'PFAREA' && chartMeta.intervalType === 'M') {
                         if (max - min < 0.2) {
@@ -1885,15 +1916,23 @@
                     kpi8MonthObs(kpi8Date);
                 });
 
-                divisionGroupId.value.subscribe(function (newValue) {
-                    var selectedOption = viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];
-                    if (selectedOption) {
-                        $("#link-ob-quality").html("" +
-                        "<a href=${pageContext.request.contextPath}/showcase/obQuality?divisionGroupId="+selectedOption.id+ " >" +
-                        selectedOption.name +
-                        "</a>");
-                    }
-                });
+//                подписака на событие
+                <%--divisionGroupId.value.subscribe(function (newValue) {--%>
+                    <%--var selectedOption = viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];--%>
+                    <%--if (selectedOption) {--%>
+                        <%--$("#link-ob-quality").html("" +--%>
+                        <%--"<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId="+selectedOption.id+ " >" +--%>
+                        <%--"На витрину UnitCost"+--%>
+<%--//                        selectedOption.name +--%>
+                        <%--"</a>");--%>
+                        <%--$(".link-ob-quality2").html("" +--%>
+                                <%--"<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId="+selectedOption.id+ " >" +--%>
+                                <%--"На витрину UnitCost"+--%>
+<%--//                        selectedOption.name +--%>
+                                <%--"</a>");--%>
+
+                    <%--}--%>
+                <%--});--%>
 
                 // Раскрашиваем табы
                 var subscription = viewModel.visibleCharts.subscribe(function (value) {
@@ -1940,11 +1979,11 @@
                 <tab>
                 <chart params="name: 'placeholder1'" class="mb-0"></chart>
 
-                <p class="scrollable-chart-title">Измерение Unit Cost по «конечным продуктам» ОБ</p>
+                <%--<p class="scrollable-chart-title">Измерение Unit Cost по «конечным продуктам» ОБ</p>--%>
 
-                <p id="link-ob-quality">
 
-                </p>
+
+
             </tab>
                 <tab>
                     <chart params="name: 'placeholder2'" class="mb-0"></chart>
@@ -1957,16 +1996,16 @@
                                 <chart params="name: 'kpi8_2Pie'"></chart>
                             </div>
                         </div>
-                        <div class="col-xs-7">
-                            <div class="group-section">
-                                <div style="margin-bottom: 15px;">
-                                    <filter params="name: 'startDate', group: 'kpi8'"></filter>
-                                </div>
+                        <%--<div class="col-xs-7">--%>
+                            <%--&lt;%&ndash;<div class="group-section">&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<div style="margin-bottom: 15px;">&ndash;%&gt;--%>
+                                    <%--&lt;%&ndash;<filter params="name: 'startDate', group: 'kpi8'"></filter>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
 
-                                <chart params="name: 'kpi8_1Dynamic', group: 'kpi8'"></chart>
-                                <chart params="name: 'kpi8_2Dynamic', group: 'kpi8'"></chart>
-                            </div>
-                        </div>
+                                <%--&lt;%&ndash;<chart params="name: 'kpi8_1Dynamic', group: 'kpi8'"></chart>&ndash;%&gt;--%>
+                                <%--&lt;%&ndash;<chart params="name: 'kpi8_2Dynamic', group: 'kpi8'"></chart>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                        <%--</div>--%>
                     </div>
                     <chart params="name: 'kpi21Chart'" class="mb-0"></chart>
                     <chart params="name: 'placeholder3'" class="mb-0"></chart>
@@ -1974,18 +2013,18 @@
                 <tab>
                     <chart params="name: 'kpi19Chart'"></chart>
                     <div class="row">
-                        <div class="col-xs-6">
-                            <div class="group-section ">
-                                <div class="filter-row">
-                                    <div class="filter-element">
-                                        <filter params="name: 'kpi14Value', group: 'kpi14'"></filter>
-                                    </div>
-                                </div>
-                                <div class="charts-container">
-                                    <chart params="name: 'kpi14Chart', group: 'kpi14'"></chart>
-                                </div>
-                            </div>
-                        </div>
+                        <%--<div class="col-xs-6">--%>
+                            <%--<div class="group-section ">--%>
+                                <%--<div class="filter-row">--%>
+                                    <%--<div class="filter-element">--%>
+                                        <%--<filter params="name: 'kpi14Value', group: 'kpi14'"></filter>--%>
+                                    <%--</div>--%>
+                                <%--</div>--%>
+                                <%--<div class="charts-container">--%>
+                                    <%--<chart params="name: 'kpi14Chart', group: 'kpi14'"></chart>--%>
+                                <%--</div>--%>
+                            <%--</div>--%>
+                        <%--</div>--%>
                         <div class="col-xs-6" style="margin-top: 92px">
                             <chart params="name: 'kpi22Chart'"></chart>
                         </div>
@@ -2036,7 +2075,10 @@
                     <div class="mb-0">
                         <chart params="name: 'kpi18Chart', group: 'default'"></chart>
                     </div>
+                    <%--<p id="link-ob-quality"></p>--%>
+
                     <chart params="name: 'placeholder4'" class="mb-0"></chart>
+                    <%--<p id="link-ob-quality2"></p>--%>
                 </tab>
                 <tab>
                     <div class="row mb-0">

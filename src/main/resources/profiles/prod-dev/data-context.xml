@@ -25,6 +25,9 @@
         http://stackoverflow.com/questions/8270290/spring-application-context-external-properties
     -->
     <context:property-placeholder location="${ext.properties.dir:classpath:}db.properties"/>
+    <!--<context:property-placeholder location="C:\java\OpExTestSource3\OpEx\src\main\resources\profiles\local-db\db.properties"/>-->
+    <!--<context:property-placeholder location="classpath:db.properties"/>-->
+
 
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
         <property name="dataSource" ref="dataSource"/>
