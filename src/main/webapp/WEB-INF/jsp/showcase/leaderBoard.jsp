@@ -68,8 +68,7 @@
             .col-xs-5, .col-sm-5, .col-md-5, .col-lg-5, .col-xs-6, .col-sm-6, .col-md-6, .col-lg-6,
             .col-xs-7, .col-sm-7, .col-md-7, .col-lg-7, .col-xs-8, .col-sm-8, .col-md-8, .col-lg-8,
             .col-xs-9, .col-sm-9, .col-md-9, .col-lg-9, .col-xs-10, .col-sm-10, .col-md-10, .col-lg-10,
-            .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12
-            {
+            .col-xs-11, .col-sm-11, .col-md-11, .col-lg-11, .col-xs-12, .col-sm-12, .col-md-12, .col-lg-12 {
                 padding-right: 5px;
                 padding-left: 5px;
             }
@@ -482,7 +481,6 @@
                 });
 
 
-
                 // Отрисовываем компоненты
                 ko.applyBindingsToDescendants(app.viewModel, $container[0]);
 
@@ -494,7 +492,7 @@
 
                     // Удаляем только что созданные графики из группы, чтобы при следующем обновлении не выполнялось
                     // лишней работы.
-                    setTimeout(function(){
+                    setTimeout(function () {
                         group.charts = _.remove(group.charts, function (c) {
                             return chartNames.indexOf(c.name) === -1;
                         });
@@ -509,9 +507,9 @@
             };
 
             var chartTypeCodes = {
-                PFPFH : "bar",
-                PFPFV : "column",
-                PFAREA : "areaspline"
+                PFPFH: "bar",
+                PFPFV: "column",
+                PFAREA: "areaspline"
             };
 
             function getValueBySeriesCode(kpiDataItem, code, metaData) {
@@ -544,7 +542,7 @@
             function createFactSeries(metaData) {
                 var color = metaData.fontColor || "white";
                 var style = {};
-                if(color.toUpperCase() === "BLACK"){
+                if (color.toUpperCase() === "BLACK") {
                     style.color = "#000000";
                     style.textShadow = "0 0 6px #ffffff, 0 0 3px #ffffff";
                 } else {
@@ -611,7 +609,7 @@
 
                 var color = metaData.fontColor || "black";
                 var style = {};
-                if(color.toUpperCase() === "WHITE"){
+                if (color.toUpperCase() === "WHITE") {
                     style.color = "#ffffff";
                     style.textShadow = "0 0 6px #000000, 0 0 3px #000000";
 
@@ -637,7 +635,7 @@
                             return this.y < 0.05 ? null : (this.y.toFixed(dataPrecision));
                         },
                         rotation: metaData.dataLabelPosition === "H" ? 0 : 270,
-                        marker: { enabled: false },
+                        marker: {enabled: false},
                         style: style
                     }
                 };
@@ -676,15 +674,15 @@
 
             function createBlockChart($container, filterData, jsonData, seriesMetaData) {
                 var chartMeta = seriesMetaData[0];
-                if (chartMeta.chartName == 'UC по конечным продуктам операционного блока в разрезе Дирекций.'){
-                 var selectedOption = app.viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];
+                if (chartMeta.chartName == 'UC по конечным продуктам операционного блока в разрезе Дирекций.') {
+                    var selectedOption = app.viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];
                     if (!selectedOption) {
                         selectedOption = app.viewModel.getFilter("divisionGroupId").options()[0];
 
                     }
                     $container.parent().find(".chart-url").html("" +
-                            "<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId="+selectedOption.id+ " >" +
-                            "На витрину UnitCost"+
+                            "<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId=" + selectedOption.id + " >" +
+                            "На витрину UnitCost" +
 //                        selectedOption.name +
                             "</a>");
                 }
@@ -778,11 +776,16 @@
                         shadow: false,
                         borderWidth: 0
                     },
-                    area: {
-                    }
+                    area: {}
                 };
-
-
+                if (chartMeta.chartName == "Соблюдение лимитов наличных денежных средств в ККО") {
+                    config.yAxis.plotBands = [{from: -1000000, to: 75, color: 'rgba(0, 255, 0, 0.2)'}, {
+                        from: 75,
+                        to: 300000,
+                        color: 'rgba(255, 0, 0, 0.2)'
+                    }];
+                }
+                ;
                 var currentYear = moment(filterData.startDate).year();
                 switch (chartMeta.intervalType) {
                     case "Y":
@@ -794,8 +797,8 @@
                         config.xAxis.categories = [currentYear];
                         config.legend = {enabled: false};
 
-                        if(config.yAxis.min == undefined){
-                            config.yAxis.min =  Math.max(Math.min(currentValue, prevValue, planValue) - 5, 0);
+                        if (config.yAxis.min == undefined) {
+                            config.yAxis.min = Math.max(Math.min(currentValue, prevValue, planValue) - 5, 0);
                         }
 
                         config.chart.marginTop = 60;
@@ -869,17 +872,21 @@
                 // Min & Max
                 try {
                     var minMaxParts = chartMeta.dataMinMax.split("-");
-                    if(config.chart.type !== 'areaspline'){
+                    if (config.chart.type !== 'areaspline') {
                         config.yAxis.min = minMaxParts[0] == "auto" ? undefined : minMaxParts[0];
                         config.yAxis.max = minMaxParts[1] == "auto" ? undefined : minMaxParts[1];
                     }
                     else {
                         config.yAxis.min = minMaxParts[0] == "auto"
-                                ? Math.floor(_.min(_.map(config.series, function(s){ return _.min(s.data);})))
+                                ? Math.floor(_.min(_.map(config.series, function (s) {
+                            return _.min(s.data);
+                        })))
                                 : minMaxParts[0];
 
                         config.yAxis.max = minMaxParts[1] == "auto"
-                                ? Math.ceil(_.max(_.map(config.series, function(s){ return _.max(s.data);})))
+                                ? Math.ceil(_.max(_.map(config.series, function (s) {
+                            return _.max(s.data);
+                        })))
                                 : minMaxParts[1];
 
                         if (config.yAxis.max === config.yAxis.min) {
@@ -890,18 +897,17 @@
                     }
 
 
-
                 } catch (e) {
                 }
-                if(chartMeta.widgetType === 'PFAREA'  && chartMeta.intervalType === 'M'
+                if (chartMeta.widgetType === 'PFAREA' && chartMeta.intervalType === 'M'
 //                        ||
 //                        chartMeta.widgetType === 'PFPFH'
-                ){
+                ) {
 //                    _.forEach(jsonData, function(data) {
 //
 //                    });
-                    var filterJsonData = jsonData.filter(function(data){
-                        return data.currentValue!=0 && data.currentValue!=null ;
+                    var filterJsonData = jsonData.filter(function (data) {
+                        return data.currentValue != 0 && data.currentValue != null;
                     });
                     var minC = Math.min.apply(
                             Math,
@@ -1878,7 +1884,7 @@
 
                 if (kpeChart) {
                     calcDate = kpeChart.bag.calcDate;
-                    if(kpeChart.bag.value !== undefined){
+                    if (kpeChart.bag.value !== undefined) {
                         text = "КПЭ - {0}%".format(kpeChart.bag.value.toFixed(1));
                     }
                     else {
@@ -1896,7 +1902,7 @@
                 }
 
                 text += "<br/>";
-                if(calcDate){
+                if (calcDate) {
                     text += "данные за " + moment(calcDate).format("DD.MM.YYYY");
                 } else {
                     text += "нет данных";
@@ -1918,20 +1924,20 @@
 
 //                подписака на событие
                 <%--divisionGroupId.value.subscribe(function (newValue) {--%>
-                    <%--var selectedOption = viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];--%>
-                    <%--if (selectedOption) {--%>
-                        <%--$("#link-ob-quality").html("" +--%>
-                        <%--"<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId="+selectedOption.id+ " >" +--%>
-                        <%--"На витрину UnitCost"+--%>
-<%--//                        selectedOption.name +--%>
-                        <%--"</a>");--%>
-                        <%--$(".link-ob-quality2").html("" +--%>
-                                <%--"<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId="+selectedOption.id+ " >" +--%>
-                                <%--"На витрину UnitCost"+--%>
-<%--//                        selectedOption.name +--%>
-                                <%--"</a>");--%>
+                <%--var selectedOption = viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];--%>
+                <%--if (selectedOption) {--%>
+                <%--$("#link-ob-quality").html("" +--%>
+                <%--"<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId="+selectedOption.id+ " >" +--%>
+                <%--"На витрину UnitCost"+--%>
+                <%--//                        selectedOption.name +--%>
+                <%--"</a>");--%>
+                <%--$(".link-ob-quality2").html("" +--%>
+                <%--"<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId="+selectedOption.id+ " >" +--%>
+                <%--"На витрину UnitCost"+--%>
+                <%--//                        selectedOption.name +--%>
+                <%--"</a>");--%>
 
-                    <%--}--%>
+                <%--}--%>
                 <%--});--%>
 
                 // Раскрашиваем табы
@@ -1977,14 +1983,12 @@
         <div data-bind="visible: groups.default.visibleCharts" class="charts-container">
             <tab-strip params="name: 'showcases'">
                 <tab>
-                <chart params="name: 'placeholder1'" class="mb-0"></chart>
+                    <chart params="name: 'placeholder1'" class="mb-0"></chart>
 
-                <%--<p class="scrollable-chart-title">Измерение Unit Cost по «конечным продуктам» ОБ</p>--%>
-
-
+                        <%--<p class="scrollable-chart-title">Измерение Unit Cost по «конечным продуктам» ОБ</p>--%>
 
 
-            </tab>
+                </tab>
                 <tab>
                     <chart params="name: 'placeholder2'" class="mb-0"></chart>
                 </tab>
@@ -1996,16 +2000,16 @@
                                 <chart params="name: 'kpi8_2Pie'"></chart>
                             </div>
                         </div>
-                        <%--<div class="col-xs-7">--%>
+                            <%--<div class="col-xs-7">--%>
                             <%--&lt;%&ndash;<div class="group-section">&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;<div style="margin-bottom: 15px;">&ndash;%&gt;--%>
-                                    <%--&lt;%&ndash;<filter params="name: 'startDate', group: 'kpi8'"></filter>&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-
-                                <%--&lt;%&ndash;<chart params="name: 'kpi8_1Dynamic', group: 'kpi8'"></chart>&ndash;%&gt;--%>
-                                <%--&lt;%&ndash;<chart params="name: 'kpi8_2Dynamic', group: 'kpi8'"></chart>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<div style="margin-bottom: 15px;">&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<filter params="name: 'startDate', group: 'kpi8'"></filter>&ndash;%&gt;--%>
                             <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
-                        <%--</div>--%>
+
+                            <%--&lt;%&ndash;<chart params="name: 'kpi8_1Dynamic', group: 'kpi8'"></chart>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<chart params="name: 'kpi8_2Dynamic', group: 'kpi8'"></chart>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                            <%--</div>--%>
                     </div>
                     <chart params="name: 'kpi21Chart'" class="mb-0"></chart>
                     <chart params="name: 'placeholder3'" class="mb-0"></chart>
@@ -2013,18 +2017,18 @@
                 <tab>
                     <chart params="name: 'kpi19Chart'"></chart>
                     <div class="row">
-                        <%--<div class="col-xs-6">--%>
+                            <%--<div class="col-xs-6">--%>
                             <%--<div class="group-section ">--%>
-                                <%--<div class="filter-row">--%>
-                                    <%--<div class="filter-element">--%>
-                                        <%--<filter params="name: 'kpi14Value', group: 'kpi14'"></filter>--%>
-                                    <%--</div>--%>
-                                <%--</div>--%>
-                                <%--<div class="charts-container">--%>
-                                    <%--<chart params="name: 'kpi14Chart', group: 'kpi14'"></chart>--%>
-                                <%--</div>--%>
+                            <%--<div class="filter-row">--%>
+                            <%--<div class="filter-element">--%>
+                            <%--<filter params="name: 'kpi14Value', group: 'kpi14'"></filter>--%>
                             <%--</div>--%>
-                        <%--</div>--%>
+                            <%--</div>--%>
+                            <%--<div class="charts-container">--%>
+                            <%--<chart params="name: 'kpi14Chart', group: 'kpi14'"></chart>--%>
+                            <%--</div>--%>
+                            <%--</div>--%>
+                            <%--</div>--%>
                         <div class="col-xs-6" style="margin-top: 92px">
                             <chart params="name: 'kpi22Chart'"></chart>
                         </div>
@@ -2075,10 +2079,10 @@
                     <div class="mb-0">
                         <chart params="name: 'kpi18Chart', group: 'default'"></chart>
                     </div>
-                    <%--<p id="link-ob-quality"></p>--%>
+                        <%--<p id="link-ob-quality"></p>--%>
 
                     <chart params="name: 'placeholder4'" class="mb-0"></chart>
-                    <%--<p id="link-ob-quality2"></p>--%>
+                        <%--<p id="link-ob-quality2"></p>--%>
                 </tab>
                 <tab>
                     <div class="row mb-0">
