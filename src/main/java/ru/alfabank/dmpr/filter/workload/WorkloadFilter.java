@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.alfabank.dmpr.infrastructure.helper.PeriodSelectHelper;
 import ru.alfabank.dmpr.infrastructure.spring.Param;
 import ru.alfabank.dmpr.model.BaseEntity;
+import ru.alfabank.dmpr.model.workload.DuodrReg;
 import ru.alfabank.dmpr.repository.workload.WorkloadFilterRepository;
 
 @Service
@@ -25,4 +26,6 @@ public class WorkloadFilter {
     public BaseEntity[] getRpTypes() {
         return repository.getRpTypes();
     }
+
+    public DuodrReg[] getDuodrReg() { return repository.getDuodrReg(); }
 }

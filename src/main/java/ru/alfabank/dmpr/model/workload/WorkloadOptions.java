@@ -10,7 +10,7 @@ public class WorkloadOptions extends BaseOptions {
     public LocalDate year;
     public int week;
     public Long rpTypeId;
-
+    public Long duodrReg;
     public Long divisionGroupId;
     public Long regionId;
 }

@@ -20,4 +20,18 @@
         week_end_date as endDate
         from table(pkg_workload_api.get_weeks)
     </select>
+
+
+    <select id="getDuodrReg" useCache="true"
+            resultType="ru.alfabank.dmpr.model.workload.DuodrReg">
+        <![CDATA[
+
+
+   select reg_id as id,reg_name as name
+        from table(pkg_workload_api.get_duodr_reg(
+
+        ))
+
+        ]]>
+    </select>
 </mapper>

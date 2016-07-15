@@ -7,6 +7,7 @@ import ru.alfabank.dmpr.infrastructure.linq.Predicate;
 import ru.alfabank.dmpr.mapper.workload.WorkloadFilterMapper;
 import ru.alfabank.dmpr.model.BaseEntity;
 import ru.alfabank.dmpr.model.Week;
+import ru.alfabank.dmpr.model.workload.DuodrReg;
 
 @Repository
 public class WorkloadFilterRepository {
@@ -39,4 +40,6 @@ public class WorkloadFilterRepository {
                 })
                 .toArray(Week.class);
     }
+
+    public DuodrReg[] getDuodrReg() { return mapper.getDuodrReg(); }
 }

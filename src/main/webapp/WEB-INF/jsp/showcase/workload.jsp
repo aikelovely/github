@@ -242,7 +242,19 @@
                                 url: "workloadFilter/rpTypes"
                             },
                             width: 200
+                        },
+                        duodrReg: {
+                            type: "Select",
+                            multiple: false,
+                            title: "ОО/ДО",
+                            enableSearch: true,
+                            optionsCaption: "Все",
+                            dataSource: {
+                                url: "workloadFilter/DuodrReg"
+                            },
+                            width: 250
                         }
+
                     },
                     tabStrips: {
                         showcases: {
@@ -747,6 +759,12 @@
                         {
                             field: "staffCountFact",
                             title: "Ф.ч.",
+                            width: 80,
+                            format: "{0:n0}"
+                        },
+                        {
+                            field: "nonSLAStaffCnt",
+                            title: "в т.ч. не SLA",
                             width: 80,
                             format: "{0:n0}"
                         },
@@ -1259,6 +1277,9 @@
                 </div>
                 <div class="filter-element">
                     <filter params="name: 'rpTypeId'"></filter>
+                </div>
+                <div class="filter-element">
+                    <filter params="name: 'duodrReg'"></filter>
                 </div>
                 <div class="filter-element">
                     <refresh-button></refresh-button>

@@ -25,4 +25,6 @@ public class WorkloadRepository {
     public DistributionInfo[] getStaffDistribution(WorkloadQueryOptions options) { return mapper.getStaffDistribution(options); }
 
     public DivisionStat[] getTopNTable(WorkloadQueryOptions options) { return mapper.getTopNTable(options); }
+
+
 }

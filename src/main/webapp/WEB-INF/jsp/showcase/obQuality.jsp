@@ -143,7 +143,7 @@
            var map2 = window.app.getUrlVars();
            var periodType = window.app.getParamValue(map2,'periodType',3);
            var region = window.app.getParamValue(map2,'region',[1000650042,1000650015]);
-
+           var directions = window.app.getParamValue(map2,'divisionGroupId',[]);
             var config = {
                 groups: [{
                     name: "default",
@@ -178,6 +178,7 @@
                             multiple: true,
                             title: "Дирекция",
                             enableClear: true,
+                            defaultValue: directions,
                             dataSource: {
                                 url: "obQualityFilter/directions"
                             },
@@ -220,8 +221,8 @@
                                 }]
                             },
                             width: 265,
-                            postInit: createStartDateIdSubscriptions,
-                            defaultValue: ${startDateId}
+                            postInit: createStartDateIdSubscriptions
+                            <%--defaultValue: ${startDateId}--%>
                         },
                         endYear: {
                             type: "DatePicker",
@@ -247,8 +248,8 @@
                                 }]
                             },
                             width: 265,
-                            postInit: createEndDateIdSubscriptions,
-                            defaultValue: ${endDateId}
+                            postInit: createEndDateIdSubscriptions
+                            <%--defaultValue: ${endDateId}--%>
                         }
                     },
                     slaves: [{

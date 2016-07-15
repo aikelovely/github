@@ -674,18 +674,36 @@
 
             function createBlockChart($container, filterData, jsonData, seriesMetaData) {
                 var chartMeta = seriesMetaData[0];
-                if (chartMeta.chartName == 'UC по конечным продуктам операционного блока в разрезе Дирекций.') {
-                    var selectedOption = app.viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];
-                    if (!selectedOption) {
-                        selectedOption = app.viewModel.getFilter("divisionGroupId").options()[0];
+                var selectedOption = app.viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];
+                if (!selectedOption) {
+                    selectedOption = app.viewModel.getFilter("divisionGroupId").options()[0];
 
-                    }
+                }
+                if (chartMeta.chartName == 'UC по конечным продуктам операционного блока в разрезе Дирекций.') {
+
                     $container.parent().find(".chart-url").html("" +
                             "<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId=" + selectedOption.id + " >" +
                             "На витрину UnitCost" +
 //                        selectedOption.name +
                             "</a>");
                 }
+
+                if (chartMeta.chartName == 'Динамика изменения CTQ' ||
+                        chartMeta.chartName == 'Динамика изменения CQI' ||
+                        chartMeta.chartName == 'Уровень безошибочности') {
+
+                    $container.parent().find(".chart-url").html("" +
+                            "<a href=${pageContext.request.contextPath}/showcase/obQuality?divisionGroupId=" +
+                            selectedOption.id + "&periodType=4" +
+                    "  >" +
+                    "На витрину -> Показатели качества ОБ" +
+//                        selectedOption.name +
+                    "</a>"
+                )
+                    ;
+                }
+
+
                 var config = {
                     chart: {
                         height: chartMeta.rowHeight
@@ -701,6 +719,7 @@
                     if (!chartMeta.hideIfEmpty) {
                         $container.parent().parent().addClass("mb-0");
                         $container.empty();
+                        $container.parent().find(".chart-url").empty();
                     }
                     else {
                         $container.highcharts(config);
@@ -779,10 +798,10 @@
                     area: {}
                 };
                 if (chartMeta.chartName == "Соблюдение лимитов наличных денежных средств в ККО") {
-                    config.yAxis.plotBands = [{from: -1000000, to: 75, color: 'rgba(0, 255, 0, 0.2)'}, {
-                        from: 75,
+                    config.yAxis.plotBands = [{from: -1000000, to: 100, color: 'rgba(0, 255, 0, 0.8)'}, {
+                        from: 100,
                         to: 300000,
-                        color: 'rgba(255, 0, 0, 0.2)'
+                        color: 'rgba(255, 0, 0, 0.8)'
                     }];
                 }
                 ;

@@ -10,7 +10,7 @@ import ru.alfabank.dmpr.model.Week;
 public class WorkloadQueryOptions extends BaseOptions {
     public LocalDate endDate;
     public Long rpTypeId;
-
+    public Long duodrReg;
     public Long divisionGroupId;
     public Long regionId;
 
@@ -43,6 +43,8 @@ public class WorkloadQueryOptions extends BaseOptions {
 
         this.divisionGroupId = options.divisionGroupId;
         this.regionId = options.regionId;
+        this.duodrReg = options.duodrReg;
         this.widgetName = options.getWidgetName();
+
     }
 }
