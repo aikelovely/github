@@ -38,17 +38,17 @@ public class WorkloadObWLDynamic extends BaseChart<WorkloadOptions> {
         ArrayList<Point> staffFactPoints = new ArrayList<>();
         ArrayList<Point> staffCalcPoints = new ArrayList<>();
         ArrayList<Point> workratePoints = new ArrayList<>();
-
+        ArrayList<Point> staffFactPoints2 = new ArrayList<>();
         for (WLDynamicItem item : data) {
             if (item.unitId.equals("0") || item.unitId.equals("0.0")) {
-                staffFactPoints.add(new WorkloadRichPoint(new Point(item.calcDate, item.staffCountFact), item, weeks));
+                staffFactPoints2.add(new WorkloadRichPoint(new Point(item.calcDate, item.StaffCountFact2), item, weeks));
                 staffCalcPoints.add(new WorkloadRichPoint(new Point(item.calcDate, item.staffCountCalc), item, weeks));
                 workratePoints.add(new WorkloadRichPoint(new Point(item.calcDate, item.workloadRate*100), item, weeks));
             }
         }
 
         Series[] series = new Series[] {
-                new Series("Фактическая численность", staffFactPoints.toArray(new Point[staffFactPoints.size()]),
+                new Series("Фактическая численность за искл.не SLA", staffFactPoints2.toArray(new Point[staffFactPoints2.size()]),
                         ChartType.area, Color.valueOf("#434348")),
                 new Series("Расчетная численность", staffCalcPoints.toArray(new Point[staffCalcPoints.size()]),
                         ChartType.area, Color.valueOf("#7cb5ec")),

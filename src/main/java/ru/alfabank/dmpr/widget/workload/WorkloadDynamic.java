@@ -40,7 +40,7 @@ public class WorkloadDynamic extends BaseChart<WorkloadOptions>
                 .select(new Selector<WLDynamicItem, Point>() {
                     @Override
                     public Point select(WLDynamicItem info) {
-                        return new WorkloadRichPoint(new Point(info.calcDate, info.staffCountFact), info, weeks);
+                        return new WorkloadRichPoint(new Point(info.calcDate, info.StaffCountFact2), info, weeks);
                     }
                 }).toArray(Point.class);
 
@@ -53,7 +53,7 @@ public class WorkloadDynamic extends BaseChart<WorkloadOptions>
         }
 
         Series[] series = new Series[]{
-                new Series("Фактическая численность", staffFactPoints,
+                new Series("Фактическая численность за искл.не SLA", staffFactPoints,
                         ChartType.area, Color.valueOf("#434348")),
                 new Series("Расчетная численность", staffCalcPoints.toArray(new Point[staffCalcPoints.size()]),
                         ChartType.area, Color.valueOf("#7cb5ec")),

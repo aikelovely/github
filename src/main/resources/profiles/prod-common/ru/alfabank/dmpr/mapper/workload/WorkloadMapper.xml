@@ -49,6 +49,7 @@
             workloadrate,
             StaffCountCalc,
             staffcountfact,
+            StaffCountFact2,
             calcdate_year as timeUnitYear,
             calcdate_prd_num as timeUnitPrdNum
         from table(pkg_workload_api.get_WL_dynamics(

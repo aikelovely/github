@@ -8,5 +8,6 @@ public class WLDynamicItem extends WorkloadDynamicItem {
     public double workloadRate;
     public double staffCountCalc;
     public double staffCountFact;
+    public double StaffCountFact2;
 }
 
