@@ -3,7 +3,7 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ru.alfabank.dmpr.mapper.unitCost.UnitCostFilterMapper">
-    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
 
     <select id="getUCBpOrgRegions" resultType="ru.alfabank.dmpr.model.BaseEntityWithCode">
         select id, name, ccode as code
@@ -23,7 +23,8 @@
         order by sort_order
     </select>
 
-    <select id="getUCInnerEndProducts" resultType="ru.alfabank.dmpr.model.ChildEntity" parameterType="map" useCache="false">
+    <select id="getUCInnerEndProducts" resultType="ru.alfabank.dmpr.model.ChildEntity" parameterType="map"
+            useCache="false">
         select id, name, parent_id as parentId
         from table(pkg_uc_api.get_bpinnerendproducts(#{endDate}))
         order by sort_order
@@ -34,7 +35,6 @@
         from table(pkg_uc_api.get_currencies)
         order by sort_order
     </select>
-
 
 
     <select id="getCalcTypes" resultType="ru.alfabank.dmpr.model.BaseEntity">

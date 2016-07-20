@@ -1,5 +1,6 @@
 package ru.alfabank.dmpr.repository.workload;
 
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.alfabank.dmpr.infrastructure.linq.LinqWrapper;
@@ -40,6 +41,12 @@ public class WorkloadFilterRepository {
                 })
                 .toArray(Week.class);
     }
+
+
+    public BaseEntity[] getUCInnerEndProducts(LocalDate endDate) {
+        return mapper.getUCInnerEndProducts(endDate);
+    }
+
 
     public DuodrReg[] getDuodrReg() { return mapper.getDuodrReg(); }
 }

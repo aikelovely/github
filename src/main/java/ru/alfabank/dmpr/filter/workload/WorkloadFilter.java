@@ -28,4 +28,14 @@ public class WorkloadFilter {
     }
 
     public DuodrReg[] getDuodrReg() { return repository.getDuodrReg(); }
+
+    /**
+     * Возвращает данные для фильтра "Внутренний конечный продукт"
+     * @param endDate Значение фильтра "Период, по"
+     * @return
+     */
+    public BaseEntity[] getUCInnerEndProducts(@Param("endDate") LocalDate endDate) {
+        return repository.getUCInnerEndProducts(endDate);
+    }
+
 }

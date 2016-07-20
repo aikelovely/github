@@ -34,4 +34,17 @@
 
         ]]>
     </select>
+
+
+    <select id="getUCInnerEndProducts" resultType="ru.alfabank.dmpr.model.BaseEntity" parameterType="map"
+            useCache="false">
+        select id, name
+        from table(pkg_workload_api.get_bpinnerendproducts(#{endDate}))
+        order by sort_order
+    </select>
+
+
+
+
+
 </mapper>
