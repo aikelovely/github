@@ -10,6 +10,12 @@ import ru.alfabank.dmpr.infrastructure.spring.security.UserPrincipal;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadFactory;
@@ -22,6 +28,8 @@ public class StatisticService {
 
     private ExecutorService executorService;
 
+    private BatchBlockingQueue<Statistic> batchBlockingQueue;
+
     @PostConstruct
     private void init() {
         final ThreadFactory threadFactory = new ThreadFactoryBuilder()
@@ -29,6 +37,24 @@ public class StatisticService {
                 .setDaemon(true)
                 .build();
         executorService = Executors.newFixedThreadPool(5, threadFactory);
+        batchBlockingQueue = new BatchBlockingQueue<>(5);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                while (true) {
+                    try {
+                        List<Statistic> statistics = batchBlockingQueue.poll();
+                        StringBuilder csv = new StringBuilder();
+                        for (Statistic statistic : statistics) {
+                            csv.append(statistic.getUser() + "," + statistic.getPage() + "," + statistic.getLocalDateTime() + "\n");
+                        }
+                        Files.write(Paths.get("/home/wert/stat.csv"), csv.toString().getBytes(), StandardOpenOption.APPEND,StandardOpenOption.CREATE);
+                    } catch (InterruptedException | IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }
+        }).start();
     }
 
     public void serveStatistic(final String page) {
@@ -38,10 +64,11 @@ public class StatisticService {
         executorService.submit(new Runnable() {
             @Override
             public void run() {
-                logger.info("THREAD " + Thread.currentThread().getName() +
-                        ", USER " + user.getDisplayName() +
-                        ", PAGE " + page +
-                        ", DATE " + currentDate.toString());
+                try {
+                    batchBlockingQueue.put(new Statistic(user.getDisplayName(), page, currentDate));
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         });
     }
@@ -53,7 +80,7 @@ public class StatisticService {
         boolean success = executorService.awaitTermination(1, TimeUnit.MINUTES);
         logger.info("shutdown statistic is " + success);
         if (!success) {
-            logger.info("shutdown statistic is now");
+            logger.info("shutdown statistic now");
             executorService.shutdownNow();
         }
     }
