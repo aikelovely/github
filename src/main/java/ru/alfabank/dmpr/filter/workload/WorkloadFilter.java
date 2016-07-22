@@ -1,6 +1,8 @@
 package ru.alfabank.dmpr.filter.workload;
 
 import org.joda.time.LocalDate;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.alfabank.dmpr.infrastructure.helper.PeriodSelectHelper;
@@ -34,8 +36,12 @@ public class WorkloadFilter {
      * @param endDate Значение фильтра "Период, по"
      * @return
      */
-    public BaseEntity[] getUCInnerEndProducts(@Param("endDate") LocalDate endDate) {
-        return repository.getUCInnerEndProducts(endDate);
+
+    public BaseEntity[] getUCInnerEndProducts(@Param("week") String endDate) {
+        // TODO: передовать дату в нормальном формате из js
+         DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyyMMdd");
+         LocalDate dt = dtf.parseLocalDate(endDate);
+        return repository.getUCInnerEndProducts(dt);
     }
 
 }

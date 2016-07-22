@@ -42,7 +42,11 @@ public class WorkloadFilterRepository {
                 .toArray(Week.class);
     }
 
-
+    /**
+     * Возвращает данные для фильтра "Внутренний конечный продукт"
+     * @param endDate Значение фильтра "Период, по"
+     * @return
+     */
     public BaseEntity[] getUCInnerEndProducts(LocalDate endDate) {
         return mapper.getUCInnerEndProducts(endDate);
     }

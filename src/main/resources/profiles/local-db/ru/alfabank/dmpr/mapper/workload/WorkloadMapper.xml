@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ru.alfabank.dmpr.mapper.workload.WorkloadMapper">
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+
+
+    <select id="getDivisionStat" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
+            resultType="ru.alfabank.dmpr.model.workload.DivisionStat">
+        <![CDATA[
+        select
+            WLUNITTK as id,
+            WLPARENTUNITTK as parentId,
+            WLUNITNAME as unitName,
+            BPDIVISIONGROUP_DK as divisionGroupId,
+            BPORGREGION_DK as regionId,
+            decode(DUODR_FLAG, 'N', 0, 1) as isDuodr,
+            WorkloadRate,
+            StaffCountFact,
+            StaffCountDeltaCnt,
+            VacancyCnt,
+            DecretVacancyCnt,
+            HFCriterionCnt,
+            HFCriterionW4Cnt,
+            HFCriterionW8Cnt,
+            NonSLAStaffCnt,
+            RelocationRate,
+            SLAFactValueDoubleCnt as slaFactValueDoubleCnt,
+            Lvl
+        from table(pkg_workload_api.get_bpdivision_stat(
+            p_DateTo => #{endDate},
+            p_RPTypeID => #{rpTypeId},
+            p_BPDIVISIONGROUPDK => #{divisionGroupId},
+            p_BPORGREGIONDK => #{regionId},
+             p_DuodrRegDK  => #{duodrReg}
+        ))
+        ]]>
+    </select>
+
+    <select id="getWLDynamic" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
+            resultType="ru.alfabank.dmpr.model.workload.WLDynamicItem">
+        <![CDATA[
+        select
+            calcdate,
+            wlunittk as unitId,
+            workloadrate,
+            StaffCountCalc,
+            staffcountfact,
+            StaffCountFact2,
+            calcdate_year as timeUnitYear,
+            calcdate_prd_num as timeUnitPrdNum
+        from table(pkg_workload_api.get_WL_dynamics(
+            p_DateTo => #{endDate},
+            p_WeekCnt => #{weekCount},
+            p_RPTypeID => #{rpTypeId},
+            p_BPDIVISIONGROUPDK => #{divisionGroupId},
+            p_BPORGREGIONDK => #{regionId}
+        ))
+        ]]>
+    </select>
+
+    <select id="getESUDynamic" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
+            resultType="ru.alfabank.dmpr.model.workload.ESUDynamicItem">
+        <![CDATA[
+        select
+            calcDate,
+            wlUnitTk as unitId,
+            wlParentUnitTk as parentUnitId,
+            wlUnitName as unitName,
+            bpdivisiongroup_dk as divisionGroupId,
+            bpOrgRegion_dk as regionId,
+            bpiep_rate as iepRate,
+            bpiep_cnt as iepCount,
+            staffcountCalc,
+            calcdate_year as timeUnitYear,
+            calcdate_prd_num as timeUnitPrdNum
+        from table(pkg_workload_api.get_ESU_dynamics(
+            p_DateTo => #{endDate},
+            p_WeekCnt => #{weekCount},
+            p_RPTypeID => #{rpTypeId},
+            p_BPDIVISIONGROUPDK => #{divisionGroupId},
+            p_BPORGREGIONDK => #{regionId}
+        ))
+        ]]>
+    </select>
+
+
+    <select id="getStaffDistribution" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
+            resultType="ru.alfabank.dmpr.model.workload.DistributionInfo">
+        <![CDATA[
+        select
+            calcdate,
+            wlunittk as id,
+            wlunitname as unitName,
+            staffCountFact,
+            calcdate_year as timeUnitYear,
+            calcdate_prd_num as timeUnitPrdNum
+        from table(pkg_workload_api.get_StaffCnt_dynamics(
+            p_DateTo  => #{endDate},
+            p_Slice   => #{sliceCode},
+            p_WeekCnt => #{weekCount},
+            p_BPDivisionGroupDK => #{divisionGroupId},
+            p_BPOrgRegionDK => #{regionId}
+        ))
+        ]]>
+    </select>
+
+    <select id="getTopNTable" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
+            resultType="ru.alfabank.dmpr.model.workload.DivisionStat">
+        <![CDATA[
+        select
+          wlunittk as id,
+          wlunitname as unitname,
+          bporgregion_dk as regionId,
+          bporgregion_name as regionName,
+          staffcountcalc as StaffCountDeltaCnt
+       from table(pkg_workload_api.get_ESU_OB_topN_week_delta(
+          p_DateTo => #{endDate},
+          p_TopSide => #{topSide}
+       ))
+        ]]>
+    </select>
+
+
+
+
+</mapper>

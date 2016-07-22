@@ -209,6 +209,8 @@
 
     <jsp:attribute name="js">
         <script>
+            //            var endDate2=  app.viewModel.getFilter("default.week").getSelectedOptions()[0].startDate;
+            //            var calcDate2 = app.viewModel.getFilter("default.week").getSelectedOptions()[0].startDate;
             var config = {
                 groups: [{
                     filters: {
@@ -253,6 +255,22 @@
                                 url: "workloadFilter/DuodrReg"
                             },
                             width: 250
+                        },
+
+//                      var endDate2=  app.viewModel.getFilter("default.week").getSelectedOptions()[0].startDate;
+                        innerEndProductId: {
+                            type: "Select",
+                            multiple: false,
+                            title: "Конечный продукт",
+                            enableSearch: true,
+                            optionsCaption: "Все",
+                            defaultValue: null,
+                            dataSource: {
+                                url: "workloadFilter/UCInnerEndProducts",
+                                params: [
+                                    {name: "week", group: "default"}]
+                            },
+                            width: 250
                         }
 
                     },
@@ -274,12 +292,12 @@
                             dataSource: "WorkloadPosTypeDistribution",
                             customParams: {title: "Распределение ш.ч. по типам позиций"}
                         },
+
                         territorialDistribution: {
-                            jsFunc: createPie,
+                            jsFunc: createEsuDynamicTop,
                             dataSource: "WorkloadTerritorialDistribution",
                             customParams: {title: "Распределение ш.ч. по территориальному размещению"}
                         },
-
                         /*Ob charts*/
                         obPosTypePie: {
                             jsFunc: createPie,
@@ -340,6 +358,12 @@
                                 dataSource: "WorkloadTableWithDynamic",
                                 customParams: {height: 500}
                             },
+                            WorkloadByProductId: {
+                                jsFunc: createEsuDynamicTop,
+                                dataSource: "WorkloadByProductIdWithDynamic"
+//                                customParams: {height: 500}
+                            },
+
                             duodrTable: {
                                 jsFunc: createDuodrTable,
                                 dataSource: "WorkloadDuodrTable"
@@ -353,10 +377,10 @@
 
             var helpers = {
                 tooltips: {
-                    staffCountDelta: function(dataItem) {
+                    staffCountDelta: function (dataItem) {
                         return dataItem.staffCountDeltaCnt > 0 ? "Увеличение численности" : "Уменьшение численности";
                     },
-                    hfCriterion: function(dataItem) {
+                    hfCriterion: function (dataItem) {
                         var template = "{0}<br>Шт. единиц за 4 недели: {1}<br>Шт. единиц за 8 недель: {2}";
                         return template.format(dataItem.hfCriterionCnt > 0 ? "Требуется увеличение фактической численности" :
                                 "Требуется уменьшение фактической численности", dataItem.hfCriterionW4Cnt, dataItem.hfCriterionW8Cnt);
@@ -418,9 +442,9 @@
                             format: "{0}",
                             filterable: false,
                             template: "#=staffCountFact#" +
-                                        "#if(slaFactValueDoubleCnt > 0){#" +
-                                            "<span data-toggle='tooltip' data-placement='left' title='Дублирование: #=slaFactValueDoubleCnt#' style='color: red; font-weight: bold;'> !</span>" +
-                                        "#}#",
+                            "#if(slaFactValueDoubleCnt > 0){#" +
+                            "<span data-toggle='tooltip' data-placement='left' title='Дублирование: #=slaFactValueDoubleCnt#' style='color: red; font-weight: bold;'> !</span>" +
+                            "#}#",
                             attributes: {
                                 style: "text-align: right"
                             }
@@ -430,16 +454,16 @@
                             title: "Нагрузка",
                             width: 70,
                             filterable: false,
-                            template: function(item){
+                            template: function (item) {
                                 var greenCss = "label-success",
                                         yellowCss = "label-warning",
                                         redCss = "label-danger";
 
                                 var css;
                                 var value = (item.workloadRate * 100).toFixed(0);
-                                if(value < 85){
+                                if (value < 85) {
                                     css = yellowCss;
-                                } else if (value < 115){
+                                } else if (value < 115) {
                                     css = greenCss;
                                 } else if (value < 130) {
                                     css = yellowCss;
@@ -523,7 +547,9 @@
                     return;
                 }
 
-                _.each(series, function(s){ ticks = _.concat(ticks, s.data)});
+                _.each(series, function (s) {
+                    ticks = _.concat(ticks, s.data)
+                });
 
                 var xAxisFilterData = {
                     startDate: moment(_.minBy(ticks, 'x').x).startOf('day').toDate(),
@@ -534,7 +560,9 @@
 
                 xAxis.labels = {
                     formatter: function () {
-                        var value = this.value, item = _.find(ticks, function(t){ return t.x == value;});
+                        var value = this.value, item = _.find(ticks, function (t) {
+                            return t.x == value;
+                        });
                         return "Нед. " + (item ? item.periodNum : "не определена");
                     }
                 };
@@ -568,12 +596,12 @@
                         shared: true,
                         useHTML: true,
                         headerFormat: "",
-                        formatter: function(){
+                        formatter: function () {
                             var result = '<span style="font-size:10px">{0}</span><br>'.format(this.points[0].point.periodName);
-                            _.each(this.points, function(p){
+                            _.each(this.points, function (p) {
                                 result += '<span style="color:{0}">\u25CF</span> {1}: <b>{2} {3}</b><br/>'
                                         .format(p.color, p.series.name, p.series.index == 2 ? p.y.toFixed(2) : p.y,
-                                        p.series.index == 2 ?  "%" : ' ш.е.');
+                                                p.series.index == 2 ? "%" : ' ш.е.');
                             });
                             return result;
                         }
@@ -649,6 +677,12 @@
                 }
             }
 
+            function getEndDate2(filterData) {
+                var endDate2 = app.viewModel.getFilter("default.week").getSelectedOptions()[0].endDate;
+                return;
+            }
+
+
             function createEsuDynamic($container, filterData, data) {
 
                 if (data === undefined || data.length === 0) {
@@ -668,7 +702,9 @@
 
                 xAxis.labels = {
                     formatter: function () {
-                        var value = moment(this.value).startOf('day').valueOf(), item = _.find(data, function(t){ return t.calcDate == value;});
+                        var value = moment(this.value).startOf('day').valueOf(), item = _.find(data, function (t) {
+                            return t.calcDate == value;
+                        });
                         return "Нед. " + (item ? item.timeUnitPrdNum : "не определена");
                     }
                 };
@@ -725,9 +761,109 @@
                     tooltip: {
                         shared: true,
                         useHTML: true,
-                        formatter: function(){
+                        formatter: function () {
                             var result = '<span style="font-size:10px">{0}</span><br>'.format(this.points[0].point.periodName);
-                            _.each(this.points, function(p){
+                            _.each(this.points, function (p) {
+                                result += '{0}: <b>{1}</b><br/>'.format(p.series.name, p.y);
+                            });
+                            return result;
+                        }
+                    },
+                    plotOptions: {
+                        area: {}
+                    },
+                    legend: {
+                        reversed: true,
+                        y: 15
+                    },
+                    series: [countSeries, countCalcSeries]
+                });
+            }
+
+            function createEsuDynamicTop($container, filterData, data) {
+
+                if (data === undefined || data.length === 0) {
+//                    $container.highcharts({
+//                        title: {text: "Нет данных"},
+//                        chart: {}
+//                    });
+                    $('#WorkloadByProductIdDiv').hide();
+                    return;
+                }
+
+
+                var xAxisFilterData = {
+                    startDate: moment(_.minBy(data, 'calcDate').calcDate).startOf('day').toDate(),
+                    endDate: moment(_.maxBy(data, 'calcDate').calcDate).startOf('day').toDate(),
+                    timeUnitId: 3
+                };
+                var xAxis = app.chartUtils.createDateTimeXAxis(xAxisFilterData, false);
+
+                xAxis.labels = {
+                    formatter: function () {
+                        var value = moment(this.value).startOf('day').valueOf(), item = _.find(data, function (t) {
+                            return t.calcDate == value;
+                        });
+                        return "Нед. " + (item ? item.timeUnitPrdNum : "не определена");
+                    }
+                };
+
+                var countSeries = {
+                    color: "#434348",
+                    name: "Количество конечных продуктов",
+                    yAxis: 1,
+                    visible:false,
+                    data: _.map(data, function (item) {
+                        return {
+                            x: item.calcDate,
+                            y: item.iepCount,
+                            periodName: item.timeUnitName
+                        };
+                    })
+                };
+
+                var countCalcSeries = {
+                    color: "#7cb5ec",
+                    yAxis: 0,
+                    name: "Расчетная численность",
+                    data: _.map(data, function (item) {
+                        return {
+                            x: item.calcDate,
+                            y: item.staffCountCalc
+                        };
+                    })
+                };
+
+                $container.highcharts({
+                    title: {text: null},
+                    chart: {
+                        type: 'area',
+                        marginTop: 15
+                    },
+                    xAxis: xAxis,
+                    yAxis: [{
+                        labels: {
+                            format: '{value}'
+                        },
+                        title: {
+                            text: 'Расчетная численность'
+                        },
+                        maxPadding: 0
+                    }, {
+                        title: {
+                            text: 'Количество'
+                        },
+                        labels: {
+                            format: '{value}'
+                        },
+                        opposite: true
+                    }],
+                    tooltip: {
+                        shared: true,
+                        useHTML: true,
+                        formatter: function () {
+                            var result = '<span style="font-size:10px">{0}</span><br>'.format(this.points[0].point.periodName);
+                            _.each(this.points, function (p) {
                                 result += '{0}: <b>{1}</b><br/>'.format(p.series.name, p.y);
                             });
                             return result;
@@ -908,7 +1044,7 @@
                         plotBands: [{
                             from: 0,
                             to: 85,
-                            color:  '#DDDF0D' // yellow
+                            color: '#DDDF0D' // yellow
                         }, {
                             from: 85,
                             to: 115,
@@ -916,7 +1052,7 @@
                         }, {
                             from: 115,
                             to: 130,
-                            color:  '#DDDF0D' // yellow
+                            color: '#DDDF0D' // yellow
                         }, {
                             from: 130,
                             to: axisMax,
@@ -975,7 +1111,9 @@
                 }
 
                 var series = data[0].series, ticks = [];
-                _.each(series, function(s){ ticks = _.concat(ticks, s.data)});
+                _.each(series, function (s) {
+                    ticks = _.concat(ticks, s.data)
+                });
 
                 var xAxisFilterData = {
                     startDate: moment(_.minBy(ticks, 'x').x).startOf('day').toDate(),
@@ -986,7 +1124,9 @@
 
                 xAxis.labels = {
                     formatter: function () {
-                        var value = this.value, item = _.find(ticks, function(t){ return t.x == value;});
+                        var value = this.value, item = _.find(ticks, function (t) {
+                            return t.x == value;
+                        });
                         return "Нед. " + (item ? item.periodNum : "не определена");
                     }
                 };
@@ -1010,9 +1150,9 @@
                         useHTML: true,
                         shared: true,
                         headerFormat: "",
-                        formatter: function(){
+                        formatter: function () {
                             var result = '<span style="font-size:10px">{0}</span><br>'.format(this.points[0].point.periodName);
-                            _.each(this.points, function(p){
+                            _.each(this.points, function (p) {
                                 result += '<span style="color:{0}">\u25CF</span> {1}: <b>{2} ш.е.'.format(p.color, p.series.name, p.y);
                                 result += p.percentage ? ", {0}%</b><br/>".format(p.percentage.toFixed(2)) : "</b><br/>"
                             });
@@ -1050,18 +1190,22 @@
                 }
 
                 var series = data[0].series, ticks = [];
-                _.each(series, function(s){ ticks = _.concat(ticks, s.data)});
+                _.each(series, function (s) {
+                    ticks = _.concat(ticks, s.data)
+                });
 
                 var xAxisFilterData = {
-                            startDate: moment(_.minBy(ticks, 'x').x).startOf('day').toDate(),
-                            endDate: moment(_.maxBy(ticks, 'x').x).startOf('day').toDate(),
-                            timeUnitId: 3
-                        };
+                    startDate: moment(_.minBy(ticks, 'x').x).startOf('day').toDate(),
+                    endDate: moment(_.maxBy(ticks, 'x').x).startOf('day').toDate(),
+                    timeUnitId: 3
+                };
                 var xAxis = app.chartUtils.createDateTimeXAxis(xAxisFilterData, false);
 
                 xAxis.labels = {
                     formatter: function () {
-                        var value = this.value, item = _.find(ticks, function(t){ return t.x == value;});
+                        var value = this.value, item = _.find(ticks, function (t) {
+                            return t.x == value;
+                        });
                         return "Нед. " + (item ? item.periodNum : "не определена");
                     }
                 };
@@ -1093,12 +1237,12 @@
                         shared: true,
                         useHTML: true,
                         headerFormat: "",
-                        formatter: function(){
+                        formatter: function () {
                             var result = '<span style="font-size:10px">{0}</span><br>'.format(this.points[0].point.periodName);
-                            _.each(this.points, function(p){
+                            _.each(this.points, function (p) {
                                 result += '<span style="color:{0}">\u25CF</span> {1}: <b>{2} {3}</b><br/>'
                                         .format(p.color, p.series.name, p.series.index == 2 ? p.y.toFixed(2) : p.y,
-                                        p.series.index == 2 ?  "%" : ' ш.е.');
+                                                p.series.index == 2 ? "%" : ' ш.е.');
                             });
                             return result;
                         }
@@ -1111,7 +1255,7 @@
                 });
             }
 
-            function createObTopNTable($container, filterData, data, customParams){
+            function createObTopNTable($container, filterData, data, customParams) {
                 data = data || {};
 
                 var bestOnes = data.best || [], worstOnes = data.worst || [];
@@ -1129,10 +1273,10 @@
                 var viewModel = {
                     bestOnes: bestOnes,
                     worstOnes: worstOnes,
-                    regions: _.chain(bestOnes).concat(worstOnes).groupBy("regionId").map(function(gr){
+                    regions: _.chain(bestOnes).concat(worstOnes).groupBy("regionId").map(function (gr) {
                         return {
                             regionId: gr[0].regionId,
-                            regionName:gr[0].regionName
+                            regionName: gr[0].regionName
                         }
                     }).value()
                 };
@@ -1188,7 +1332,8 @@
                         <span data-bind="text: staffCountDeltaCnt" class="big-title-font"></span>
                     </div>
                 </div>
-                <div class="col-xs-12 ob-custom-table-item" data-bind="tooltip: {title: helpers.tooltips.hfCriterion($data), html: true}">
+                <div class="col-xs-12 ob-custom-table-item"
+                     data-bind="tooltip: {title: helpers.tooltips.hfCriterion($data), html: true}">
                     <div class="small-title-font">
                         Критерий на ввод/вывод
                     </div>
@@ -1213,7 +1358,8 @@
             <div class="chart-tabs">
                 <ul class="nav nav-tabs" id="topNTableTabs" data-bind="foreach: regions">
                     <li>
-                        <a data-bind="text: regionName, attr: { 'data-target': '#Tab_' + regionId}" data-toggle="tab"></a>
+                        <a data-bind="text: regionName, attr: { 'data-target': '#Tab_' + regionId}"
+                           data-toggle="tab"></a>
                     </li>
                 </ul>
                 <div class="tab-content" data-bind="foreach: { data: regions, as: 'regionItem' }">
@@ -1225,16 +1371,19 @@
                                         <col style="width: 60%">
                                     </colgroup>
                                     <thead>
-                                        <tr>
-                                            <th class="text-center">ТОП-5 КП</th>
-                                            <th class="text-center">Прирост расчетной численности к предыдущей неделе, ш.е.</th>
-                                        </tr>
+                                    <tr>
+                                        <th class="text-center">ТОП-5 КП</th>
+                                        <th class="text-center">Прирост расчетной численности к предыдущей неделе,
+                                            ш.е.
+                                        </th>
+                                    </tr>
                                     </thead>
                                     <tbody data-bind="foreach: { data: $root.bestOnes, as: 'dataItem' }">
-                                        <tr data-bind="if: (dataItem.regionId == regionItem.regionId) || (regionItem.regionId == 0 && $index() < 5)">
-                                            <td data-bind="text: dataItem.unitName"></td>
-                                            <td class="text-center" data-bind="text: '+' + (dataItem.staffCountDeltaCnt / 1).toFixed(2) + ' ш.е.'"></td>
-                                        </tr>
+                                    <tr data-bind="if: (dataItem.regionId == regionItem.regionId) || (regionItem.regionId == 0 && $index() < 5)">
+                                        <td data-bind="text: dataItem.unitName"></td>
+                                        <td class="text-center"
+                                            data-bind="text: '+' + (dataItem.staffCountDeltaCnt / 1).toFixed(2) + ' ш.е.'"></td>
+                                    </tr>
                                     </tbody>
                                 </table>
                             </div>
@@ -1246,13 +1395,16 @@
                                     <thead>
                                     <tr>
                                         <th class="text-center">ТОП-5 КП</th>
-                                        <th class="text-center">Уменьшение расчетной численности к предыдущей неделе, ш.е.</th>
+                                        <th class="text-center">Уменьшение расчетной численности к предыдущей неделе,
+                                            ш.е.
+                                        </th>
                                     </tr>
                                     </thead>
                                     <tbody data-bind="foreach: { data: $root.worstOnes, as: 'dataItem' }">
                                     <tr data-bind="if: (dataItem.regionId == regionItem.regionId) || (regionItem.regionId == 0 && $index() < 5)">
                                         <td data-bind="text: dataItem.unitName"></td>
-                                        <td class="text-center" data-bind="text: (dataItem.staffCountDeltaCnt / 1).toFixed(2) + ' ш.е.'"></td>
+                                        <td class="text-center"
+                                            data-bind="text: (dataItem.staffCountDeltaCnt / 1).toFixed(2) + ' ш.е.'"></td>
                                     </tr>
                                     </tbody>
                                 </table>
@@ -1285,7 +1437,12 @@
                     <refresh-button></refresh-button>
                 </div>
             </div>
+            <div class="filter-row">
+                <div class="filter-element">
+                    <filter params="name: 'innerEndProductId'"></filter>
+                </div>
 
+            </div>
             <filter-log></filter-log>
         </div>
 
@@ -1361,7 +1518,7 @@
                             <chart params="name: 'divisionList'"></chart>
                         </div>
                         <div class="col-xs-8">
-                            <!-- ko if: groups.rightSide.drillDownLevel() < 3 -->
+                            <!-- ko if: groups.rightSide.drillDownLevel() < 3 && !groups.default.filters.innerEndProductId.value() -->
                             <div data-bind="with: groups.default.selectedDivision">
                                 <table class="styled-chart-container table">
                                     <thead>
@@ -1386,7 +1543,8 @@
                                         </td>
                                         <td>
                                             <span data-bind="text: staffCountFact"></span>
-                                            <span data-bind="if: slaFactValueDoubleCnt > 0, tooltip: {title: 'Дублирование: ' + slaFactValueDoubleCnt, html: true}" style="color: red; font-weight: bold;">!</span>
+                                            <span data-bind="if: slaFactValueDoubleCnt > 0, tooltip: {title: 'Дублирование: ' + slaFactValueDoubleCnt, html: true}"
+                                                  style="color: red; font-weight: bold;">!</span>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -1407,7 +1565,7 @@
                                 </table>
                             </div>
                             <!-- /ko -->
-                            <!-- ko if: groups.rightSide.drillDownLevel() == 1 -->
+                            <!-- ko if: groups.rightSide.drillDownLevel() == 1 && !groups.default.filters.innerEndProductId.value() -->
                             <div class="row">
                                 <div class="col-xs-6">
                                     <div class="styled-chart-container">
@@ -1434,7 +1592,7 @@
                             </div>
                             <!-- /ko -->
 
-                            <!-- ko if: groups.rightSide.drillDownLevel() == 2 -->
+                            <!-- ko if: groups.rightSide.drillDownLevel() == 2 && !groups.default.filters.innerEndProductId.value() -->
                             <div class="styled-chart-container">
                                 <div class="styled-chart-title small-title-font">
                                     Динамика нагрузки и фактической численности
@@ -1447,8 +1605,18 @@
                             </div>
                             <!-- /ko -->
 
-                            <!-- ko if: groups.rightSide.drillDownLevel() == 3 -->
+                            <!-- ko if: groups.rightSide.drillDownLevel() == 3 && !groups.default.filters.innerEndProductId.value() -->
                             <chart params="name: 'duodrTable', group: 'rightSide'"></chart>
+                            <!-- /ko -->
+                            <!-- ko if: (groups.default.filters.innerEndProductId.value() ==null || groups.default.filters.innerEndProductId.value()!='Все') -->
+                             <!-- ko if: groups.default.filters.innerEndProductId.value() -->
+                            <div id="WorkloadByProductIdDiv" class="styled-chart-container">
+                                 <div class="styled-chart-title small-title-font">
+                                     Динамика количества и расчетной численности
+                                 </div>
+                                <chart params="name: 'WorkloadByProductId', group: 'rightSide'"></chart>
+                            </div>
+                            <!-- /ko -->
                             <!-- /ko -->
                         </div>
                     </div>
