@@ -3,18 +3,14 @@ package ru.alfabank.dmpr.statistic;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
-import org.springframework.stereotype.Component;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.alfabank.dmpr.infrastructure.spring.security.UserContext;
 import ru.alfabank.dmpr.infrastructure.spring.security.UserPrincipal;
+import ru.alfabank.dmpr.statistic.mapper.StatisticMapper;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -30,31 +26,31 @@ public class StatisticService {
 
     private BatchBlockingQueue<Statistic> batchBlockingQueue;
 
+    @Autowired
+    private StatisticMapper statisticMapper;
+
     @PostConstruct
     private void init() {
         final ThreadFactory threadFactory = new ThreadFactoryBuilder()
                 .setNameFormat("UserStatistic-%d")
                 .setDaemon(true)
                 .build();
-        executorService = Executors.newFixedThreadPool(5, threadFactory);
+        executorService = Executors.newFixedThreadPool(6, threadFactory);
         batchBlockingQueue = new BatchBlockingQueue<>(5);
-        new Thread(new Runnable() {
+        executorService.submit(new Runnable() {
             @Override
             public void run() {
                 while (true) {
                     try {
+                        logger.info("poll statistic");
                         List<Statistic> statistics = batchBlockingQueue.poll();
-                        StringBuilder csv = new StringBuilder();
-                        for (Statistic statistic : statistics) {
-                            csv.append(statistic.getUser() + "," + statistic.getPage() + "," + statistic.getLocalDateTime() + "\n");
-                        }
-                        Files.write(Paths.get("/home/wert/stat.csv"), csv.toString().getBytes(), StandardOpenOption.APPEND,StandardOpenOption.CREATE);
-                    } catch (InterruptedException | IOException e) {
-                        e.printStackTrace();
+                        statisticMapper.insertStatistic((Statistic[]) statistics.toArray());
+                    } catch (Exception e) {
+                        logger.error(e.getLocalizedMessage(), e);
                     }
                 }
             }
-        }).start();
+        });
     }
 
     public void serveStatistic(final String page) {
@@ -67,7 +63,7 @@ public class StatisticService {
                 try {
                     batchBlockingQueue.put(new Statistic(user.getDisplayName(), page, currentDate));
                 } catch (InterruptedException e) {
-                    e.printStackTrace();
+                    logger.error(e.getLocalizedMessage(), e);
                 }
             }
         });

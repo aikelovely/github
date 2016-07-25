@@ -5,6 +5,7 @@
         http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
     <import resource="data-context.xml"/>
+    <import resource="stat-data-context.xml"/>
 
     <context:component-scan base-package="ru.alfabank.dmpr.filter"/>
     <context:component-scan base-package="ru.alfabank.dmpr.widget"/>
