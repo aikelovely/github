@@ -3,6 +3,8 @@ package ru.alfabank.dmpr.statistic;
 import com.google.common.util.concurrent.ThreadFactoryBuilder;
 import org.apache.log4j.Logger;
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.alfabank.dmpr.infrastructure.spring.security.UserContext;
@@ -44,7 +46,7 @@ public class StatisticService {
                     try {
                         logger.info("poll statistic");
                         List<Statistic> statistics = batchBlockingQueue.poll();
-                        statisticMapper.insertStatistic((Statistic[]) statistics.toArray());
+                        statisticMapper.insertStatistic(statistics.toArray(new Statistic[statistics.size()]));
                     } catch (Exception e) {
                         logger.error(e.getLocalizedMessage(), e);
                     }
@@ -55,7 +57,7 @@ public class StatisticService {
 
     public void serveStatistic(final String page) {
         final UserPrincipal user = UserContext.getUser();
-        final DateTime currentDate = DateTime.now();
+        final LocalDateTime currentDate = LocalDateTime.now();
 
         executorService.submit(new Runnable() {
             @Override

@@ -28,7 +28,7 @@ public class CustomResourceLoader {
                 sb.append((char) c);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+//            e.printStackTrace();
             return "";
         }
         return sb.toString();

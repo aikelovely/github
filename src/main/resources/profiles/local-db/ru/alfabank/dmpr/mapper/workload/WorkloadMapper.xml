@@ -3,13 +3,14 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ru.alfabank.dmpr.mapper.workload.WorkloadMapper">
-    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
 
 
     <select id="getDivisionStat" useCache="false"
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.DivisionStat">
         <![CDATA[
+
         select
             WLUNITTK as id,
             WLPARENTUNITTK as parentId,
@@ -36,6 +37,7 @@
             p_BPORGREGIONDK => #{regionId},
              p_DuodrRegDK  => #{duodrReg}
         ))
+
         ]]>
     </select>
 
@@ -43,6 +45,7 @@
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.WLDynamicItem">
         <![CDATA[
+
         select
             calcdate,
             wlunittk as unitId,
@@ -59,6 +62,7 @@
             p_BPDIVISIONGROUPDK => #{divisionGroupId},
             p_BPORGREGIONDK => #{regionId}
         ))
+
         ]]>
     </select>
 
@@ -66,6 +70,7 @@
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.ESUDynamicItem">
         <![CDATA[
+
         select
             calcDate,
             wlUnitTk as unitId,
@@ -85,6 +90,7 @@
             p_BPDIVISIONGROUPDK => #{divisionGroupId},
             p_BPORGREGIONDK => #{regionId}
         ))
+
         ]]>
     </select>
 
@@ -93,6 +99,7 @@
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.DistributionInfo">
         <![CDATA[
+
         select
             calcdate,
             wlunittk as id,
@@ -107,6 +114,7 @@
             p_BPDivisionGroupDK => #{divisionGroupId},
             p_BPOrgRegionDK => #{regionId}
         ))
+
         ]]>
     </select>
 
@@ -114,6 +122,7 @@
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.DivisionStat">
         <![CDATA[
+
         select
           wlunittk as id,
           wlunitname as unitname,
@@ -124,10 +133,34 @@
           p_DateTo => #{endDate},
           p_TopSide => #{topSide}
        ))
+
         ]]>
     </select>
 
+    <select id="getBpiepnormValue" useCache="false"
+            resultType="ru.alfabank.dmpr.model.workload.BpiepnormValue">
+        <![CDATA[
+select
+B.CCODE as BpinnerendProductCcode
+, B.NAME as BpinnerendProductName
+, C.CCODE as BporgRegionCcode
+, c.name as BporgRegionName
+, D.CCODE as BpDivisionGroupCcode
+, D.NAME as BpDivisionGroupName
+, A.NORMATIVE_MINUTES as NormativeMinutes
+, A.EFFECTIVE_FROM as EffectifFrom
+, A.EFFECTIVE_TO as EffectifTo
+from DMPR.BPIEPNORMVALUE_SHIST a
+join DMPR.BPINNERENDPRODUCT_EDIM b on A.BPINNERENDPRODUCT_DK=b.dk and B.DELETED_FLAG='N'
+and B.EFFECTIVE_TO='31.12.5999'
+join DMPR.BPORGREGION_SDIM c on A.BPORGREGION_DK=c.dk and C.DELETED_FLAG='N'
+join DMPR.BPDIVISIONGROUP_EDIM d on A.DIVISIONGROUP_UK=d.dk and D.DELETED_FLAG='N'
+and D.EFFECTIVE_TO='31.12.5999'
+where A.DELETED_FLAG='N'
+       ))
 
+        ]]>
+    </select>
 
 
 </mapper>

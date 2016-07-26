@@ -10,7 +10,7 @@ public interface WorkloadMapper {
     DistributionInfo[] getStaffDistribution(WorkloadQueryOptions options);
 
     DivisionStat[] getTopNTable(WorkloadQueryOptions options);
-
+    BpiepnormValue[]  getBpiepnormValue();
 
 }
 

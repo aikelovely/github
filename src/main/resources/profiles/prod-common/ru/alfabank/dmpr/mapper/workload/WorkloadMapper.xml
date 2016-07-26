@@ -127,6 +127,30 @@
         ]]>
     </select>
 
+    <select id="getBpiepnormValue" useCache="false"
+            resultType="ru.alfabank.dmpr.model.workload.BpiepnormValue">
+        <![CDATA[
+select
+B.CCODE as BpinnerendProductCcode
+, B.NAME as BpinnerendProductName
+, C.CCODE as BporgRegionCcode
+, c.name as BporgRegionName
+, D.CCODE as BpDivisionGroupCcode
+, D.NAME as BpDivisionGroupName
+, A.NORMATIVE_MINUTES as NormativeMinutes
+, A.EFFECTIVE_FROM as EffectifFrom
+, A.EFFECTIVE_TO as EffectifTo
+from DMPR.BPIEPNORMVALUE_SHIST a
+join DMPR.BPINNERENDPRODUCT_EDIM b on A.BPINNERENDPRODUCT_DK=b.dk and B.DELETED_FLAG='N'
+and B.EFFECTIVE_TO='31.12.5999'
+join DMPR.BPORGREGION_SDIM c on A.BPORGREGION_DK=c.dk and C.DELETED_FLAG='N'
+join DMPR.BPDIVISIONGROUP_EDIM d on A.DIVISIONGROUP_UK=d.dk and D.DELETED_FLAG='N'
+and D.EFFECTIVE_TO='31.12.5999'
+where A.DELETED_FLAG='N'
+       ))
+
+        ]]>
+    </select>
 
 
 

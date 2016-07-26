@@ -3,27 +3,28 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ru.alfabank.dmpr.statistic.mapper.StatisticMapper">
-    <cache type="org.mybatis.caches.ehcache.EhcacheCache" />
+    <cache type="org.mybatis.caches.ehcache.EhcacheCache"/>
 
     <insert id="insertStatistic" parameterType="ru.alfabank.dmpr.statistic.Statistic" useGeneratedKeys="false">
         insert into DQMON.DMPR_USERS_OPEX_STAT(
-            UK ,
-            LOGIN ,
-            REPORT ,
-            REPORT2 ,
-            date_in ,
-            date_insert
+        UK ,
+        LOGIN ,
+        REPORT ,
+        REPORT2 ,
+        date_in ,
+        date_insert
         )
-        VALUES
-        <foreach collection="statistics" item="model" separator=",">
-            (
+
+        <foreach collection="statistics" item="model" separator=" UNION ALL ">
+            select
             dbms_random.value(1,99999999999),
             #{model.user},
             #{model.page},
-            null,
+            NULL,
+
             #{model.localDateTime},
             sysdate
-            )
+            from dual
         </foreach>
     </insert>
 </mapper>

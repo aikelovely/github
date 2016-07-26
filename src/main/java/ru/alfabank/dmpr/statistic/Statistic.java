@@ -2,14 +2,16 @@ package ru.alfabank.dmpr.statistic;
 
 
 import org.joda.time.DateTime;
+import org.joda.time.LocalDate;
+import org.joda.time.LocalDateTime;
 
 public class Statistic {
     private final String user;
     private final String page;
-    private final DateTime localDateTime;
+    private final LocalDateTime localDateTime;
 
 
-    public Statistic(String user, String page, DateTime localDateTime) {
+    public Statistic(String user, String page, LocalDateTime localDateTime) {
         this.user = user;
         this.page = page;
         this.localDateTime = localDateTime;
@@ -23,7 +25,7 @@ public class Statistic {
         return page;
     }
 
-    public DateTime getLocalDateTime() {
+    public LocalDateTime getLocalDateTime() {
         return localDateTime;
     }
 }
