@@ -1436,6 +1436,9 @@
                 <div class="filter-element">
                     <refresh-button></refresh-button>
                 </div>
+                <div class="filter-element" style="margin-top: 18px;">
+                    <report-button params="reportUrl: 'BpiepnormValueReport', group: 'default'"></report-button>
+                </div>
             </div>
             <div class="filter-row">
                 <div class="filter-element">

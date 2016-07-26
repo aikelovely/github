@@ -26,5 +26,6 @@ public class WorkloadRepository {
 
     public DivisionStat[] getTopNTable(WorkloadQueryOptions options) { return mapper.getTopNTable(options); }
 
+    public BpiepnormValue[] getBpiepnormValue() {return mapper.getBpiepnormValue();}
 
 }
