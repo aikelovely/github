@@ -28,4 +28,9 @@ public class WorkloadRepository {
 
     public BpiepnormValue[] getBpiepnormValue() {return mapper.getBpiepnormValue();}
 
+    public WorkloadReport[] getWorkload() {return mapper.getWorkload();}
+
+    public ConvertCountReport[] getConvertCount() {return mapper.getConvertCount();}
+
+    public BpworkWeekReport[] getBpworkWeek() {return mapper.getBpworkWeek();}
 }

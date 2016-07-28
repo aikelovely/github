@@ -7,6 +7,7 @@ import org.joda.time.LocalDate;
 import org.joda.time.LocalTime;
 
 import java.sql.*;
+import java.util.Calendar;
 
 public class LocalDateTypeHandler extends BaseTypeHandler<LocalDate> {
     @Override
@@ -23,18 +24,28 @@ public class LocalDateTypeHandler extends BaseTypeHandler<LocalDate> {
     @Override
     public LocalDate getNullableResult(ResultSet rs, String columnName) throws SQLException {
         Timestamp timestamp = rs.getTimestamp(columnName);
-        return timestamp == null ? null : new LocalDate(timestamp.getTime());
+        return timestamp == null ? null : getLocaldate(timestamp);
     }
 
     @Override
     public LocalDate getNullableResult(ResultSet rs, int columnIndex) throws SQLException {
         Timestamp timestamp = rs.getTimestamp(columnIndex);
-        return timestamp == null ? null : new LocalDate(timestamp.getTime());
+        return timestamp == null ? null : getLocaldate(timestamp);
     }
 
     @Override
     public LocalDate getNullableResult(CallableStatement cs, int columnIndex) throws SQLException {
         Timestamp timestamp = cs.getTimestamp(columnIndex);
-        return timestamp == null ? null : new LocalDate(timestamp.getTime());
+        return timestamp == null ? null : getLocaldate(timestamp);
     }
+    public LocalDate getLocaldate (Timestamp timestamp){
+        Calendar cal = Calendar.getInstance();
+        cal.setTimeInMillis(timestamp.getTime());
+
+        return new LocalDate(cal.get(Calendar.YEAR),
+                cal.get(Calendar.MONTH)+1,
+                cal.get(Calendar.DATE));
+    }
+
+
 }

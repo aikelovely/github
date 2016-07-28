@@ -30,8 +30,10 @@ public class ReportManager {
     }
 
 
-
+//ДЛя 8 томкат палку / добавить blev
+//    return servletContext.getRealPath("/report");
     public String getReportDirectory() {
+
         return servletContext.getRealPath("report");
     }
 }
