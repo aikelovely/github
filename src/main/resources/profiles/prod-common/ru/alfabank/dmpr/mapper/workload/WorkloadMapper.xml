@@ -35,7 +35,8 @@
             p_RPTypeID => #{rpTypeId},
             p_BPDIVISIONGROUPDK => #{divisionGroupId},
             p_BPORGREGIONDK => #{regionId},
-             p_DuodrRegDK  => #{duodrReg}
+            p_DuodrRegDK  => #{duodrReg},
+            p_InnerEndProductId  => #{innerEndProductId}
         ))
 
         ]]>
@@ -141,23 +142,18 @@
             resultType="ru.alfabank.dmpr.model.workload.BpiepnormValue">
         <![CDATA[
 
-select
-B.CCODE as BpinnerendProductCcode
-, B.NAME as BpinnerendProductName
-, C.CCODE as BporgRegionCcode
-, c.name as BporgRegionName
-, D.CCODE as BpDivisionGroupCcode
-, D.NAME as BpDivisionGroupName
-, A.NORMATIVE_MINUTES as NormativeMinutes
-, A.EFFECTIVE_FROM as EffectifFrom
-, A.EFFECTIVE_TO as EffectifTo
-from DMPR.BPIEPNORMVALUE_SHIST a
-join DMPR.BPINNERENDPRODUCT_EDIM b on A.BPINNERENDPRODUCT_DK=b.dk and B.DELETED_FLAG='N'
-and B.EFFECTIVE_TO='31.12.5999'
-join DMPR.BPORGREGION_SDIM c on A.BPORGREGION_DK=c.dk and C.DELETED_FLAG='N'
-join DMPR.BPDIVISIONGROUP_EDIM d on A.DIVISIONGROUP_UK=d.dk and D.DELETED_FLAG='N'
-and D.EFFECTIVE_TO='31.12.5999'
-where A.DELETED_FLAG='N'
+
+        select
+ BpinnerendProductCcode,
+ BpinnerendProductName,
+ BporgRegionCcode,
+ BporgRegionName,
+ BpDivisionGroupCcode,
+ BpDivisionGroupName,
+ NormativeMinutes,
+ EffectifFrom ,
+ EffectifTo
+       from table(pkg_workload_api.get_BpiepnormValue())
 
         ]]>
     </select>
@@ -165,16 +161,14 @@ where A.DELETED_FLAG='N'
     <select id="getBpworkWeek" useCache="false"
             resultType="ru.alfabank.dmpr.model.workload.BpworkWeekReport">
         <![CDATA[
-
-select  b.ccode as Ccode,
-B.NAME as Name,
-A.NUMBER_OF_WEEK as NumberOfWeek,
-A.YEAR_DATE as YearWeek,
-A.VALUE_DAY as ValueDay,
-A.WORKMIN_CNT as WorkminCnt
-from DMPR.BPWORKWEEK_STAT a
-join DMPR.BPWORKSCHEDULETYPE_SDIM b on A.BPWORKSCHEDULETYPE_DK=b.dk
-
+  select
+Ccode,
+ Name,
+ NumberOfWeek,
+ YearWeek ,
+ ValueDay,
+ WorkminCnt
+       from table(pkg_workload_api.get_BpworkWeek())
         ]]>
     </select>
 
@@ -183,22 +177,19 @@ join DMPR.BPWORKSCHEDULETYPE_SDIM b on A.BPWORKSCHEDULETYPE_DK=b.dk
             resultType="ru.alfabank.dmpr.model.workload.ConvertCountReport">
         <![CDATA[
 
-select
-value_day as ValueDay,
-bpdivisiongroup_ccode as BpDivisionGroupCcode,
-b.name as BpinnerendProductName,
-b.ccode as BpinnerendProductCcode,
-b.portfolio_flag as PortfolioFlag,
-A.BPORGREGION_CCODE as BporgRegionCcode,
-A.NORMATIVE_MINUTES as NormativeMinutes,
-a.TOTALBPIEPQUANTITY_CNT  as TotalbpiepquantityCnt,
-A.TOTALLABORVALUE_CNT as TotallaborvalueCnt,
-A.WORKTIME4STAFFUNIT_CNT as Worktime4staffunitCnt,
-A.ESTIMATEDSTAFFUNIT_CNT as EstimatedstaffunitCnt
-from dmpr.BPAGGRWORKLOAD_RPT a
-join DMPR.BPINNERENDPRODUCT_EDIM b on A.BPINNERENDPRODUCT_DK=b.dk
-and B.EFFECTIVE_FROM <= A.VALUE_DAY and A.VALUE_DAY<B.EFFECTIVE_TO
-order by value_day
+  select
+ValueDay,
+BpDivisionGroupCcode,
+BpinnerendProductName,
+BpinnerendProductCcode,
+PortfolioFlag,
+BporgRegionCcode,
+NormativeMinutes,
+TotalbpiepquantityCnt ,
+TotallaborvalueCnt ,
+Worktime4staffunitCnt,
+EstimatedstaffunitCnt
+       from table(pkg_workload_api.get_ConvertCount())
 
         ]]>
     </select>
@@ -206,44 +197,37 @@ order by value_day
     <select id="getWorkload" useCache="false"
             resultType="ru.alfabank.dmpr.model.workload.WorkloadReport">
         <![CDATA[
-
-select
-a.VALUE_DAY as ValueDay,
-bd1.name as BpdivisiongroupNameLvl1,
-bd2.name as BpdivisiongroupNameLvl2 ,
-bd3.name as BpdivisiongroupNameLvl3 ,
-bd3.ccode as BpDivisionGroupCcode,
-r2.ccode as BporgRegionCcodeLvl2 ,
-BPORGREGION_CCODE as BporgRegionCcodeLvl3 ,
-TOTALFACTVALUE_CNT as TotalfactvalueCnt,
-SLAFACTVALUE_CNT as SlafactvalueCnt,
-SLAFACTVALUEDOUBLE_CNT  as SlafactvaluedoubleCnt,
-SLAFACTVACANCY_CNT as SlafactvacancyCnt,
-SLAFACTVACANCYTEMP_CNT as SlafactvacancytempCnt,
-NOSLAFACTVALUE_CNT as NoslafactvalueCnt,
-NOSLAFACTVALUEDOUBLE_CNT as NoslafactvaluedoubleCnt,
-NOSLAFACTVACANCY_CNT as NoslafactvacancyCnt,
-NOSLAFACTVACANCYTEMP_CNT as NoslafactvacancytempCnt,
-ESTIMATEDSTAFFUNIT_W8_CNT as NoslafactvacancytempCnt,
-QUARTILE1_W8_CNT as Quartile1W8Cnt,
-QUARTILE3_W8_CNT as Quartile3W8Cnt,
-LOWLIMIT_W8_CNT as LowlimitW8Cnt,
-HIGHLIMIT_W8_CNT as HighlimitW8Cnt,
-CRITERIA_W8_CNT as CriteriaW8Cnt,
-QUARTILE1_W4_CNT as Quartile1W4Cnt,
-QUARTILE3_W4_CNT as Quartile3W4Cnt,
-LOWLIMIT_W4_CNT as LowlimitW4Cnt,
-HIGHLIMIT_W4_CNT as HighlimitW4Cnt,
-CRITERIA_W4_CNT as CriteriaW4Cnt,
-TOTALCRITERIA_CNT as TotalcriteriaCnt,
-WORKLOAD_FACTOR  as WorkloadFactor
-from dmpr.BPWORKLOAD_RPT a
-join DMPR.BPDIVISIONGROUP_EDIM bd3 on a.BPDIVISIONGROUP_DK=bd3.dk and bd3.effective_to>A.VALUE_DAY and A.VALUE_DAY>=bd3.effective_from
-join DMPR.BPDIVISIONGROUP_EDIM bd2 on bd3.parent_dk=bd2.dk and bd2.effective_to>A.VALUE_DAY and A.VALUE_DAY>=bd2.effective_from
-join DMPR.BPDIVISIONGROUP_EDIM bd1 on bd2.parent_dk=bd1.dk and bd1.effective_to>A.VALUE_DAY and A.VALUE_DAY>=bd1.effective_from
-join DMPR.BPORGREGION_SDIM r3 on A.BPORGREGION_DK=r3.dk
-join DMPR.BPORGREGION_SDIM r2 on R3.PARENT_UK=r2.dk
-order by value_day, bd2.name,bd3.name
+ select
+ ValueDay ,
+ BpdivisiongroupNameLvl1,
+ BpdivisiongroupNameLvl2 ,
+ BpdivisiongroupNameLvl3 ,
+ BpDivisionGroupCcode,
+ BporgRegionCcodeLvl2 ,
+ BporgRegionCcodeLvl3 ,
+ TotalfactvalueCnt,
+ SlafactvalueCnt,
+ SlafactvaluedoubleCnt,
+ SlafactvacancyCnt,
+ SlafactvacancytempCnt,
+ NoslafactvalueCnt,
+ NoslafactvaluedoubleCnt,
+ NoslafactvacancyCnt,
+ NoslafactvacancytempCnt,
+ EstimatedstaffunitW8Cnt,
+ Quartile1W8Cnt,
+ Quartile3W8Cnt,
+ LowlimitW8Cnt,
+ HighlimitW8Cnt,
+ CriteriaW8Cnt,
+ Quartile1W4Cnt,
+ Quartile3W4Cnt,
+ LowlimitW4Cnt,
+ HighlimitW4Cnt,
+ CriteriaW4Cnt,
+ TotalcriteriaCnt,
+ WorkloadFactor
+  from table(pkg_workload_api.get_Workload())
 
         ]]>
     </select>

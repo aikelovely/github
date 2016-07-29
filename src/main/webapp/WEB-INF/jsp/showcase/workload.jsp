@@ -787,7 +787,7 @@
 //                        title: {text: "Нет данных"},
 //                        chart: {}
 //                    });
-                    $('#WorkloadByProductIdDiv').hide();
+//                    $('#WorkloadByProductIdDiv').hide();
                     return;
                 }
 
@@ -1611,6 +1611,8 @@
                             <!-- ko if: groups.rightSide.drillDownLevel() == 3 && !groups.default.filters.innerEndProductId.value() -->
                             <chart params="name: 'duodrTable', group: 'rightSide'"></chart>
                             <!-- /ko -->
+
+
                             <!-- ko if: (groups.default.filters.innerEndProductId.value() ==null || groups.default.filters.innerEndProductId.value()!='Все') -->
                              <!-- ko if: groups.default.filters.innerEndProductId.value() -->
                             <div id="WorkloadByProductIdDiv" class="styled-chart-container">

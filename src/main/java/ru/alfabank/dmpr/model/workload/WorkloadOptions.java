@@ -14,5 +14,6 @@ public class WorkloadOptions extends BaseOptions {
     public Long divisionGroupId;
     public Long regionId;
     public String innerEndProductId;
+
 }
 

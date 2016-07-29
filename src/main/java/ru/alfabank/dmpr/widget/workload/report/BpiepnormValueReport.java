@@ -29,7 +29,7 @@ public class BpiepnormValueReport extends BaseReport <WorkloadOptions> {
 
     @Override
     protected String getReportName(WorkloadOptions options) {
-        return "Детальный слой "+ now();
+        return "WorkloadDetail "+ now();
     }
 
     @Override

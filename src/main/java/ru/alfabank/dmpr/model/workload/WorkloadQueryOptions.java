@@ -16,7 +16,7 @@ public class WorkloadQueryOptions extends BaseOptions {
 
     public String sliceCode;
     public int weekCount;
-
+    public String innerEndProductId;
     private String widgetName;
 
     /*
@@ -45,6 +45,7 @@ public class WorkloadQueryOptions extends BaseOptions {
         this.regionId = options.regionId;
         this.duodrReg = options.duodrReg;
         this.widgetName = options.getWidgetName();
+        this.innerEndProductId= options.innerEndProductId;
 
     }
 }

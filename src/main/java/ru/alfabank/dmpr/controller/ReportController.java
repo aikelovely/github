@@ -49,10 +49,10 @@ public class ReportController {
 
         response.setHeader("Pragma", "public");
         response.setHeader("Cache-Control", "max-age=0");
-        response.setContentType("application/ms-excel");
+        response.setContentType("application/ms-excel; charset=UTF-8");
         response.setContentLength((int) downloadFile.length());
         response.setHeader("Content-Disposition", String.format("attachment; filename=\"%s\"; filename*=UTF-8''%s",
-                fileName, URLEncoder.encode(fileName, "UTF-8").replace("+", "%20")));
+                URLEncoder.encode(fileName, "UTF-8").replace("+", "%20"), URLEncoder.encode(fileName, "UTF-8").replace("+", "%20")));
 
         OutputStream outStream = response.getOutputStream();
 
