@@ -15,7 +15,7 @@ public class DataLayerFacade {
      */
     public static void clearCaches() {
         ApplicationContext context = ApplicationContextProvider.getApplicationContext();
-        SqlSessionFactory sqlSessionFactory = context.getBean(SqlSessionFactory.class);
+        SqlSessionFactory sqlSessionFactory = (SqlSessionFactory) context.getBean("sqlSessionFactory");
         Configuration configuration = sqlSessionFactory.getConfiguration();
 
         for (Cache cache : configuration.getCaches()) {
