@@ -75,7 +75,7 @@ public class StatisticService {
     private void destroy() throws InterruptedException {
         logger.info("shutdown statistic");
         executorService.shutdown();
-        boolean success = executorService.awaitTermination(1, TimeUnit.MINUTES);
+        boolean success = executorService.awaitTermination(5, TimeUnit.SECONDS);
         logger.info("shutdown statistic is " + success);
         if (!success) {
             logger.info("shutdown statistic now");
