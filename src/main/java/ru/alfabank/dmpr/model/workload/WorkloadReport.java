@@ -17,6 +17,7 @@ public class WorkloadReport {
     public double TotalfactvalueCnt;
     public double SlafactvalueCnt;
     public double SlafactvaluedoubleCnt;
+    public double SlafactvacancyCnt;
     public double SlafactvacancytempCnt;
     public double NoslafactvalueCnt;
     public double NoslafactvaluedoubleCnt;

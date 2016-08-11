@@ -177,18 +177,18 @@ Ccode,
             resultType="ru.alfabank.dmpr.model.workload.ConvertCountReport">
         <![CDATA[
 
-  select
+ select
 ValueDay,
 BpDivisionGroupCcode,
 BpinnerendProductName,
 BpinnerendProductCcode,
 PortfolioFlag,
 BporgRegionCcode,
-NormativeMinutes,
-TotalbpiepquantityCnt ,
-TotallaborvalueCnt ,
-Worktime4staffunitCnt,
-EstimatedstaffunitCnt
+round(NormativeMinutes,4) NormativeMinutes ,
+round(TotalbpiepquantityCnt,4) TotalbpiepquantityCnt ,
+round(TotallaborvalueCnt,4) TotallaborvalueCnt  ,
+round(Worktime4staffunitCnt,4) Worktime4staffunitCnt  ,
+round(EstimatedstaffunitCnt,4) EstimatedstaffunitCnt
        from table(pkg_workload_api.get_ConvertCount())
 
         ]]>
