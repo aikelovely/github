@@ -70,16 +70,16 @@ public class StatisticService {
             }
         });
     }
-
-    @PreDestroy
-    private void destroy() throws InterruptedException {
-        logger.info("shutdown statistic");
-        executorService.shutdown();
-        boolean success = executorService.awaitTermination(5, TimeUnit.SECONDS);
-        logger.info("shutdown statistic is " + success);
-        if (!success) {
-            logger.info("shutdown statistic now");
-            executorService.shutdownNow();
-        }
-    }
+// blev ждет завершения  , чтобы статистику не терять .-- нафиг статистику ждать!
+//    @PreDestroy
+//    private void destroy() throws InterruptedException {
+//        logger.info("shutdown statistic");
+//        executorService.shutdown();
+//        boolean success = executorService.awaitTermination(5, TimeUnit.SECONDS);
+//        logger.info("shutdown statistic is " + success);
+//        if (!success) {
+//            logger.info("shutdown statistic now");
+//            executorService.shutdownNow();
+//        }
+//    }
 }
