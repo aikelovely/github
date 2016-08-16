@@ -504,8 +504,8 @@
                     $container.highcharts({
                         title: {text: ''},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            width: width
                         }
                     });
                     return;
@@ -556,7 +556,7 @@
                     $container.highcharts({
                         chart: {
                             type: "column",
-                            width: width,
+//                            width: width,
                             marginRight: 220,
                             marginTop: 50
                         },
@@ -654,7 +654,7 @@
                     $container.highcharts({
                         chart: {
                             type: "column",
-                            width: width,
+//                            width: width,
                             marginRight: 220,
                             marginTop: 50
                         },
@@ -735,8 +735,8 @@
                     $container.highcharts({
                         title: {text: ''},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            width: width
                         }
                     });
                     return;
@@ -748,7 +748,7 @@
                 $container.highcharts({
                     chart: {
                         type: "column",
-                        width: width,
+//                        width: width,
                         marginRight: 220
                     },
                     title: {text: ''},
@@ -828,7 +828,7 @@
                         title: {text: ''},
                         chart: {
                             height: 100,
-                            width: width
+//                            width: width
                         }
                     });
                     return;
@@ -887,7 +887,7 @@
                         chart: {
                             type: 'bar',
                             height: rowCount * 35 + 200,
-                            width: width,
+//                            width: width,
                             marginLeft: marginLeft,
                             marginRight: 40,
                             events: {
@@ -962,7 +962,7 @@
                         chart: {
                             type: 'bar',
                             height: rowCount * 35 + 200,
-                            width: width,
+//                            width: width,
                             marginLeft: marginLeft,
                             marginRight: 40,
                             events: {
@@ -1057,8 +1057,8 @@
                     class: "table table-condensed"
                 }).append(
                         $('<colgroup><col>' +
-                                '<col style="width: 15%">' +
-                                '<col style="width: 20%"></colgroup>'),
+                        '<col style="width: 15%">' +
+                        '<col style="width: 20%"></colgroup>'),
                         $('<thead/>'),
                         $('<tbody/>')
                 );
@@ -1448,14 +1448,14 @@
                     width: 140
                 });
 
-                    $container.kendoGrid({
-                        dataSource: {
-                            data: jsonData
-                        },
-                        sortable: true,
-                        scrollable: true,
-                        columns: columns
-                    });
+                $container.kendoGrid({
+                    dataSource: {
+                        data: jsonData
+                    },
+                    sortable: true,
+                    scrollable: true,
+                    columns: columns
+                });
             }
 
             app.init(config);
@@ -1535,7 +1535,7 @@
             <tab-strip params="name: 'dynamicWithPie'">
                 <tab>
                     <chart params="name: 'dynamicWithPie'">
-                        <div style="margin: 10px auto 15px; width: 900px">
+                        <div style="margin: 10px auto 15px;">
                             <p class="table-header"></p>
                         </div>
                         <div class="chart-container"></div>
@@ -1546,7 +1546,7 @@
                 </tab>
             </tab-strip>
             <div class="row" style="margin: 20px -15px 10px">
-                <div class="col-xs-5">
+                <div class="col-xs-12 col-sm-12 col-lg-5" style="min-width:450px;">
                     <div class="chart">
                         <chart params="name: 'rating'">
                             <div class="scrollable-chart">
@@ -1557,7 +1557,7 @@
                         </chart>
                     </div>
                 </div>
-                <div class="col-xs-7">
+                <div class="col-xs-12 col-sm-12 col-lg-7">
                     <div class="row">
                         <div class="col-xs-6">
                             <chart params="name: 'topNCount'">

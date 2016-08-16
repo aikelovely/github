@@ -1,5 +1,4 @@
 <%@ page import="ru.alfabank.dmpr.infrastructure.spring.security.UserContext" %>
-<%@ page import="ru.alfabank.dmpr.infrastructure.spring.CustomResourceLoader" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
@@ -13,18 +12,18 @@
     boolean isZPUser = UserContext.isZPUser();
 %>
 
-<nav class="navbar navbar-default">
-    <div class="container">
+<nav class="navbar navbar-default navbar-static-top" style="min-width: 768px">
+    <div class="container-fluid">
         <div class="navbar-header">
-            <a href='<c:url value="/" />' class="navbar-brand">OpEx</a>
             <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
+            <a href='<c:url value="/" />' class="navbar-brand">OpEx</a>
         </div>
 
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+        <div class="collapse navbar-collapse" id="navbar-main">
             <ul class="nav navbar-nav">
                 <li class="dropdown">
                     <a href="javascript:;" class="dropdown-toggle" data-toggle="dropdown" role="button">
@@ -281,7 +280,7 @@
                     <a class="btn btn-default btn-xs navbar-support-button">Нужна помощь?</a>
                 </form>
                 <script type="text/html" id="supportBtnMarkup">
-                    <c:out value="${supportBtnMarkup}" escapeXml="false"></c:out>
+                        <c:out value="${supportBtnMarkup}" escapeXml="false"></c:out>
                 </script>
             </c:if>
         </div>

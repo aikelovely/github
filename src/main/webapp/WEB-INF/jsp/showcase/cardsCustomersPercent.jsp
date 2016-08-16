@@ -8,6 +8,16 @@
 
     <jsp:attribute name="css">
         <style scoped>
+
+            .filter-block-custom {
+                padding-left: 3px;
+                padding-right: 3px;
+                margin-top: 5px;
+            }
+            .filter-block-height {
+                height: 240px;
+            }
+
             .details-report-wrapper {
                 margin-top: 20px;
                 background: white;
@@ -260,8 +270,8 @@
                 return {
                     chart: {
                         type: 'pie',
-                        height: 350,
-                        width: 357
+                        height: 350
+//                        width: 357
                     },
                     legend: {
                         layout: 'horizontal',
@@ -323,7 +333,7 @@
                 return {
                     chart: {
                         height: 350,
-                        width: 780,
+//                        width: 780,
                         zoomType: 'x',
                         type: "column"
                     },
@@ -540,9 +550,9 @@
 
         <div class="showcase-title">${title}</div>
 
-        <div class="section-filter-container clearfix">
-            <div class="col-xs-2">
-                <div class="filter-section">
+        <div class="row">
+            <div class="col-xs-2 filter-block-custom" style="min-width: 192px;" >
+                <div class="filter-section filter-block-height">
                     <div class="filter-section-header">Период</div>
                     <div class="filter-element">
                         <filter params="name: 'startDate'"></filter>
@@ -551,17 +561,9 @@
                         <filter params="name: 'endDate'"></filter>
                     </div>
                 </div>
-                <div style="position: absolute; width: 400px; top: 164px; left: 5px;">
-                    <div class="filter-element" class="pull-left">
-                        <reset-filter-button></reset-filter-button>
-                    </div>
-                    <div class="filter-element">
-                        <refresh-button params="text: 'Выполнить'" class="pull-left"></refresh-button>
-                    </div>
-                </div>
             </div>
-            <div class="col-xs-4">
-                <div class="filter-section">
+            <div class="col-xs-4 filter-block-custom" style="min-width: 400px;" >
+                <div class="filter-section filter-block-height">
                     <div class="filter-section-header">Объект отчетности</div>
                     <div class="filter-element">
                         <filter params="name: 'macroRegionIds'"></filter>
@@ -577,8 +579,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-4">
-                <div class="filter-section">
+            <div class="col-xs-4 filter-block-custom" style="min-width: 400px;">
+                <div class="filter-section filter-block-height">
                     <div class="filter-section-header">Условия</div>
                     <div class="filter-element">
                         <filter params="name: 'zpSignIds'"></filter>
@@ -600,8 +602,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-xs-2">
-                <div class="filter-section">
+            <div class="col-xs-2 filter-block-custom" style="min-width: 192px;">
+                <div class="filter-section filter-block-height">
                     <div class="filter-section-header">Формат</div>
                     <div class="filter-element">
                         <filter params="name: 'timeUnitId'"></filter>
@@ -616,6 +618,17 @@
             </div>
         </div>
 
+        <div class="row">
+            <div>
+                <div class="filter-element filter-block-custom">
+                    <reset-filter-button></reset-filter-button>
+                </div>
+                <div class="filter-element filter-block-custom">
+                    <refresh-button params="text: 'Выполнить'"></refresh-button>
+                </div>
+            </div>
+        </div>
+
         <filter-log></filter-log>
 
         <div data-bind="visible: visibleCharts" class="charts-container">
@@ -623,13 +636,13 @@
             <div class="chart">
                 <tab-strip params="name: 'notPickedUp'">
                     <tab>
-                        <div class="row">
+                        <div class="row" style="margin: 5px;">
                             <chart class="col-md-4" params="name: 'notPickedUpPieMoscow'"></chart>
                             <chart class="col-md-8" params="name: 'notPickedUpDynamicMoscow'"></chart>
                         </div>
                     </tab>
                     <tab>
-                        <div class="row">
+                        <div class="row" style="margin: 5px;">
                             <chart class="col-md-4" params="name: 'notPickedUpPieRegions'"></chart>
                             <chart class="col-md-8" params="name: 'notPickedUpDynamicRegions'"></chart>
                         </div>
@@ -656,13 +669,13 @@
             <div class="chart">
                 <tab-strip params="name: 'notReceived'">
                     <tab>
-                        <div class="row">
+                        <div class="row" style="margin: 5px;">
                             <chart class="col-md-4" params="name: 'notReceivedPieMoscow'"></chart>
                             <chart class="col-md-8" params="name: 'notReceivedDynamicMoscow'"></chart>
                         </div>
                     </tab>
                     <tab>
-                        <div class="row">
+                        <div class="row" style="margin: 5px;">
                             <chart class="col-md-4" params="name: 'notReceivedPieRegions'"></chart>
                             <chart class="col-md-8" params="name: 'notReceivedDynamicRegions'"></chart>
                         </div>

@@ -131,6 +131,28 @@ app.components.TabStrip = function (params, element, templateNodes) {
             self.visible = true;
             activateFirstTab(self.tabs);
         }
+
+        $.fn.responsiveTabs = function() {
+            this.addClass('responsive-tabs');
+            this.append($('<span class="glyphicon glyphicon-triangle-bottom"></span>'));
+            this.append($('<span class="glyphicon glyphicon-triangle-top"></span>'));
+
+            this.on('click', 'li.active > a, span.glyphicon', function() {
+                this.toggleClass('open');
+                if (this.hasClass("open")) {
+                    this.parent().find('.tab-content').toggleClass('responsive-invisible');
+                } else {
+                    this.parent().find('.tab-content').removeClass('responsive-invisible');
+                }
+                $(window).trigger('resize');
+            }.bind(this));
+
+            this.on('click', 'ul > li:not(.active) > a', function() {
+                this.removeClass('open');
+            }.bind(this));
+        };
+
+        $('.nav.nav-tabs').not('.responsive-tabs').responsiveTabs();
     }
 
     function activateFirstTab(tabs) {

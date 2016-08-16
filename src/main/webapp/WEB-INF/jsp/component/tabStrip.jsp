@@ -4,7 +4,7 @@
         <p data-bind="text: header" class="table-header"></p>
         <!-- /ko -->
 
-        <ul class="nav nav-tabs">
+        <ul class="nav nav-tabs" role="tablist">
             <!-- ko foreach: tabs -->
             <!-- ko if: visible -->
             <li data-bind="css: {'active': active}">
@@ -32,4 +32,5 @@
             <!-- /ko -->
         </div>
     </div>
+
 </script>

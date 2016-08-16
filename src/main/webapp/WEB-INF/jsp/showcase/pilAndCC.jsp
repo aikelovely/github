@@ -370,8 +370,8 @@
                     $container.highcharts({
                         title: {text: title},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            width: width
                         }
                     });
                     return;
@@ -398,8 +398,8 @@
 
                     $container.highcharts({
                         chart: {
-                            type: "column",
-                            width: width
+                            type: "column"
+//                            width: width
                         },
                         legend: {enabled: false},
                         title: {text: title},
@@ -477,7 +477,7 @@
                         chart: {
                             renderTo: containerId,
                             type: "column",
-                            width: width,
+//                            width: width,
                             marginRight: 210
                         },
                         title: {text: title},
@@ -560,8 +560,8 @@
                     $container.highcharts({
                         title: {text: title},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            width: width
                         }
                     });
                     return;
@@ -579,7 +579,7 @@
                     chart: {
                         renderTo: containerId,
                         type: "column",
-                        width: width,
+//                        width: width,
                         marginRight: 210
                     },
                     title: {text: title},
@@ -649,8 +649,8 @@
                     $container.highcharts({
                         title: {text: title},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            width: width
                         }
                     });
                     return;
@@ -664,7 +664,7 @@
                     $container.highcharts({
                         chart: {
                             type: "bar",
-                            width: width,
+//                            width: width,
                             marginLeft: 210
                         },
                         title: {text: title},
@@ -698,7 +698,7 @@
                     $container.highcharts({
                         chart: {
                             type: "bar",
-                            width: width,
+//                            width: width,
                             marginLeft: 210
                         },
                         title: {text: title},
@@ -742,8 +742,8 @@
                     $container.highcharts({
                         title: {text: title},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            width: width
                         }
                     });
                     return;
@@ -760,7 +760,7 @@
                     chart: {
                         renderTo: containerId,
                         type: "column",
-                        width: width,
+//                        width: width,
                         marginRight: 210
                     },
                     title: {text: title},
@@ -833,8 +833,8 @@
                     $container.highcharts({
                         title: {text: title},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            width: width
                         }
                     });
                     return;
@@ -859,7 +859,7 @@
                 $container.highcharts({
                     chart: {
                         type: "column",
-                        width: width,
+//                        width: width,
                         marginRight: 210
                     },
                     title: {text: title},
@@ -932,8 +932,8 @@
                     $container.highcharts({
                         title: {text: title},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            width: width
                         }
                     });
                     return;
@@ -944,7 +944,7 @@
                 $container.highcharts({
                     chart: {
                         type: "column",
-                        width: width,
+//                        width: width,
                         marginRight: 210
                     },
                     title: {text: title},
@@ -1014,8 +1014,8 @@
                     $container.highcharts({
                         title: {text: "Детализация"},
                         chart: {
-                            height: 100,
-                            width: 1184
+                            height: 100
+//                            width: 1184
                         }
                     });
                     return;
@@ -1066,8 +1066,8 @@
                     $container.highcharts({
                         title: {text: "Детализация"},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            width: width
                         }
                     });
                     return;
@@ -1081,8 +1081,8 @@
                         .max(function(p) { return p.x; }).value().x).toDate();
 
                 var xAxis = app.chartUtils.createDateTimeXAxis(clonedFD, false),
-                    isPercent = filterData.valueTypeId == 2,
-                    title = chart.bag.title;
+                        isPercent = filterData.valueTypeId == 2,
+                        title = chart.bag.title;
 
                 _.forEach(series, function (s) {
                     if (s.type === "column") {
@@ -1096,7 +1096,7 @@
                     $container.highcharts({
                         chart: {
                             type: "column",
-                            width: width
+//                            width: width
                         },
                         legend: {enabled: true},
                         title: {text: title},
@@ -1191,7 +1191,7 @@
                     $container.highcharts({
                         chart: {
                             type: "column",
-                            width: width,
+//                            width: width,
                             height: 450
                         },
                         title: {text: title},
@@ -1265,8 +1265,8 @@
                     $container.highcharts({
                         title: {text: title},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            width: width
                         }
                     });
                     return;
@@ -1277,7 +1277,7 @@
                 $container.highcharts({
                     chart: {
                         type: "column",
-                        width: width,
+//                        width: width,
                         marginRight: 210
                     },
                     title: {text: title},

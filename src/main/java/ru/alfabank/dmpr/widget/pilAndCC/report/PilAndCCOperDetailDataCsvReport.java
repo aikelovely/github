@@ -11,11 +11,11 @@ import ru.alfabank.dmpr.repository.pilAndCC.PILAndCCRepository;
 import ru.alfabank.dmpr.widget.BaseCsvReport;
 
 @Service
-public class PilAndCCOperDetailDataСsvReport extends BaseCsvReport<PILAndCCOptions> {
+public class PilAndCCOperDetailDataCsvReport extends BaseCsvReport<PILAndCCOptions> {
     @Autowired
     PILAndCCRepository repository;
 
-    public PilAndCCOperDetailDataСsvReport() {
+    public PilAndCCOperDetailDataCsvReport() {
         super(PILAndCCOptions.class);
     }
 

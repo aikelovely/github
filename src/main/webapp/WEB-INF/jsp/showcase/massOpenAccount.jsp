@@ -156,14 +156,14 @@
             function createDynamic($container, filterData, jsonData, customParams) {
                 var chart = jsonData[0];
 
-                var width = 1184;
+                var width = 768;
 
                 if (chart.series === undefined || chart.series.length === 0 || chart.series[0].data.length === 0) {
                     $container.highcharts({
                         title: {text: ''},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            width: width
                         }
                     });
                     return;
@@ -175,7 +175,7 @@
                 $container.highcharts({
                     chart: {
                         type: "areaspline",
-                        width: width,
+//                        width: width,
                         height: 300
                     },
                     title: {text: ''},

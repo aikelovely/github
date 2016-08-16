@@ -32,10 +32,14 @@ app.components.Select = function (params, element) {
             selectedTextFormat: config.selectedTextFormat || "count>1",
             size: config.size || 10,
             width: config.width || 250,
-            liveSearch: config.enableSearch,
+            liveSearch: true,
             clearLink: config.enableClear,
             selectAllLink: config.enableSelectAll
         });
+
+        if( /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent) ) {
+            $select.selectpicker('mobile');
+        }
 
         if(config.onHide){
             var $selectpicker = $select.data('selectpicker').$newElement;

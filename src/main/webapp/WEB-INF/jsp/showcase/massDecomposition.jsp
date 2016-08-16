@@ -141,7 +141,7 @@
                             }
                         },
                         dontShowAfterMaster: true
-                        },
+                    },
                         {
                             name: "percentDetails",
                             charts: {
@@ -190,8 +190,8 @@
                     $container.highcharts({
                         title: {text: ''},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            ,width: width
                         }
                     });
                     return;
@@ -202,8 +202,8 @@
 
                 $container.highcharts({
                     chart: {
-                        type: "column",
-                        width: width
+                        type: "column"
+//                        ,width: width
                     },
                     title: {text: ''},
                     plotOptions: {
@@ -261,8 +261,8 @@
                     $container.highcharts({
                         title: {text: ''},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            ,width: width
                         }
                     });
                     return;
@@ -273,8 +273,8 @@
 
                 $container.highcharts({
                     chart: {
-                        type: "column",
-                        width: width
+                        type: "column"
+//                        ,width: width
                     },
                     title: {text: ''},
                     plotOptions: {
@@ -345,8 +345,8 @@
                     $container.highcharts({
                         title: {text: bag.title},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            ,width: width
                         }
                     });
                     return;
@@ -365,8 +365,8 @@
 
                 $container.highcharts({
                     chart: {
-                        type: "column",
-                        width: width
+                        type: "column"
+//                        ,width: width
                     },
                     xAxis: xAxis,
                     yAxis: {
@@ -431,8 +431,8 @@
                     $container.highcharts({
                         title: {text: bag.title},
                         chart: {
-                            height: 100,
-                            width: width
+                            height: 100
+//                            ,width: width
                         }
                     });
                     return;
@@ -442,8 +442,8 @@
 
                 $container.highcharts({
                     chart: {
-                        type: "column",
-                        width: width
+                        type: "column"
+//                        ,width: width
                     },
                     xAxis: xAxis,
                     yAxis: {
@@ -489,7 +489,7 @@
 
             function createTable($container, filterData, jsonData, fields, detailInit){
                 var greenCss = "label-success", redCss = "label-danger", yellowCss = "label-warning",
-                    template = "<span class='label label-cell {0}'> {1} </span>";
+                        template = "<span class='label label-cell {0}'> {1} </span>";
 
                 function formatCellValue(data) {
                     if (!data || data[fields.valueField] === undefined || data[fields.valueField] === null) return "";
@@ -506,11 +506,11 @@
                 }
 
                 var systemUnitOption = _.find(app.viewModel.getFilter("systemUnitId").options(),
-                        function(o) { return o.id == filterData.systemUnitId; }),
-                    systemUnitName = systemUnitOption ? systemUnitOption.name : "Единица сети",
-                    columns = app.chartUtils.createDateTimeColumns(filterData, fields.valueField, formatCellValue),
-                    isBranchLevel = filterData.systemUnitId == "4",
-                    isFirstLevel = !filterData.secondLevel;
+                                function(o) { return o.id == filterData.systemUnitId; }),
+                        systemUnitName = systemUnitOption ? systemUnitOption.name : "Единица сети",
+                        columns = app.chartUtils.createDateTimeColumns(filterData, fields.valueField, formatCellValue),
+                        isBranchLevel = filterData.systemUnitId == "4",
+                        isFirstLevel = !filterData.secondLevel;
 
                 if (isFirstLevel) {
                     _.each(columns, function(c) {
@@ -634,7 +634,7 @@
                 };
 
                 var $modal = $("#massDecompositionSlowCompaniesModal"),
-                $modalTitle = $modal.find(".modal-title");
+                        $modalTitle = $modal.find(".modal-title");
 
                 $modalTitle.text("Отчет по превышениям за период с {0} по {1} (этап \"{2}\")".format(
                         moment(period.startDate).format("DD.MM.YYYY"),
@@ -735,10 +735,10 @@
         <script type="text/html" id="buttons-template">
             <div class="btn-group-sm" role="group" style="white-space: normal;">
                 <!-- ko foreach: stages -->
-                    <button class="btn btn-default" data-bind="click: refreshDetailGroup">
-                        <span data-bind="css: badgeCss"></span>
-                        <!-- ko text: name --><!--/ko-->
-                    </button>
+                <button class="btn btn-default" data-bind="click: refreshDetailGroup">
+                    <span data-bind="css: badgeCss"></span>
+                    <!-- ko text: name --><!--/ko-->
+                </button>
                 <!--/ko-->
             </div>
         </script>

@@ -7,6 +7,11 @@
 <t:layout title="${title}">
     <jsp:attribute name="css">
         <style scoped>
+            @media (max-width: 900px) {
+                .custom-chart-container {
+                    top:-60px;
+                }
+            }
             .mb-0 > .chart {
                 margin-bottom: 0;
             }
@@ -682,10 +687,10 @@
                 if (chartMeta.chartName == 'UC по конечным продуктам операционного блока в разрезе Дирекций.') {
 
                     $container.parent().find(".chart-url").html("" +
-                            "<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId=" + selectedOption.id + " >" +
-                            "На витрину UnitCost" +
+                    "<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId=" + selectedOption.id + " >" +
+                    "На витрину UnitCost" +
 //                        selectedOption.name +
-                            "</a>");
+                    "</a>");
                 }
 
                 if (chartMeta.chartName == 'Динамика изменения CTQ' ||
@@ -695,11 +700,11 @@
                     $container.parent().find(".chart-url").html("" +
                             "<a href=${pageContext.request.contextPath}/showcase/obQuality?divisionGroupId=" +
                             selectedOption.id + "&periodType=4" +
-                    "  >" +
-                    "На витрину -> Показатели качества ОБ" +
+                            "  >" +
+                            "На витрину -> Показатели качества ОБ" +
 //                        selectedOption.name +
-                    "</a>"
-                )
+                            "</a>"
+                    )
                     ;
                 }
 
@@ -820,8 +825,8 @@
                             config.yAxis.min = Math.max(Math.min(currentValue, prevValue, planValue) - 5, 0);
                         }
 
-                        config.chart.marginTop = 60;
-                        config.chart.marginBottom = 30;
+//                        config.chart.marginTop = 60;
+//                        config.chart.marginBottom = 30;
 
                         var series;
                         var metaData = findMetaDataByCode(seriesMetaData, seriesCode.prevValue);
