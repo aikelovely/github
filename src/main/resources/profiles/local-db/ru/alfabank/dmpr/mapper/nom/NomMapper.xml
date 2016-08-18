@@ -121,7 +121,6 @@ join DMPR.BPDIVISIONGROUP_EDIM dg1
  and DG1.EFFECTIVE_TO > D.VALUE_DAY
  and DG1.DELETED_FLAG <> 'Y'
 where 1=1
-  and d.value_day between #{startDate} and #{endDate}
   and iep.ccode in ('IEP~13~1','IEP~16~1','IEP~17~1')
   and sp.uk <> 0
 group by sp.uk,P.PRDSTART_DAY, P.VALUE_DAY, dg1.ccode, dg.ccode, IEP1.CCODE, IEP1.NAME, IEP.CCODE, IEP.NAME, SP.NAME_SHORT, IEP.PORTFOLIO_FLAG

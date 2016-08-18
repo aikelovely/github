@@ -1,6 +1,7 @@
 package ru.alfabank.dmpr.mapper.nom;
 
 import ru.alfabank.dmpr.model.ChildEntityWithCode;
+import ru.alfabank.dmpr.model.nom.NomCountFinProd;
 import ru.alfabank.dmpr.model.nom.NomDetailsReportRow;
 import ru.alfabank.dmpr.model.nom.NomKpiDataItem;
 import ru.alfabank.dmpr.model.nom.NomQueryOptions;
@@ -28,4 +29,11 @@ public interface NomMapper {
      * @return
      */
     NomDetailsReportRow[] getReport(NomQueryOptions options);
+
+    /**
+     * Функция для выгрузки данных в Excel
+     * @param options Параметры фильтров
+     * @return
+     */
+    NomCountFinProd[] getCountKP(NomQueryOptions options);
 }
