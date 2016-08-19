@@ -58,8 +58,22 @@
             }
 
             .ob-section filter {
-                position: absolute;
-                left: 288px;
+                /*position: absolute;*/
+                /*left: 288px;*/
+                float: right;
+            }
+
+
+            @media (max-width: 1000px) {
+                .ob-section filter .bootstrap-select {
+                    width: 500px !important;
+                }
+            }
+
+            @media (max-width: 850px) {
+                .ob-section filter .bootstrap-select {
+                    width: 400px !important;
+                }
             }
 
             .ob-section filter .filter {
@@ -283,7 +297,7 @@
                                             {name: "timeUnitId", group: "default", required: true}
                                         ]
                                     },
-                                    width: 780,
+                                    width: 650,
                                     onHide: function () {
                                         app.viewModel.groups.DirectionsDetails.showCharts();
                                     }

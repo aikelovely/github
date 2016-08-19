@@ -31,17 +31,17 @@
         </header>
         <% LinqWrapper<CTQLayoutItem> sectionBlocks = CTQFilterHelper.getBlocksBySection(layoutWrapper, sections[i].blockGroupId); %>
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-6" style="width: 610px !important;">
                 <%
                     CTQLayoutItem[] firstColumnBlocks = CTQFilterHelper.getBlocksByColumn(sectionBlocks, 1);
                     for (int j = 0; j < firstColumnBlocks.length; j++) { %>
                 <chart params="name: '<%= firstColumnBlocks[j].getBlockCode()%>', group: 'default'"></chart>
                 <% } %>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6 shift-col" style="width: 610px !important;">
                 <%
                     CTQLayoutItem[] secondColumnBlocks = CTQFilterHelper.getBlocksByColumn(sectionBlocks, 2);
-                    for (int j = 0; j < secondColumnBlocks.length; j++) { %>
+                    for  (int j = 0; j < secondColumnBlocks.length; j++) { %>
                 <chart params="name: '<%= secondColumnBlocks[j].getBlockCode()%>', group: 'default'"></chart>
                 <% } %>
             </div>
@@ -56,6 +56,13 @@
         <style scoped>
 
             /* Dashboard Common */
+
+            @media (max-width: 1250px) {
+                .shift-col {
+                    margin-left: 15px;
+                    margin-top: 20px;
+                }
+            }
 
             .dashboard-section {
                 background-color: #fff;
@@ -90,7 +97,7 @@
                 border: 1px solid rgba(0, 0, 0, .15);
                 border-radius: 4px;
                 margin-right: 5px;
-                height: 152px;
+                height: 170px;
             }
 
             .dashboard-help-btn {
@@ -290,7 +297,7 @@
             var chartsConfig = _.chain(${layout}).groupBy('blockCode').reduce(function (obj, e) {
                 var first = e[0], result = {
                     jsFunc: createDashboardChart,
-                    dataSource: "CTQDashboardIndex",
+                    dataSource: "CTQDashboardIndex"
                 };
 
                 result.additionalParams = {

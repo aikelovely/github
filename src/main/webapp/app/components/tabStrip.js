@@ -137,7 +137,7 @@ app.components.TabStrip = function (params, element, templateNodes) {
             this.append($('<span class="glyphicon glyphicon-triangle-bottom"></span>'));
             this.append($('<span class="glyphicon glyphicon-triangle-top"></span>'));
 
-            this.on('click', 'li.active > a, span.glyphicon', function() {
+            this.on('click', 'li > a, span.glyphicon', function() {
                 this.toggleClass('open');
                 if (this.hasClass("open")) {
                     this.parent().find('.tab-content').toggleClass('responsive-invisible');

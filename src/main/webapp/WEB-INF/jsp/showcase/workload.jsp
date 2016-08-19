@@ -1290,6 +1290,7 @@
                 ko.applyBindingsToDescendants(viewModel, $container.get(0));
 
                 $container.find("#topNTableTabs a:first").tab('show');
+                $('.nav.nav-tabs').not('.responsive-tabs').responsiveTabs();
             }
 
             app.init(config, function (viewModel) {
@@ -1356,9 +1357,9 @@
 
         <script type="text/html" id="obTopNTable-template">
             <div class="chart-tabs">
-                <ul class="nav nav-tabs" id="topNTableTabs" data-bind="foreach: regions">
+                <ul class="nav nav-tabs" id="topNTableTabs" role="tablist" data-bind="foreach: regions">
                     <li>
-                        <a data-bind="text: regionName, attr: { 'data-target': '#Tab_' + regionId}"
+                        <a data-bind="click: $parent.activateTab, text: regionName, attr: { 'data-target': '#Tab_' + regionId}"
                            data-toggle="tab"></a>
                     </li>
                 </ul>
