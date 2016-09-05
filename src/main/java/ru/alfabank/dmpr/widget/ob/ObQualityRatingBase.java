@@ -74,8 +74,14 @@ public abstract class ObQualityRatingBase extends BaseChart<ObQualityOptions> {
 
         queryOptions.systemUnitCode = null;
         ObQualityDataItem[] baseItems = repository.getRatingData(queryOptions);
+        Boolean j=true;
+        for(int i = 0; i < data.size(); ++i) {
+            if (data.get(i).unitName.contains("Операционный Блок")){
+             j=false;
+            }
+        }
 
-        if (baseItems.length > 0) {
+        if (baseItems.length > 0&&j) {
             data.add(0, new TableRow("", getMainItemName(), selectValue.select(baseItems[0]), selectNormative.select(baseItems[0])));
         }
 

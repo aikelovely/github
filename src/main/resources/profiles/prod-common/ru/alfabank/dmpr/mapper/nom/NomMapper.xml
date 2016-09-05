@@ -81,51 +81,20 @@
             resultType="ru.alfabank.dmpr.model.nom.NomCountFinProd">
         <![CDATA[
 select
-       P.PRDSTART_DAY       as prdStartDay,
-       P.VALUE_DAY          as valueDate,
-       dg1.ccode            as directorate,
-       IEP1.CCODE           as codeFinProd,
-       IEP1.NAME            as nameFinProd,
-       IEP.CCODE            as codeToFinProd,
-       IEP.NAME             as nameToFinProd,
-       SP.NAME_SHORT        as shortName,
-       sum(D.FACTVALUE_CNT) as countAgg,
-       IEP.PORTFOLIO_FLAG   as portfolioFlg
-from DMPR.DEALSTAT_D_SAGG d
-join DMPR.BPINNERENDPRODUCT_EDIM iep
-  on D.BPINNERENDPRODUCT_DK = iep.dk
- and IEP.EFFECTIVE_FROM <= D.VALUE_DAY
- and IEP.EFFECTIVE_TO > D.VALUE_DAY
- and IEP.DELETED_FLAG <> 'Y'
-join DMPR.BPINNERENDPRODUCT_EDIM iep1
-  on IEP.PARENT_DK = iep1.dk
- and IEP1.EFFECTIVE_FROM <= D.VALUE_DAY
- and IEP1.EFFECTIVE_TO > D.VALUE_DAY
- and IEP.DELETED_FLAG <> 'Y'
-join DMPR.BPMANPERIOD_STAT p
-  on D.VALUE_DAY between P.PRDSTART_DAY and P.VALUE_DAY
- and P.DELETED_FLAG <> 'Y'
- and P.PRDTYPE_UK = 3
- and P.BPKINDREPORT_DK = (select dk from DMPR.BPKINDREPORT_SDIM where ccode = 'COUNT')
-join DMPR.SALESPLACE_SDIM sp
-  on D.SALESPLACE_UK = sp.uk
- and SP.DELETED_FLAG <> 'Y'
-join DMPR.BPDIVISIONGROUP_EDIM dg
-  on D.DIVISIONGROUP_UK = DG.DK
- and DG.EFFECTIVE_FROM <= D.VALUE_DAY
- and DG.EFFECTIVE_TO > D.VALUE_DAY
- and DG.DELETED_FLAG <> 'Y'
-join DMPR.BPDIVISIONGROUP_EDIM dg1
-  on IEP1.DIVISIONGROUP_UK = DG1.DK
- and DG1.EFFECTIVE_FROM <= D.VALUE_DAY
- and DG1.EFFECTIVE_TO > D.VALUE_DAY
- and DG1.DELETED_FLAG <> 'Y'
-where 1=1
-  and d.value_day between #{startDate} and #{endDate}
-  and iep.ccode in ('IEP~13~1','IEP~16~1','IEP~17~1')
-  and sp.uk <> 0
-group by sp.uk,P.PRDSTART_DAY, P.VALUE_DAY, dg1.ccode, dg.ccode, IEP1.CCODE, IEP1.NAME, IEP.CCODE, IEP.NAME, SP.NAME_SHORT, IEP.PORTFOLIO_FLAG
-order by P.VALUE_DAY, iep.ccode, SP.NAME_SHORT
+      prdStartDay as prdStartDay,
+      valueDate as valueDate,
+      directorate as directorate,
+      codeFinProd as codeFinProd,
+      nameFinProd as nameFinProd,
+      codeToFinProd as codeToFinProd,
+      nameToFinProd as nameToFinProd,
+      shortName as shortName,
+      countAgg as countAgg,
+      portfolioFlg as portfolioFlg
+from table (pkg_nom_api.get_CountKp(
+        p_Date_From             => #{startDate},
+        p_Date_Till             => #{endDate}
+        ))
         ]]>
     </select>
 </mapper>

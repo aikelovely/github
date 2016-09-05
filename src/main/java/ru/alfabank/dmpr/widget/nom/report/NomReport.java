@@ -307,8 +307,8 @@ public class NomReport extends BaseReport<NomOptions> {
                 .columns(new ColumnFactoryWrapper() {
                     @Override
                     public void createColumns(ColumnFactory c) {
-                        c.add("prdStartDay").title("Дата начала периода");
-                        c.add("valueDate").title("Дата конца периода");
+                        c.add("prdStartDay").title("Дата начала периода").format("dd.MM.yyyy");
+                        c.add("valueDate").title("Дата конца периода").format("dd.MM.yyyy");
                         c.add("directorate").title("Дирекция");
                         c.add("codeFinProd").title("Код КП");
                         c.add("nameFinProd").title("Наименование КП");
