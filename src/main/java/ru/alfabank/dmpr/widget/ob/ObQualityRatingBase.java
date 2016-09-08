@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 /**
+ * test
  * Базовый класс для отображения рейтинга.
  */
 public abstract class ObQualityRatingBase extends BaseChart<ObQualityOptions> {
