@@ -35,4 +35,9 @@ public class CTQRepository {
      * @return значения показателей
      */
     public CTQDashboardIndexItem[] getReportData(CTQDashboardReportQueryOptions options) { return mapper.getReportData(options); }
+    /**
+     * Получает значения показателей для витрины Витрина показателей CTQ"
+     * @return значения показателей
+     */
+    public CTQDashboardIndexItem[] getReportDataSummary(CTQDashboardReportQueryOptions options){ return mapper.getReportDataSummary(options); }
 }

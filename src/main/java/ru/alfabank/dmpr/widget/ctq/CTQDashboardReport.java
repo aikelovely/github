@@ -15,6 +15,7 @@ import ru.alfabank.dmpr.model.Week;
 import ru.alfabank.dmpr.model.ctq.CTQDashboardIndexItem;
 import ru.alfabank.dmpr.model.ctq.CTQDashboardReportOptions;
 import ru.alfabank.dmpr.model.ctq.CTQDashboardReportQueryOptions;
+import ru.alfabank.dmpr.model.ctq.CTQDashboardReportSummary;
 import ru.alfabank.dmpr.repository.ctq.CTQFilterRepository;
 import ru.alfabank.dmpr.repository.ctq.CTQRepository;
 import ru.alfabank.dmpr.widget.BaseReport;
@@ -80,6 +81,8 @@ public class CTQDashboardReport extends BaseReport<CTQDashboardReportOptions> {
     @Override
     protected void configure(ReportBuilder builder, final CTQDashboardReportOptions options) {
         CTQDashboardIndexItem[] data = repository.getReportData(new CTQDashboardReportQueryOptions(options, weeks));
+
+       // CTQDashboardReportSummary[] sumdata = repository.getReportDataSummary(new CTQDashboardReportQueryOptions(options, weeks));
 
         builder.addWorksheet(ReportRow.class)
                 .bindTo(LinqWrapper.from(data).select(new Selector<CTQDashboardIndexItem, ReportRow>() {

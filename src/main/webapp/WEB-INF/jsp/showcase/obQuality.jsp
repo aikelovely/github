@@ -190,7 +190,7 @@
                         directionIds: {
                             type: "Select",
                             multiple: true,
-                            title: "Дирекция",
+                            title: "Дирекция3",
                             enableClear: true,
                             defaultValue: directions,
                             dataSource: {
@@ -483,7 +483,7 @@
                     columns: [
                         {
                             field: "unitName",
-                            title: customParams.group === "Directions" ? "Дирекция" : "Регион",
+                            title: customParams.group === "Directions" ? "Дирекция1" : "Регион",
                             attributes: {
                                 style: "font-weight: bold; font-size: 16px;"
                             }
@@ -715,7 +715,7 @@
 
                 var columns = [{
                     field: "bpDivisionGroupName",
-                    title: "Дирекция",
+                    title: "Дирекция2",
                     width: 85,
                     attributes: {
                         style: "font-weight: bold; font-size: 14px;"
@@ -859,6 +859,9 @@
                 </div>
                 <div class="filter-element">
                     <refresh-button></refresh-button>
+                </div>
+                <div class="filter-element" style="margin-top: 18px;">
+                    <report-button params="reportUrl: 'Nom', group: 'default'"></report-button>
                 </div>
             </div>
             <filter-log></filter-log>

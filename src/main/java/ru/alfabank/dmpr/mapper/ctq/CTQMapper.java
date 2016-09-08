@@ -26,4 +26,11 @@ public interface CTQMapper {
      * @return значения показателей
      */
     CTQDashboardIndexItem[] getReportData(CTQDashboardReportQueryOptions options);
+
+    /**
+     * Получает значения для выгрузки в  Excel
+     * @return значения показателей
+     */
+    CTQDashboardIndexItem[] getReportDataSummary(CTQDashboardReportQueryOptions options);
+
 }
