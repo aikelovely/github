@@ -861,7 +861,7 @@
                     <refresh-button></refresh-button>
                 </div>
                 <div class="filter-element" style="margin-top: 18px;">
-                    <report-button params="reportUrl: 'Nom', group: 'default'"></report-button>
+                    <report-button params="reportUrl: 'ObReportDashboard', group: 'default'"></report-button>
                 </div>
             </div>
             <filter-log></filter-log>

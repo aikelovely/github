@@ -83,7 +83,7 @@
 
     <select id="getReportDataSummary" useCache="false"
             parameterType="ru.alfabank.dmpr.model.ctq.CTQDashboardReportQueryOptions"
-            resultType="ru.alfabank.dmpr.model.ctq.CTQDashboardIndexItem">
+            resultType="ru.alfabank.dmpr.model.ctq.CTQDashboardSumData">
         <![CDATA[
         select valueday,
                period,

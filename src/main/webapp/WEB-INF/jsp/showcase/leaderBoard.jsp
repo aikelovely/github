@@ -1998,7 +1998,7 @@
             </div>
 
             <div class="filter-element" style="margin-top: 18px;">
-                <report-button params="reportUrl: 'Nom', group: 'default'"></report-button>
+                <report-button params="reportUrl: 'LeaderBoardReportDashboard', group: 'default'"></report-button>
             </div>
         </div>
 

@@ -303,7 +303,7 @@ public class NomReport extends BaseReport<NomOptions> {
 
         builder.addWorksheet(NomCountFinProd.class)
                 .bindTo(countKP)
-                .title("CountKP")
+                .title("IEP-13-1 | IEP-16-1 | IEP-17-1")
                 .columns(new ColumnFactoryWrapper() {
                     @Override
                     public void createColumns(ColumnFactory c) {

@@ -1,9 +1,6 @@
 package ru.alfabank.dmpr.mapper.ctq;
 
-import ru.alfabank.dmpr.model.ctq.CTQDashboardDynamicQueryOptions;
-import ru.alfabank.dmpr.model.ctq.CTQDashboardIndexItem;
-import ru.alfabank.dmpr.model.ctq.CTQDashboardOptions;
-import ru.alfabank.dmpr.model.ctq.CTQDashboardReportQueryOptions;
+import ru.alfabank.dmpr.model.ctq.*;
 
 /**
  * MyBatis mapper. Используется для загрузки данных для графиков витрин CTQDashboard*
@@ -31,6 +28,6 @@ public interface CTQMapper {
      * Получает значения для выгрузки в  Excel
      * @return значения показателей
      */
-    CTQDashboardIndexItem[] getReportDataSummary(CTQDashboardReportQueryOptions options);
+    CTQDashboardSumData[] getReportDataSummary();
 
 }

@@ -10,6 +10,7 @@ import ru.alfabank.dmpr.model.BaseEntityWithCode;
 import ru.alfabank.dmpr.model.leaderBoard.ChartMetaData;
 import ru.alfabank.dmpr.model.leaderBoard.KpiDataItem;
 import ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions;
+import ru.alfabank.dmpr.model.leaderBoard.ReportDashboardQualityBo;
 
 /**
  * Репозиторий для графиков витрины КПЭ ОБ.
@@ -76,7 +77,7 @@ public class LeaderBoardRepository {
     public ChartMetaData[] getLayout(LeaderBoardOptions options) {
         return mapper.getLayout(options);
     }
-
+    public ReportDashboardQualityBo[] getqualitybo() {return mapper.getqualitybo();}
     private void setOptions(LeaderBoardOptions options, String... kpiCodes) {
         if(options.divisionGroupId == null){
             BaseEntity allDivision = filterRepository.getDivisionGroupByCode(options.startDate, options.endDate, "ОБ");

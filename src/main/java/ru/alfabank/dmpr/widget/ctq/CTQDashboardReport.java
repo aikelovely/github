@@ -108,20 +108,21 @@ public class CTQDashboardReport extends BaseReport<CTQDashboardReportOptions> {
                 .columns(new ColumnFactoryWrapper() {
                     @Override
                     public void createColumns(ColumnFactory c) {
-                        c.add("valueDay").title("Дата").format("dd.MM.yyyy");
+                        c.add("valueday").title("Дата").format("dd.MM.yyyy");
                         c.add("period").title("Период").width(15);
-                        c.add("typePeriod").title("Тип Периода").width(15);
-                        c.add("numPeriod").title("№ периода").width(15);
+                        c.add("typeperiod").title("Тип Периода").width(15);
+                        c.add("numperiod").title("№ периода").width(15);
                         c.add("directorate").title("Дирекция").width(15);
-                        c.add("nameType").title("Тип").width(15);
-                        c.add("codeKpi").title("Код Показатель").width(15);
-                        c.add("nameKpi").title("Показатель").width(15);
+                        c.add("nametype").title("Тип").width(15);
+                        c.add("codekpi").title("Код Показатель").width(15);
+                        c.add("namekpi").title("Показатель").width(15);
                         c.add("direction").title("Направление").width(15);
                         c.add("summary").title("Всего").width(15);
                         c.add("successfully").title("Успешно").width(15);
-                        c.add("factKpi").title("Факт KPI").width(15);
-                        c.add("goalKpi").title("Цель KPI").width(15);
-                        c.add("executeKpi").title("Выполнение  KPI").width(15);
+                        c.add("factkpi").title("Факт KPI").width(15);
+                        c.add("goalkpi").title("Цель KPI").width(15);
+                        c.add("executekpi").title("Выполнение  KPI").width(15);
+
                     }
                 });
 
