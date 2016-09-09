@@ -35,7 +35,7 @@ public class ObReportDashboard extends BaseReport<ObQualityAdditionalOptions> {
     protected void configure(ReportBuilder builder, ObQualityAdditionalOptions options) {
 
    ObReportSummaryQuality[] data = repository.getsummarykpiob();
-/*9999
+/*9999*/
    builder.addWorksheet(ObReportSummaryQuality.class)
                 .bindTo(data)
                 .title("Детальные данные")
