@@ -80,4 +80,26 @@
         ))
         ]]>
     </select>
+
+    <select id="getReportDataSummary" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.ctq.CTQDashboardReportQueryOptions"
+            resultType="ru.alfabank.dmpr.model.ctq.CTQDashboardSumData">
+        <![CDATA[
+        select valueday,
+               period,
+               typeperiod,
+               numperiod,
+               directorate,
+               nametype,
+               codekpi,
+               namekpi,
+               direction,
+               summary,
+               successfully,
+               factkpi,
+               goalkpi,
+               executekpi
+        from table(pkg_ctqb_api.get_summaryCTQB())
+        ]]>
+    </select>
 </mapper>
