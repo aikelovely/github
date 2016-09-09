@@ -50,7 +50,7 @@ public class LeaderBoardReportDashboard extends BaseReport<LeaderBoardOptions> {
                         c.add("regionCenter").title("Региональный  центр").width(15);
                         c.add("factKpi").title("Факт KPI").width(15);
                         c.add("goalKpi").title("Цель KPI").width(15);
-                        c.add("executekpi").title("Выполнение  KPI").width(15);
+                        c.add("executeKpi").title("Выполнение  KPI").width(15);
                     }
                 });
     }

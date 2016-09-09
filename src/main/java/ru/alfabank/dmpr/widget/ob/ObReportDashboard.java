@@ -56,7 +56,7 @@ public class ObReportDashboard extends BaseReport<ObQualityAdditionalOptions> {
                         c.add("summary").title("Всего").width(15);
                         c.add("successfully").title("Успешно").width(15);
                         c.add("factkpi").title("Факт KPI").width(15);
-                        c.add("goalkpi").title("Цель KPI").width(15);
+                        c.add("goatkpi").title("Цель KPI").width(15);
                         c.add("executekpi").title("Выполнение  KPI").width(15);
                         c.add("descript").title("Комментарий").width(15);
                         c.add("duodr_flag").title("ДУОДР").width(15);
