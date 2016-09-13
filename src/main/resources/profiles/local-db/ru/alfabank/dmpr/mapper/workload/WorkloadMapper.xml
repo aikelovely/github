@@ -11,6 +11,7 @@
             resultType="ru.alfabank.dmpr.model.workload.DivisionStat">
         <![CDATA[
 
+
         select
             WLUNITTK as id,
             WLPARENTUNITTK as parentId,
@@ -39,6 +40,7 @@
             p_InnerEndProductId  => #{innerEndProductId}
         ))
 
+
         ]]>
     </select>
 
@@ -46,6 +48,7 @@
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.WLDynamicItem">
         <![CDATA[
+
 
         select
             calcdate,
@@ -64,6 +67,7 @@
             p_BPORGREGIONDK => #{regionId}
         ))
 
+
         ]]>
     </select>
 
@@ -71,6 +75,7 @@
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.ESUDynamicItem">
         <![CDATA[
+
 
         select
             calcDate,
@@ -92,6 +97,7 @@
             p_BPORGREGIONDK => #{regionId}
         ))
 
+
         ]]>
     </select>
 
@@ -100,6 +106,7 @@
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.DistributionInfo">
         <![CDATA[
+
 
         select
             calcdate,
@@ -113,8 +120,11 @@
             p_Slice   => #{sliceCode},
             p_WeekCnt => #{weekCount},
             p_BPDivisionGroupDK => #{divisionGroupId},
-            p_BPOrgRegionDK => #{regionId}
+            p_BPOrgRegionDK => #{regionId},
+            p_DuodrRegDK  => #{duodrReg},
+            p_InnerEndProductId  => #{innerEndProductId}
         ))
+
 
         ]]>
     </select>
@@ -123,6 +133,7 @@
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.DivisionStat">
         <![CDATA[
+
 
         select
           wlunittk as id,
@@ -135,12 +146,14 @@
           p_TopSide => #{topSide}
        ))
 
+
         ]]>
     </select>
 
     <select id="getBpiepnormValue" useCache="false"
             resultType="ru.alfabank.dmpr.model.workload.BpiepnormValue">
         <![CDATA[
+
 
 
         select
@@ -155,12 +168,14 @@
  EffectifTo
        from table(pkg_workload_api.get_BpiepnormValue())
 
+
         ]]>
     </select>
 
     <select id="getBpworkWeek" useCache="false"
             resultType="ru.alfabank.dmpr.model.workload.BpworkWeekReport">
         <![CDATA[
+
   select
 Ccode,
  Name,
@@ -169,6 +184,7 @@ Ccode,
  ValueDay,
  WorkminCnt
        from table(pkg_workload_api.get_BpworkWeek())
+
         ]]>
     </select>
 
@@ -176,6 +192,7 @@ Ccode,
     <select id="getConvertCount" useCache="false"
             resultType="ru.alfabank.dmpr.model.workload.ConvertCountReport">
         <![CDATA[
+
 
   select
 ValueDay,
@@ -191,12 +208,14 @@ round(Worktime4staffunitCnt,4) Worktime4staffunitCnt  ,
 round(EstimatedstaffunitCnt,4) EstimatedstaffunitCnt
        from table(pkg_workload_api.get_ConvertCount())
 
+
         ]]>
     </select>
 
     <select id="getWorkload" useCache="false"
             resultType="ru.alfabank.dmpr.model.workload.WorkloadReport">
         <![CDATA[
+
  select
  ValueDay ,
  BpdivisiongroupNameLvl1,
@@ -228,6 +247,7 @@ round(EstimatedstaffunitCnt,4) EstimatedstaffunitCnt
  TotalcriteriaCnt,
  WorkloadFactor
   from table(pkg_workload_api.get_Workload())
+
 
         ]]>
     </select>

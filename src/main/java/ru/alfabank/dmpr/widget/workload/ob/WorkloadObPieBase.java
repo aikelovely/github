@@ -35,6 +35,7 @@ public abstract class WorkloadObPieBase extends BaseChart<WorkloadOptions> {
         queryOptions.sliceCode = getSliceCode().toString();
         queryOptions.weekCount = getWeekCount();
 
+
         Point[] points = LinqWrapper.from(repository.getStaffDistribution(queryOptions))
                 .select(new Selector<DistributionInfo, Point>() {
                     @Override
