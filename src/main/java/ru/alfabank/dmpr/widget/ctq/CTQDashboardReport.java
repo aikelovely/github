@@ -12,9 +12,7 @@ import ru.alfabank.dmpr.infrastructure.linq.Selector;
 import ru.alfabank.dmpr.model.Period;
 import ru.alfabank.dmpr.model.PeriodSelectOption;
 import ru.alfabank.dmpr.model.Week;
-import ru.alfabank.dmpr.model.ctq.CTQDashboardIndexItem;
-import ru.alfabank.dmpr.model.ctq.CTQDashboardReportOptions;
-import ru.alfabank.dmpr.model.ctq.CTQDashboardReportQueryOptions;
+import ru.alfabank.dmpr.model.ctq.*;
 import ru.alfabank.dmpr.repository.ctq.CTQFilterRepository;
 import ru.alfabank.dmpr.repository.ctq.CTQRepository;
 import ru.alfabank.dmpr.widget.BaseReport;
@@ -81,6 +79,8 @@ public class CTQDashboardReport extends BaseReport<CTQDashboardReportOptions> {
     protected void configure(ReportBuilder builder, final CTQDashboardReportOptions options) {
         CTQDashboardIndexItem[] data = repository.getReportData(new CTQDashboardReportQueryOptions(options, weeks));
 
+        CTQDashboardSumData[] sumdata = repository.getReportDataSummary();
+
         builder.addWorksheet(ReportRow.class)
                 .bindTo(LinqWrapper.from(data).select(new Selector<CTQDashboardIndexItem, ReportRow>() {
                     @Override
@@ -102,5 +102,31 @@ public class CTQDashboardReport extends BaseReport<CTQDashboardReportOptions> {
                         c.add("totalCount").title("Всего");
                     }
                 });
+               builder.addWorksheet(CTQDashboardSumData.class)
+                .bindTo(sumdata)
+                .title("Детальные данные")
+                .columns(new ColumnFactoryWrapper() {
+                    @Override
+                    public void createColumns(ColumnFactory c) {
+                        c.add("valueday").title("Дата").format("dd.MM.yyyy");
+                        c.add("period").title("Период").width(15);
+                        c.add("typeperiod").title("Тип Периода").width(15);
+                        c.add("numperiod").title("№ периода").width(15);
+                        c.add("directorate").title("Дирекция").width(15);
+                        c.add("nametype").title("Тип").width(15);
+                        c.add("codekpi").title("Код Показатель").width(15);
+                        c.add("namekpi").title("Показатель").width(15);
+                        c.add("direction").title("Направление").width(15);
+                        c.add("summary").title("Всего").width(15);
+                        c.add("successfully").title("Успешно").width(15);
+                        c.add("factkpi").title("Факт KPI").width(15);
+                        c.add("goalkpi").title("Цель KPI").width(15);
+                        c.add("executekpi").title("Выполнение  KPI").width(15);
+
+                    }
+                });
+
+
+
     }
 }

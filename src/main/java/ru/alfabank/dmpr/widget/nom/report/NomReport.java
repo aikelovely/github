@@ -16,6 +16,7 @@ import ru.alfabank.dmpr.infrastructure.linq.*;
 import ru.alfabank.dmpr.model.Period;
 import ru.alfabank.dmpr.model.PeriodSelectOption;
 import ru.alfabank.dmpr.model.Week;
+import ru.alfabank.dmpr.model.nom.NomCountFinProd;
 import ru.alfabank.dmpr.model.nom.NomDetailsReportRow;
 import ru.alfabank.dmpr.model.nom.NomOptions;
 import ru.alfabank.dmpr.model.nom.NomQueryOptions;
@@ -129,9 +130,12 @@ public class NomReport extends BaseReport<NomOptions> {
         NomDetailsReportRow[] periodDataByWeek = repository.getReport(queryOptions);
         NomDetailsReportRow[] abnormalEmissionsData;
 
-        if (groupData == null || groupData.length == 0
+        NomCountFinProd[] countKP = repository.getCountKP(queryOptions);
+
+        if ((groupData == null || groupData.length == 0
                 || periodData == null || periodData.length == 0
-                || periodDataByWeek == null || periodDataByWeek.length == 0) {
+                || periodDataByWeek == null || periodDataByWeek.length == 0) &&
+                (countKP == null || countKP.length == 0)) {
             builder.addNoDataWorksheet();
             return;
         }
@@ -208,6 +212,8 @@ public class NomReport extends BaseReport<NomOptions> {
                 .bindTo(periodDataByWeek)
                 .title("В разрезе периодов(Переходящие)")
                 .columns(getColumns(true, false, false));
+
+
 
         // Группированные данные по операциям
         NomDetailsReportRow[] operationalAbnormalEmissionsData =
@@ -294,6 +300,25 @@ public class NomReport extends BaseReport<NomOptions> {
                 }).toArray(NomDetailsReportRow.class))
                 .title("Аномальные выбросы по операциям")
                 .columns(getColumns(true, true, false));
+
+        builder.addWorksheet(NomCountFinProd.class)
+                .bindTo(countKP)
+                .title("IEP-13-1 | IEP-16-1 | IEP-17-1")
+                .columns(new ColumnFactoryWrapper() {
+                    @Override
+                    public void createColumns(ColumnFactory c) {
+                        c.add("prdStartDay").title("Дата начала периода").format("dd.MM.yyyy");
+                        c.add("valueDate").title("Дата конца периода").format("dd.MM.yyyy");
+                        c.add("directorate").title("Дирекция");
+                        c.add("codeFinProd").title("Код КП");
+                        c.add("nameFinProd").title("Наименование КП");
+                        c.add("codeToFinProd").title("Код ПодКП");
+                        c.add("nameToFinProd").title("Наименование ПодКП");
+                        c.add("shortName").title("ОО/ДО");
+                        c.add("countAgg").title("Количество");
+                        c.add("portfolioFlg").title("Флаг портфельности КП");
+                    }
+                });
     }
 
     private void fillAbnormalEmissions(NomDetailsReportRow[] data){

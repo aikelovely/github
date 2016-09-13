@@ -4,6 +4,7 @@ import ru.alfabank.dmpr.model.BaseEntityWithCode;
 import ru.alfabank.dmpr.model.leaderBoard.ChartMetaData;
 import ru.alfabank.dmpr.model.leaderBoard.KpiDataItem;
 import ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions;
+import ru.alfabank.dmpr.model.leaderBoard.ReportDashboardQualityBo;
 
 /**
  * MyBatis mapper. Используется для загрузки данных для графиков витрины КПЭ ОБ.
@@ -30,4 +31,7 @@ public interface LeaderBoardMapper {
     KpiDataItem[] getKpiDataLastFact(LeaderBoardOptions options);
 
     ChartMetaData[] getLayout(LeaderBoardOptions options);
+
+    ReportDashboardQualityBo[] getqualitybo();
+
 }

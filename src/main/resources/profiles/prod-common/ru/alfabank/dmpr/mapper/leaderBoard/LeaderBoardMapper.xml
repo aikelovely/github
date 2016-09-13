@@ -106,4 +106,27 @@
         from table(pkg_leaderboard_api.get_layout)
         ]]>
     </select>
+
+    <select id="getqualitybo" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions"
+            resultType="ru.alfabank.dmpr.model.leaderBoard.ReportDashboardQualityBo">
+        <![CDATA[
+              select
+              valueDay as       valueDay,
+              period as         period,
+              typePeriod as     typePeriod,
+              numPeriod as      numPeriod,
+              directorate as    directorate,
+              nameType as       nameType,
+              codeKpi as        codeKpi,
+              nameKpi as        nameKpi,
+              regions as        regions,
+              regionCenter as   regionCenter,
+              factKpi as        factKpi,
+              goalKpi as        goalKpi,
+              executeKpi as     executeKpi
+              from table(pkg_leaderboard_api.get_qualityBo())
+        ]]>
+    </select>
+
 </mapper>

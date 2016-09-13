@@ -1,6 +1,5 @@
 package ru.alfabank.dmpr.widget.ob;
 
-import org.apache.xmlbeans.impl.xb.xsdschema.Public;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.alfabank.dmpr.infrastructure.chart.ChartResult;
 import ru.alfabank.dmpr.infrastructure.linq.LinqWrapper;
@@ -73,29 +72,13 @@ public abstract class ObQualityRatingBase extends BaseChart<ObQualityOptions> {
             }
         }).toList();
 
+        queryOptions.systemUnitCode = null;
+        ObQualityDataItem[] baseItems = repository.getRatingData(queryOptions);
 
-       Boolean j=true;
- //z       String  jcode;
-       for(int i = 0; i < data.size(); ++i) {
-           if (data.get(i).unitName.contains("Операционный Блок") )
-           {
-                j=false;
-           //    unitCode=data.get(i).unitCode;
-            }
-
-
-
-       }
-
-        if (j) {
-            queryOptions.systemUnitCode = null;
-            ObQualityDataItem[] baseItems = repository.getRatingData(queryOptions);
-            if (baseItems.length > 0) {
-                //     if (baseItems.length > 0) {
-
-                data.add(0, new TableRow("", getMainItemName(), selectValue.select(baseItems[0]), selectNormative.select(baseItems[0])));
-            }
+        if (baseItems.length > 0) {
+            data.add(0, new TableRow("", getMainItemName(), selectValue.select(baseItems[0]), selectNormative.select(baseItems[0])));
         }
+
         Map<String, Object> bag = new HashMap<>();
         bag.put("data", data);
 

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 import ru.alfabank.dmpr.mapper.ob.ObQualityMapper;
 import ru.alfabank.dmpr.model.ob.ObQualityDataItem;
 import ru.alfabank.dmpr.model.ob.ObQualityQueryOptions;
+import ru.alfabank.dmpr.model.ob.ObReportSummaryQuality;
 
 /**
  * Маппер, отвечающий за загрузку данных для графиков витрины "Показатели качества ОБ".
@@ -35,9 +36,11 @@ public class ObQualityRepository {
     /**
      * Возвращает данные для таблицы с детализацией за отчетный период
      * @param options Текущие значения фильтров
-     * @return
+     * @return ObReportSummaryQuality[] getsummarykpiob();
      */
     public ObQualityDataItem[] getDetailsData(ObQualityQueryOptions options){
         return mapper.getDetailsData(options);
     }
-}
+    public ObReportSummaryQuality[] getsummarykpiob(){
+        return mapper.getsummarykpiob();
+    }}

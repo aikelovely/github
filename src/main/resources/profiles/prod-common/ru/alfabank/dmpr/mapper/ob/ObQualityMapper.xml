@@ -122,4 +122,33 @@
         ))
         ]]>
     </select>
+
+
+    <select id="getsummarykpiob" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.ob.ObQualityQueryOptions"
+            resultType="ru.alfabank.dmpr.model.ob.ObReportSummaryQuality">
+        <![CDATA[
+        select
+             valueday,
+             period,
+             typeperiod,
+             numperiod,
+             directorate,
+             nametype,
+             codekpi,
+             namekpi  ,
+             regions,
+             regioncenter,
+             direction,
+             summary,
+             successfully,
+             factkpi,
+             goatkpi,
+             executekpi,
+             descript,
+             duodr_flag
+        from table(pkg_kpiob_api.get_summaryKpiOb())
+        ]]>
+    </select>
+
 </mapper>

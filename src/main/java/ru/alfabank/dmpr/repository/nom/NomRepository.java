@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import ru.alfabank.dmpr.mapper.nom.NomMapper;
 import ru.alfabank.dmpr.model.ChildEntityWithCode;
+import ru.alfabank.dmpr.model.nom.NomCountFinProd;
 import ru.alfabank.dmpr.model.nom.NomDetailsReportRow;
 import ru.alfabank.dmpr.model.nom.NomKpiDataItem;
 import ru.alfabank.dmpr.model.nom.NomQueryOptions;
@@ -40,5 +41,14 @@ public class NomRepository {
      */
     public NomKpiDataItem[] getKpiData(NomQueryOptions options) {
         return mapper.getKpiData(options);
+    }
+
+    /**
+     * Функция для выгрузки данных в Excel
+     * @param options Параметры фильтров
+     * @return
+     */
+    public NomCountFinProd[] getCountKP(NomQueryOptions options) {
+       return mapper.getCountKP(options);
     }
 }
