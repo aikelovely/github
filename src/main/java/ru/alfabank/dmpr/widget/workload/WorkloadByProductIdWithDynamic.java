@@ -35,7 +35,6 @@ public class WorkloadByProductIdWithDynamic extends BaseWidget<WorkloadOptions, 
 
         WorkloadQueryOptions queryOptions = new WorkloadQueryOptions(options, weeks);
         queryOptions.weekCount = 8;
-
         ESUDynamicItem[] data = repository.getESUDynamic(queryOptions);
 
         LinqWrapper.from(data).each(new Action<ESUDynamicItem>() {

@@ -11,6 +11,7 @@
             resultType="ru.alfabank.dmpr.model.workload.DivisionStat">
         <![CDATA[
 
+
         select
             WLUNITTK as id,
             WLPARENTUNITTK as parentId,
@@ -39,6 +40,7 @@
             p_InnerEndProductId  => #{innerEndProductId}
         ))
 
+
         ]]>
     </select>
 
@@ -46,7 +48,6 @@
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.WLDynamicItem">
         <![CDATA[
-
         select
             calcdate,
             wlunittk as unitId,
@@ -61,8 +62,10 @@
             p_WeekCnt => #{weekCount},
             p_RPTypeID => #{rpTypeId},
             p_BPDIVISIONGROUPDK => #{divisionGroupId},
-            p_BPORGREGIONDK => #{regionId}
+            p_BPORGREGIONDK => #{regionId},
+            p_DuodrRegDK  => #{duodrReg}
         ))
+
 
         ]]>
     </select>
@@ -71,7 +74,6 @@
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.ESUDynamicItem">
         <![CDATA[
-
         select
             calcDate,
             wlUnitTk as unitId,
@@ -89,8 +91,11 @@
             p_WeekCnt => #{weekCount},
             p_RPTypeID => #{rpTypeId},
             p_BPDIVISIONGROUPDK => #{divisionGroupId},
-            p_BPORGREGIONDK => #{regionId}
+            p_BPORGREGIONDK => #{regionId},
+            p_InnerEndProductId  => #{innerEndProductId},
+            p_DuodrRegDK  => #{duodrReg}
         ))
+
 
         ]]>
     </select>
@@ -100,7 +105,6 @@
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.DistributionInfo">
         <![CDATA[
-
         select
             calcdate,
             wlunittk as id,
@@ -113,8 +117,11 @@
             p_Slice   => #{sliceCode},
             p_WeekCnt => #{weekCount},
             p_BPDivisionGroupDK => #{divisionGroupId},
-            p_BPOrgRegionDK => #{regionId}
+            p_BPOrgRegionDK => #{regionId},
+            p_RPTypeID => #{rpTypeId},
+            p_DuodrRegDK  => #{duodrReg}
         ))
+
 
         ]]>
     </select>
@@ -123,8 +130,7 @@
             parameterType="ru.alfabank.dmpr.model.workload.WorkloadQueryOptions"
             resultType="ru.alfabank.dmpr.model.workload.DivisionStat">
         <![CDATA[
-
-        select
+      select
           wlunittk as id,
           wlunitname as unitname,
           bporgregion_dk as regionId,
@@ -135,15 +141,14 @@
           p_TopSide => #{topSide}
        ))
 
+
         ]]>
     </select>
 
     <select id="getBpiepnormValue" useCache="false"
             resultType="ru.alfabank.dmpr.model.workload.BpiepnormValue">
         <![CDATA[
-
-
-        select
+select
  BpinnerendProductCcode,
  BpinnerendProductName,
  BporgRegionCcode,
@@ -154,21 +159,21 @@
  EffectifFrom ,
  EffectifTo
        from table(pkg_workload_api.get_BpiepnormValue())
-
-        ]]>
+ ]]>
     </select>
 
     <select id="getBpworkWeek" useCache="false"
             resultType="ru.alfabank.dmpr.model.workload.BpworkWeekReport">
         <![CDATA[
-  select
-Ccode,
+select
+ Ccode,
  Name,
  NumberOfWeek,
  YearWeek ,
  ValueDay,
  WorkminCnt
        from table(pkg_workload_api.get_BpworkWeek())
+
         ]]>
     </select>
 
@@ -176,8 +181,7 @@ Ccode,
     <select id="getConvertCount" useCache="false"
             resultType="ru.alfabank.dmpr.model.workload.ConvertCountReport">
         <![CDATA[
-
- select
+select
 ValueDay,
 BpDivisionGroupCcode,
 BpinnerendProductName,
@@ -190,7 +194,6 @@ round(TotallaborvalueCnt,4) TotallaborvalueCnt  ,
 round(Worktime4staffunitCnt,4) Worktime4staffunitCnt  ,
 round(EstimatedstaffunitCnt,4) EstimatedstaffunitCnt
        from table(pkg_workload_api.get_ConvertCount())
-
         ]]>
     </select>
 
@@ -229,8 +232,8 @@ round(EstimatedstaffunitCnt,4) EstimatedstaffunitCnt
  WorkloadFactor
   from table(pkg_workload_api.get_Workload())
 
+
         ]]>
     </select>
-
 
 </mapper>

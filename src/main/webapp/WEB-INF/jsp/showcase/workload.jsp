@@ -204,6 +204,55 @@
                 white-space: normal;
                 vertical-align: top;
             }
+
+            .kpiId-section {
+                background-color: #fff;
+                border: 1px solid #e5e5e5;
+                margin: 20px 0;
+                padding-bottom: 0px;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                min-height: 32px;
+            }
+
+            .kpiId-section header {
+                background-color: #d8d8d8;
+                font-size: 17px;
+                padding: 3px 7px 7px;
+                margin-bottom: 0px;
+                border-top-left-radius: 4px;
+                border-top-right-radius: 4px;
+                text-align: left;
+                line-height: 32px;
+                position: relative;
+            }
+
+            .kpiId-section filter {
+                /*float: right;*/
+                text-align: left;
+            }
+
+            @media (max-width: 1000px) {
+                .kpiId-section filter .bootstrap-select {
+                    width: 500px !important;
+                }
+            }
+
+            @media (max-width: 850px) {
+                .kpiId-section filter .bootstrap-select {
+                    width: 400px !important;
+                }
+            }
+
+            .kpiId-section filter .filter {
+                display: inline-block;
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+
+            .kpiId-section filter .filter .dropdown-menu .inner .text {
+                white-space: normal;
+            }
         </style>
     </jsp:attribute>
 
@@ -270,7 +319,10 @@
                                 params: [
                                     {name: "week", group: "default"}]
                             },
-                            width: 250
+                            width: 650,
+                            onHide: function () {
+                                app.viewModel.groups.default.showCharts();
+                            }
                         }
 
                     },
@@ -461,6 +513,7 @@
 
                                 var css;
                                 var value = (item.workloadRate * 100).toFixed(0);
+                                var value2 = (item.workloadRate).toFixed(0);
                                 if (value < 85) {
                                     css = yellowCss;
                                 } else if (value < 115) {
@@ -470,8 +523,13 @@
                                 } else {
                                     css = redCss;
                                 }
+                           if (value2 ==0 ) {
+                               return " ";
+                                }
+                           else {
+                               return "<span class='label label-cell {0}'>{1}%</span>".format(css, value);
+                           }
 
-                                return "<span class='label label-cell {0}'>{1}%</span>".format(css, value);
                             }
                         }
                     ],
@@ -812,7 +870,7 @@
                     color: "#434348",
                     name: "Количество конечных продуктов",
                     yAxis: 1,
-                    visible:false,
+                    visible: false,
                     data: _.map(data, function (item) {
                         return {
                             x: item.calcDate,
@@ -1441,12 +1499,12 @@
                     <report-button params="reportUrl: 'BpiepnormValueReport', group: 'default'"></report-button>
                 </div>
             </div>
-            <div class="filter-row">
-                <div class="filter-element">
-                    <filter params="name: 'innerEndProductId'"></filter>
-                </div>
+                <%--<div class="filter-row">--%>
+                <%--<div class="filter-element">--%>
+                <%--<filter params="name: 'innerEndProductId'"></filter>--%>
+                <%--</div>--%>
 
-            </div>
+                <%--</div>--%>
             <filter-log></filter-log>
         </div>
 
@@ -1517,6 +1575,16 @@
                     </div>
                 </tab>
                 <tab>
+                    <div class="kpiId-section">
+                        <header>
+
+                    <div>
+
+                        <filter params="name: 'innerEndProductId'"></filter>
+                    </div>
+                        </header>
+
+                    </div>
                     <div class="row">
                         <div class="col-xs-4">
                             <chart params="name: 'divisionList'"></chart>
@@ -1615,11 +1683,11 @@
 
 
                             <!-- ko if: (groups.default.filters.innerEndProductId.value() ==null || groups.default.filters.innerEndProductId.value()!='Все') -->
-                             <!-- ko if: groups.default.filters.innerEndProductId.value() -->
+                            <!-- ko if: groups.default.filters.innerEndProductId.value() -->
                             <div id="WorkloadByProductIdDiv" class="styled-chart-container">
-                                 <div class="styled-chart-title small-title-font">
-                                     Динамика количества и расчетной численности
-                                 </div>
+                                <div class="styled-chart-title small-title-font">
+                                    Динамика количества и расчетной численности
+                                </div>
                                 <chart params="name: 'WorkloadByProductId', group: 'rightSide'"></chart>
                             </div>
                             <!-- /ko -->
