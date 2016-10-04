@@ -30,7 +30,7 @@
             NonSLAStaffCnt,
             RelocationRate,
             SLAFactValueDoubleCnt as slaFactValueDoubleCnt,
-            Lvl
+            Lvl,SLAFACTVALUE_CNT as slaFactValueCnt
         from table(pkg_workload_api.get_bpdivision_stat(
             p_DateTo => #{endDate},
             p_RPTypeID => #{rpTypeId},

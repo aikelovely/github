@@ -478,5 +478,151 @@
         ))
         ]]>
     </select>
+    <!--ECXEL-->
+    <select id="getUnitCost" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCost">
+        <![CDATA[
+       SELECT
+ PRDTYPE_CCODE  as prdtypeCcode
+, lvl  as lvl
+, value_day  as valueDay
+, BPINNERENDPRODUCT_NAME  as bpinnerendproductName
+, BPINNERENDPRODUCT_CCODE as bpinnerendproductCcode
+, BPORGREGION_CCODE  as bporgregionCcode
+, BPDIVISIONGROUP_IEP_CCODE  as bpdivisiongroupIepCcode
+, TOTALBPIEPQUANTITY_CNT  as totalbpiepquantityCnt
+, TOTALLABORVALUE_CNT  as totallaborvalueCnt
+, TOTALCOSTUSD_CNT  as totalcostusdCnt
+, TOTALCOSTRUR_CNT  as totalcostrurCnt
+, UC_USD  as ucUsd
+, UC_RUR as ucRur
+        FROM TABLE (pkg_uc_api.get_Unit_Cost (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate}
+        ))
+        ]]>
+    </select>
+
+    <select id="getPl" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.Pl">
+        <![CDATA[
+SELECT
+   VALUE_DAY  valueDay
+, CCODE   ccode
+, RUS_CCODE rusCcode
+, NCODE_PL  ncodePl
+, NAME_PL  namePl
+, NCODE_GR  ncodeGr
+, NAME_GR nameGr
+, SUM_RUR_AMT sumRurAmt
+, SUM_USD_AMT sumUsdAmt
+        FROM TABLE (pkg_uc_api.get_PL (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate}
+        ))
+        ]]>
+    </select>
+    <!--0-->
+    <select id="getDetailreportUc" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.DetailreportUc">
+        <![CDATA[
+SELECT
+ VALUE_DAY valueDay
+,PROFITCENTER_RUS_CCODE  profitcenterRusCcode
+,BPORGREGION_COST_CCODE bporgregionCostCcode
+,TOTALCOSTVALUEPC_USD_AMT2  totalcostvaluepcUsdAmt2
+,BPDIVISIONGROUP_IEP_CCODE bpdivisiongroupIepCcode
+,BPINNERENDPRODUCT_NAME bpinnerendproductName
+,BPINNERENDPRODUCT_CCODE bpinnerendproductCcode
+,BPORGREGION_LVL4_CCODE bporgregionlvl4ccode
+,BPORGREGION_LVL3_CCODE bporgregionlvl3ccode
+,BPORGREGION_LVL2_CCODE bporgregionlvl2ccode
+,BPORGREGION_LVL1_CCODE bporgregionlvl1ccode
+,TOTALBPIEPQUANTITY_CNT totalbpiepquantitycnt
+,TOTALLABORVALUE_CNT totallaborvaluecnt
+,normativ normativ
+,TOTALLABORVALUEPC_CNT totallaborvaluepccnt
+,IEP2WORKLOAD_RATE iep2workloadrate
+,TOTALCOSTVALUE_USD_AMT totalcostvalueusdamt
+,TOTALCOSTVALUE_RUR_AMT totalcostvalueruramt
+,TOTALCOSTVALUEPC_USD_AMT totalcostvaluepcusdamt
+,TOTALCOSTVALUEPC_RUR_AMT totalcostvaluepcruramt
+        FROM TABLE(pkg_uc_api.get_DETAILREPORT_UC (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate}
+        ))
+        ]]>
+    </select>
+
+    <!--1-->
+    <select id="getBpucplrptstringShist" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.BpucplrptstringShist">
+        <![CDATA[
+SELECT
+ NCODE_PL  ncodepl
+,name_PL namepl
+,NCODE_upc ncodeupc
+,name_upc nameupc
+,EFFECTIVE_FROM effectiveFrom
+,EFFECTIVE_TO effectiveTo
+        FROM TABLE(pkg_uc_api.get_BPUCPLRPTSTRING_SHIST (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate}
+        ))
+        ]]>
+    </select>
+    <!--2-->
+    <select id="getBpplallocrulesShist" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UcBpplallocrulesShist">
+        <![CDATA[
+SELECT
+   PC pc
+,  START_DATE_1 startDate1
+,  PC_1 pc1
+, START_DATE_2 startDate2
+, NCODE_UPC ncodeupc
+, NAME_UPC nameupc
+, CCODE ccode
+, name name
+, RUR_AMT ruramt
+, USD_AMT usdamt
+, BPDRIVERALLOC_FACTOR bpdriverallocFactor
+, CORR_VALUE_DAY corrValueDay
+, EFFECTIVE_FROM effectiveFrom
+, EFFECTIVE_TO effectiveTo
+        FROM TABLE(pkg_uc_api.get_bpplallocrules_shist (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate}
+        ))
+        ]]>
+    </select>
+    <!--3-->
+    <select id="getBpiep2profitcenterShist" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.Bpiep2profitcenterShist">
+        <![CDATA[
+SELECT
+PC pc
+, START_DATE startDate
+, ccode_pc ccodepc
+, KP kp
+, CCODE_reg ccodereg
+, NAME_reg namereg
+, ccode_dr ccodedr
+, name_dr  namedr
+, HEADCOUNT_AMT headcountAmt
+, EFFECTIVE_FROM effectiveFrom
+, EFFECTIVE_TO  effectiveTo
+        FROM TABLE(pkg_uc_api.get_BPIEP2PROFITCENTER_SHIST (
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate}
+        ))
+        ]]>
+    </select>
 
 </mapper>

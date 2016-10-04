@@ -513,7 +513,7 @@
 
                                 var css;
                                 var value = (item.workloadRate * 100).toFixed(0);
-                                var value2 = (item.workloadRate).toFixed(0);
+                                var value2 = (item.slaFactValueCnt).toFixed(0);
                                 if (value < 85) {
                                     css = yellowCss;
                                 } else if (value < 115) {
@@ -870,7 +870,7 @@
                     color: "#434348",
                     name: "Количество конечных продуктов",
                     yAxis: 1,
-                    visible: false,
+                    visible: true,
                     data: _.map(data, function (item) {
                         return {
                             x: item.calcDate,

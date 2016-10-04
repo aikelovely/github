@@ -20,4 +20,5 @@ public class DivisionStat {
     public double relocationRate;
     public double slaFactValueDoubleCnt;
     public int lvl;
+    public int slaFactValueCnt;
 }

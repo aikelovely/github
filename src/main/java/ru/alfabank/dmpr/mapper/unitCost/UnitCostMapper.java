@@ -2,8 +2,10 @@ package ru.alfabank.dmpr.mapper.unitCost;
 
 import ru.alfabank.dmpr.model.unitCost.UnitCostDataItem;
 import ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions;
-import ru.alfabank.dmpr.model.unitCost.UnitCostReportDataItem;
-
+import ru.alfabank.dmpr.model.unitCost.UnitCost;
+import ru.alfabank.dmpr.model.unitCost.Pl;
+import ru.alfabank.dmpr.model.unitCost.DetailreportUc;
+import ru.alfabank.dmpr.model.unitCost.*;
 /**
  * Маппер, отвечающий за загрузку данных для графиков витрины "Unit Cost".
  */
@@ -42,4 +44,12 @@ public interface UnitCostMapper {
      * @return
      */
     UnitCostDataItem[] getUCUnitCostDynamic(UnitCostPeriodOptions options);
+/*выгрузки в excel*/
+    UnitCost[] getUnitCost(UnitCostPeriodOptions options);
+    Pl[] getPl(UnitCostPeriodOptions options);
+    DetailreportUc[] getDetailreportUc(UnitCostPeriodOptions options);
+
+    Bpiep2profitcenterShist[] getBpiep2profitcenterShist(UnitCostPeriodOptions options);
+    UcBpplallocrulesShist[] getBpplallocrulesShist(UnitCostPeriodOptions options);
+    BpucplrptstringShist[] getBpucplrptstringShist(UnitCostPeriodOptions options);
 }
