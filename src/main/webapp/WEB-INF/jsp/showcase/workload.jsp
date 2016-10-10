@@ -1574,7 +1574,7 @@
                         <div class="col-xs-4">
                             <div class="styled-chart-container">
                                 <div class="styled-chart-title small-title-font">
-                                    Распределение ш.ч. по тер. размещению
+                                    Распределение ф.ч. по тер. размещению
                                 </div>
                                 <chart params="name: 'obTerritorialPie'"></chart>
                             </div>
@@ -1692,7 +1692,7 @@
                                 <div class="col-xs-6">
                                     <div class="styled-chart-container">
                                         <div class="styled-chart-title small-title-font">
-                                            Распределение ш.ч. по тер. размещению
+                                            Распределение ф.ч. по тер. размещению
                                         </div>
                                         <chart params="name: 'territorialDistribution', group: 'rightSide'"></chart>
                                     </div>

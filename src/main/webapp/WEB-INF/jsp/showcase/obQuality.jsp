@@ -75,7 +75,7 @@
                     width: 400px !important;
                 }
             }
-
+/*тест*/
             .ob-section filter .filter {
                 display: inline-block;
                 margin-left: 10px;
