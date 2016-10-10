@@ -12,6 +12,6 @@ public class ESUDynamicItem extends WorkloadDynamicItem {
     public long regionId;
     public double iepRate;
     public int iepCount;
-    public int staffCountCalc;
+    public double staffCountCalc;
 
 }

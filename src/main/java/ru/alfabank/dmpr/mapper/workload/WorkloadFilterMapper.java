@@ -6,7 +6,7 @@ import ru.alfabank.dmpr.model.Week;
 import ru.alfabank.dmpr.model.workload.DuodrReg;
 
 public interface WorkloadFilterMapper {
-    BaseEntity[] getRpTypes();
+    BaseEntity[] getRpTypes(LocalDate endDate);
     Week[] getWeeks();
 
     DuodrReg[] getDuodrReg();

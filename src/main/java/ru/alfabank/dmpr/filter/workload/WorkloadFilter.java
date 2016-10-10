@@ -25,8 +25,10 @@ public class WorkloadFilter {
         return PeriodSelectHelper.getWeeks(repository.getWeeks(yearDate.getYear()));
     }
 
-    public BaseEntity[] getRpTypes() {
-        return repository.getRpTypes();
+    public BaseEntity[] getRpTypes(@Param("week") String endDate) {
+        DateTimeFormatter dtf = DateTimeFormat.forPattern("yyyyMMdd");
+        LocalDate dt = dtf.parseLocalDate(endDate);
+        return repository.getRpTypes(dt);
     }
 
     public DuodrReg[] getDuodrReg() { return repository.getDuodrReg(); }

@@ -15,8 +15,8 @@ public class WorkloadFilterRepository {
     @Autowired
     WorkloadFilterMapper mapper;
 
-    public BaseEntity[] getRpTypes() {
-        return mapper.getRpTypes();
+    public BaseEntity[] getRpTypes(LocalDate endDate) {
+        return mapper.getRpTypes(endDate);
     }
 
     /**

@@ -8,7 +8,7 @@
     <select id="getRpTypes" useCache="false"
             resultType="ru.alfabank.dmpr.model.BaseEntity">
         select id, name
-        from table(pkg_workload_api.get_RPType())
+        from table(pkg_workload_api.get_RPType(#{endDate}))
     </select>
 
     <select id="getWeeks" resultType="ru.alfabank.dmpr.model.Week">

@@ -103,7 +103,7 @@
 
             .label-tooltip-font {
                 font-family: "Lucida Grande", "Lucida Sans Unicode", Arial, Helvetica, sans-serif;
-                font-size: 12px;
+                font-size: 4px;
                 color: #555555;
                 fill: #555555;
                 font-weight: normal;
@@ -290,7 +290,9 @@
                             title: "Тип РП",
                             optionsCaption: "Все",
                             dataSource: {
-                                url: "workloadFilter/rpTypes"
+                                url: "workloadFilter/rpTypes",
+                                params: [
+                                    {name: "week", group: "default"}]
                             },
                             width: 200
                         },
@@ -439,7 +441,18 @@
                     }
                 }
             };
-
+            var helpers2 = {
+                tooltips2: {
+                    staffCountDelta: function (staffCountDeltaCnt,hfCriterionW4Cnt,hfCriterionW8Cnt,hfCriterionCnt) {
+                        return staffCountDeltaCnt > 0 ? "Увеличение численности" : "Уменьшение численности";
+                    },
+                    hfCriterion2: function (staffCountDeltaCnt,hfCriterionW4Cnt,hfCriterionW8Cnt,hfCriterionCnt) {
+                        var template = "{0}<br>Шт. единиц за 4 недели: {1}<br>Шт. единиц за 8 недель: {2}";
+                        return template.format(hfCriterionCnt > 0 ? "Требуется увеличение фактической численности" :
+                                "Требуется уменьшение фактической численности", hfCriterionW4Cnt, hfCriterionW8Cnt);
+                    }
+                }
+            };
             function createDivisionList($container, filterData, jsonData, customParams, group) {
                 jsonData = jsonData || [];
 
@@ -984,15 +997,29 @@
                             field: "hfCriterionCnt",
                             title: "Критерий на ввод/вывод",
                             width: 180,
-                            template: "# var iconCss = staffCountDeltaCnt > 0 ? 'icon-red-arrow-up' : 'icon-green-arrow-down' #" +
-                            "<i class='#= iconCss # icon-small-arrow'></i> #= hfCriterionCnt #"
+                            format: "{0}",
+                            filterable: false,
+                            template: "# var iconCss =  (hfCriterionCnt > 0) ? 'icon-red-arrow-up icon-small-arrow' : " +
+                            "(hfCriterionCnt == 0) ? '' :'icon-green-arrow-down icon-small-arrow' #" +
+          "#= hfCriterionCnt # <span data-toggle2='tooltip' data-placement='bottom' html='true' title=' #=helpers2.tooltips2.hfCriterion2(staffCountDeltaCnt,hfCriterionW4Cnt,hfCriterionW8Cnt,hfCriterionCnt)#' <div class=' #= iconCss # '>  </div> </span> ",
+
+                            attributes: {
+                                style: "text-align: left"
+                            }
                         }
+
                     ],
                     detailTemplate: '<div class="chart">' +
                     '<div class="roller"></div>' +
                     '<div class="chart-container"></div>' +
                     '</div>',
-                    detailInit: detailInit
+                    detailInit: detailInit,
+                    dataBound: function () {
+
+
+                        this.tbody.find("[data-toggle2=tooltip]").tooltip({title:'',html: true});
+                    }
+
                 });
 
                 function detailInit(e) {
@@ -1392,12 +1419,23 @@
                     </div>
                 </div>
                 <div class="col-xs-12 ob-custom-table-item"
-                     data-bind="tooltip: {title: helpers.tooltips.hfCriterion($data), html: true}">
+                     data-bind="if: hfCriterionCnt !== 0 , tooltip: {title: helpers.tooltips.hfCriterion($data), html: true}">
                     <div class="small-title-font">
                         Критерий на ввод/вывод
                     </div>
                     <div class="value">
-                        <i data-bind="if: hfCriterionCnt !== 0, css: hfCriterionCnt > 0 ? 'icon-red-arrow-up' : 'icon-green-arrow-down'"></i>
+                        <i data-bind="if: hfCriterionCnt !== 0, css: hfCriterionCnt > 0 ? 'icon-red-arrow-up' :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
+                         <span data-bind="text: hfCriterionCnt" class="big-title-font"></span>
+                    </div>
+                </div>
+
+                <div class="col-xs-12 ob-custom-table-item"
+                     data-bind="if: hfCriterionCnt == 0 , ">
+                    <div class="small-title-font">
+                        Критерий на ввод/вывод
+                    </div>
+                    <div class="value">
+                        <i data-bind="if: hfCriterionCnt !== 0, css: hfCriterionCnt > 0 ? 'icon-red-arrow-up' :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
                         <span data-bind="text: hfCriterionCnt" class="big-title-font"></span>
                     </div>
                 </div>
@@ -1603,13 +1641,17 @@
                                     <tbody>
                                     <tr>
                                         <td>
-                                            <i data-bind="css: staffCountDeltaCnt > 0 ? 'icon-red-arrow-up' : 'icon-green-arrow-down',
+                                            <i data-bind="css: staffCountDeltaCnt > 0 ? 'icon-red-arrow-up': 'icon-green-arrow-down',
                                             tooltip: {title: helpers.tooltips.staffCountDelta($data), html: true}"></i>
                                             <span data-bind="text: staffCountDeltaCnt"></span>
                                         </td>
                                         <td>
-                                            <div data-bind="tooltip: {title: helpers.tooltips.hfCriterion($data), html: true}">
-                                                <i data-bind="css: hfCriterionCnt > 0 ? 'icon-red-arrow-up' : 'icon-green-arrow-down'"></i>
+                                            <div data-bind="if: hfCriterionCnt !== 0 , tooltip: {title: helpers.tooltips.hfCriterion($data), html: true} ">
+                                            <i data-bind="css: hfCriterionCnt > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
+                                            <span data-bind="text: hfCriterionCnt"></span>
+                                        </div>
+                                            <div data-bind="if: hfCriterionCnt == 0 ,  ">
+                                                <i data-bind="css: hfCriterionCnt > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
                                                 <span data-bind="text: hfCriterionCnt"></span>
                                             </div>
                                         </td>
