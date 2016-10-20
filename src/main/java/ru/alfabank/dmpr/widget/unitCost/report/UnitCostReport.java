@@ -81,14 +81,14 @@ public class UnitCostReport extends BaseReport <UnitCostPeriodOptions> {
                 );
         builder.addWorksheet(DetailreportUc.class)
                 .bindTo(data4)
-                .title("DETAILREPORT_UC")
+                .title("Детализация UC")
                 .columns(new ColumnFactoryWrapper() {
                              @Override
                              public void createColumns(ColumnFactory c) {
                                  c.add("valueDay").title("Отчетная дата").format("dd.MM.yyyy");
                                  c.add("profitcenterRusCcode").title("Расход по профит-центру").width(20);
                                  c.add("bporgregionCostCcode").title("Расход по региону").width(20);
-                                 c.add("totalcostvaluepcUsdAmt2").title("Расход ПЦ/региона в USD").width(20);
+                                 c.add("totalcostvaluepcUsdAmt2").title("Расход ПЦ/региона в USD").format("#,##0.00").width(20);
                                  c.add("bpdivisiongroupIepCcode").title("Дирекция ВКП").width(20);
                                  c.add("bpinnerendproductName").title("Наименование ВКП").width(20);
                                  c.add("bpinnerendproductCcode").title("Код ВКП").width(20);
@@ -111,7 +111,7 @@ public class UnitCostReport extends BaseReport <UnitCostPeriodOptions> {
 
         builder.addWorksheet(Bpiep2profitcenterShist.class)
                 .bindTo(data5)
-                .title("BPIEP2PROFITCENTER_SHIST")
+                .title("Соответствие КП-ПЦ")
                 .columns(new ColumnFactoryWrapper() {
                              @Override
                              public void createColumns(ColumnFactory c) {
@@ -133,7 +133,7 @@ public class UnitCostReport extends BaseReport <UnitCostPeriodOptions> {
 
         builder.addWorksheet(UcBpplallocrulesShist.class)
                 .bindTo(data6)
-                .title("BPPLALLOCRULES_SHIST")
+                .title("Корректировки для PL")
                 .columns(new ColumnFactoryWrapper() {
                              @Override
                              public void createColumns(ColumnFactory c) {
@@ -158,7 +158,7 @@ public class UnitCostReport extends BaseReport <UnitCostPeriodOptions> {
 
         builder.addWorksheet(BpucplrptstringShist.class)
                 .bindTo(data7)
-                .title("BPUCPLRPTSTRING_SHIST")
+                .title("Статьи расходов PL")
                 .columns(new ColumnFactoryWrapper() {
                              @Override
                              public void createColumns(ColumnFactory c) {

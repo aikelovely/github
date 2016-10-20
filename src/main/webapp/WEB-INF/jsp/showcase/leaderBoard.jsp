@@ -9,9 +9,10 @@
         <style scoped>
             @media (max-width: 900px) {
                 .custom-chart-container {
-                    top:-60px;
+                    top: -60px;
                 }
             }
+
             .mb-0 > .chart {
                 margin-bottom: 0;
             }
@@ -522,12 +523,31 @@
                 switch (code) {
                     case seriesCode.currentValue:
                         value = kpiDataItem.currentValue;
-                        break;
+                        // value= value.toFixed(1);
+             /*          if ((value === undefined) || (value ==null)  || isNaN(value))
+                        {
+                      value = value;
+                }
+                        else {
+                            value = value;
+                            value = Math.round(value,2);
+                        value = value;}
+
+*/
+
+
+
+
+//                        if (value) {  }
+//                           if (kpiDataItem.currentValue) {  value = (kpiDataItem.currentValue).toFixed(1);}
+
+                            break;
                     case seriesCode.planValue:
                         value = kpiDataItem.planValue;
 
                         if (!value && chartTypeCodes[metaData.widgetType] === 'areaspline' && metaData.unitCode === 'PRC') {
-                            value = 1;
+//       план изменит дял графикоф  по условию
+// value = 1;
                         }
 
                         break;
@@ -539,8 +559,16 @@
                 if (value && metaData.unitCode == "PRC") {
                     value *= 100;
                 }
+//              округляем
+                value = roundPlus(value ,metaData.dataLabelPrecision);
+                return  value;
+            }
 
-                return value;
+            function roundPlus(x, n) { //x - число, n - количество знаков
+                if(isNaN(x) || isNaN(n)) return false;
+                var m = Math.pow(10,n);
+                return Math.round(x*m)/m;
+
             }
 
             // Создает серию "Факт"
@@ -775,6 +803,7 @@
 
                 config.yAxis = {
                     title: {text: ""},
+
                     labels: {
                         format: '{value}' + valueSuffix
                     }
@@ -783,7 +812,9 @@
                 config.tooltip = {
                     headerFormat: '<span style="font-size:10px">{point.key}</span><table>',
                     pointFormat: '<tr><td style="padding:2px">{series.name}: </td>' +
-                    '<td style="padding:0"><b>{point.y:.' + dataPrecision + 'f}' + valueSuffix + '</b></td></tr>',
+                    '<td style="padding:0"><b>{point.y}' + valueSuffix + '</b></td></tr>',
+// формат  округления задается на все series
+//                  '<td style="padding:0"><b>{point.y:.' + dataPrecision + 'f}' + valueSuffix + '</b></td></tr>',
                     footerFormat: '</table>',
                     shared: true,
                     useHTML: true
@@ -930,6 +961,10 @@
 //                    _.forEach(jsonData, function(data) {
 //
 //                    });
+                    var filterJsonData2 = jsonData.filter(function (data) {
+                        return data.planValue != 0 && data.planValue != null;
+//                    берем план для автомасштабирования , теперь он тоже ва деле
+                    });
                     var filterJsonData = jsonData.filter(function (data) {
                         return data.currentValue != 0 && data.currentValue != null;
                     });
@@ -941,7 +976,7 @@
                             ));
                     var minP = Math.min.apply(
                             Math,
-                            filterJsonData.map(function (o) {
+                            filterJsonData2.map(function (o) {
                                         if (!o.planValue) {
                                             return 100;
                                         }

@@ -9,7 +9,7 @@ public class DetailreportUc {
     public LocalDate valueDay;
     public String profitcenterRusCcode;
     public String bporgregionCostCcode;
-    public String totalcostvaluepcUsdAmt2;
+    public Double totalcostvaluepcUsdAmt2;
     public String bpdivisiongroupIepCcode;
     public String bpinnerendproductName;
     public String bpinnerendproductCcode;

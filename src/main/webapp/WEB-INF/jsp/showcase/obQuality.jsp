@@ -190,7 +190,7 @@
                         directionIds: {
                             type: "Select",
                             multiple: true,
-                            title: "Дирекция3",
+                            title: "Дирекция",
                             enableClear: true,
                             defaultValue: directions,
                             dataSource: {
@@ -483,7 +483,7 @@
                     columns: [
                         {
                             field: "unitName",
-                            title: customParams.group === "Directions" ? "Дирекция1" : "Регион",
+                            title: customParams.group === "Directions" ? "Дирекция" : "Регион",
                             attributes: {
                                 style: "font-weight: bold; font-size: 16px;"
                             }
@@ -715,7 +715,7 @@
 
                 var columns = [{
                     field: "bpDivisionGroupName",
-                    title: "Дирекция2",
+                    title: "Дирекция",
                     width: 85,
                     attributes: {
                         style: "font-weight: bold; font-size: 14px;"
