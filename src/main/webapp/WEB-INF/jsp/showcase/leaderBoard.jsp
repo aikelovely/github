@@ -560,8 +560,13 @@
                     value *= 100;
                 }
 //              округляем
-                value = roundPlus(value ,metaData.dataLabelPrecision);
-                return  value;
+                if ((value === undefined) || (value ==null)  || isNaN(value))
+                {
+                    return  value;
+                }
+                else
+                {value = roundPlus(value ,metaData.dataLabelPrecision);
+                    return  value;}
             }
 
             function roundPlus(x, n) { //x - число, n - количество знаков

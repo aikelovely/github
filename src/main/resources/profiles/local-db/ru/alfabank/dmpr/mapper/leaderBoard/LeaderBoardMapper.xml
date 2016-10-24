@@ -104,6 +104,7 @@
           FONTCOLOR_CCODE as fontColor,
           BAR_WIDTH_PCT as barWidth
         from table(pkg_leaderboard_api.get_layout)
+--          where  bpkpi_dk='1003024450' or bg_dk in (1065468711,1018924658)
         ]]>
     </select>
 
