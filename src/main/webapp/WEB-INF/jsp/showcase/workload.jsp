@@ -46,7 +46,9 @@
                 padding-right: 0;
                 padding-left: 10px;
             }
-
+            .mb-0 > .chart {
+                margin-bottom: 0;
+            }
             .chart-tabs > .tab-content > .tab-pane {
                 padding: 10px 4px;
             }
@@ -399,6 +401,16 @@
                                 dataSource: "WorkloadTerritorialDistribution",
                                 customParams: {title: "Распределение ш.ч. по территориальному размещению"}
                             },
+                            divisionDistribution: {
+                                jsFunc: createPie,
+                                dataSource: "WorkloadDivisionDistribution",
+                                customParams: {title: "Распределение ш.ч. по отделам"}
+                            },
+                            divisionDistribution2: {
+                                jsFunc: createPie,
+                                dataSource: "WorkloadDivisionDistribution2",
+                                customParams: {title: "Распределение ш.ч. по отделам"}
+                            },
                             workloadDynamic: {
                                 jsFunc: createWorkloadDynamic,
                                 dataSource: "WorkloadDynamic"
@@ -571,15 +583,18 @@
                 var chart = jsonData[0];
 
                 if (chart.series === undefined || chart.series.length === 0 || chart.series[0].data.length === 0) {
+                    $('#WorkloadByProductIdDiv2').hide();
                     $container.highcharts({
                         title: {text: null}
                     });
                     return;
-                }
+                } else {$('#WorkloadByProductIdDiv2').show();}
 
                 $container.highcharts({
+
                     title: {text: null},
                     chart: {
+
                         type: 'pie'
                     },
                     tooltip: {
@@ -600,6 +615,10 @@
                     },
                     series: chart.series,
                     legend: {
+                        align: 'left',
+//                        itemWidth: 150,
+                        Width: 100,
+                        maxHeight: 90,
                         y: 15
                     }
                 });
@@ -1578,7 +1597,9 @@
                                 </div>
                                 <chart params="name: 'obTerritorialPie'"></chart>
                             </div>
+
                         </div>
+
                         <div class="col-xs-8">
                             <div class="styled-chart-container">
                                 <div class="styled-chart-title small-title-font">
@@ -1681,7 +1702,7 @@
                             <!-- /ko -->
                             <!-- ko if: groups.rightSide.drillDownLevel() == 1 && !groups.default.filters.innerEndProductId.value() -->
                             <div class="row">
-                                <div class="col-xs-6">
+                                <div class="col-xs-4">
                                     <div class="styled-chart-container">
                                         <div class="styled-chart-title small-title-font">
                                             Распределение ш.ч. по типам позиций
@@ -1689,12 +1710,20 @@
                                         <chart params="name: 'posTypeDistribution', group: 'rightSide'"></chart>
                                     </div>
                                 </div>
-                                <div class="col-xs-6">
+                                <div class="col-xs-4">
                                     <div class="styled-chart-container">
                                         <div class="styled-chart-title small-title-font">
                                             Распределение ф.ч. по тер. размещению
                                         </div>
                                         <chart params="name: 'territorialDistribution', group: 'rightSide'"></chart>
+                                    </div>
+                                </div>
+                                <div class="col-xs-4">
+                                    <div class="styled-chart-container">
+                                        <div class="styled-chart-title small-title-font">
+                                            Распределение ф.ч. по отделам
+                                        </div>
+                                        <chart params="name: 'divisionDistribution', group: 'rightSide'"></chart>
                                     </div>
                                 </div>
                             </div>
@@ -1707,6 +1736,16 @@
                             <!-- /ko -->
 
                             <!-- ko if: groups.rightSide.drillDownLevel() == 2 && !groups.default.filters.innerEndProductId.value() -->
+                            <div id="WorkloadByProductIdDiv2" class="row">
+                                <div class="col-xs-8">
+                            <div class="styled-chart-container">
+                                <div class="styled-chart-title small-title-font">
+                                    Распределение ф.ч. по отделам
+                            </div>
+                                <chart params="name: 'divisionDistribution2', group: 'rightSide'"></chart>
+                            </div>
+                                </div>
+                            </div>
                             <div class="styled-chart-container">
                                 <div class="styled-chart-title small-title-font">
                                     Динамика нагрузки и фактической численности
