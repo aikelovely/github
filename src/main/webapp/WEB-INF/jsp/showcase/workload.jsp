@@ -1702,7 +1702,7 @@
                             <!-- /ko -->
                             <!-- ko if: groups.rightSide.drillDownLevel() == 1 && !groups.default.filters.innerEndProductId.value() -->
                             <div class="row">
-                                <div class="col-xs-4">
+                                <div class="col-xs-6">
                                     <div class="styled-chart-container">
                                         <div class="styled-chart-title small-title-font">
                                             Распределение ш.ч. по типам позиций
@@ -1710,7 +1710,7 @@
                                         <chart params="name: 'posTypeDistribution', group: 'rightSide'"></chart>
                                     </div>
                                 </div>
-                                <div class="col-xs-4">
+                                <div class="col-xs-6">
                                     <div class="styled-chart-container">
                                         <div class="styled-chart-title small-title-font">
                                             Распределение ф.ч. по тер. размещению
@@ -1718,15 +1718,14 @@
                                         <chart params="name: 'territorialDistribution', group: 'rightSide'"></chart>
                                     </div>
                                 </div>
-                                <div class="col-xs-4">
-                                    <div class="styled-chart-container">
-                                        <div class="styled-chart-title small-title-font">
-                                            Распределение ф.ч. по отделам
-                                        </div>
-                                        <chart params="name: 'divisionDistribution', group: 'rightSide'"></chart>
-                                    </div>
-                                </div>
+
                             </div>
+                                <div class="styled-chart-container">
+                                    <div class="styled-chart-title small-title-font">
+                                        Распределение ф.ч. по отделам
+                                    </div>
+                                    <chart params="name: 'divisionDistribution', group: 'rightSide'"></chart>
+                                </div>
                             <div class="styled-chart-container">
                                 <div class="styled-chart-title small-title-font">
                                     Динамика нагрузки и фактической численности
@@ -1737,7 +1736,7 @@
 
                             <!-- ko if: groups.rightSide.drillDownLevel() == 2 && !groups.default.filters.innerEndProductId.value() -->
                             <div id="WorkloadByProductIdDiv2" class="row">
-                                <div class="col-xs-8">
+                                <div class="col-xs-12">
                             <div class="styled-chart-container">
                                 <div class="styled-chart-title small-title-font">
                                     Распределение ф.ч. по отделам

@@ -252,7 +252,7 @@ app.FilterGroup = function (groupConfig, viewModel) {
      * @param showOnlyThisGroup true, если не нужно отображать графики подчиненных групп
      */
     self.drillDown = function (level, extensionData, showOnlyThisGroup) {
-        console.log("DrillDown by group {0}. Level: {1}. Data: {2}".format(
+        console.log("DrillDown4 by group {0}. Level: {1}. Data: {2}".format(
             self.name,
             level,
             JSON.stringify(extensionData || {})));
@@ -269,10 +269,21 @@ app.FilterGroup = function (groupConfig, viewModel) {
         self.drillDownLevel(level);
 
         var drillDownData = drillDownDataStorage();
-
+        console.log(drillDownData);
         if (level >= currentDrillDownLevel) {
-            drillDownData["" + level] = extensionData;
-        } else {
+             drillDownData["" + level] = extensionData;
+        } 
+        else if (level < currentDrillDownLevel) {
+            // blev Так и непонял зачем было это услоовие , похоже ошибку кто то заложил специально, раскоментировать и
+            // параметры будут передавться и с низу в верх по дереву? тестировать тут через  console.log
+              // drillDownData["" + level] = extensionData;
+            // а это убрать
+            for (var i = currentDrillDownLevel; i > level; i--) {
+                delete drillDownData["" + i];
+            }
+        }
+
+        else  {
             for (var i = currentDrillDownLevel; i > level; i--) {
                 delete drillDownData["" + i];
             }
