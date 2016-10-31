@@ -556,10 +556,11 @@
                 };
 
                 var xAxis;
-                if(filterData.timeUnitId == 3){
+                if(filterData.timeUnitId == 3 && series[0].data){
                     xAxis = {
                         type: "category",
-                        categories: app.chartUtils.getWeekCategoriesByPeriodNum(series[0].data)
+                        categories: app.chartUtils.getWeekCategoriesByPeriodNum(series[0].data),
+                        categories: app.chartUtils.getWeekCategoriesByPeriodNum(series[1].data)
                     };
                 } else {
                     xAxis = app.chartUtils.createDateTimeXAxis(xAxisFilterData, false);
@@ -571,12 +572,12 @@
                         fontSize: "13px"
                     }
                 };
-
+                var plot =series[0].data[1];
                 var normative = chart.bag.normative, plotLines = [],
                     minPoint = _.clone(_.minBy(series[0].data, function(p) { return p.y; })),
                     maxPoint = _.clone(_.maxBy(series[0].data, function(p) { return p.y; }));
 
-                if (normative) {
+                if (!plot) {
                     plotLines.push(
                             {
                                 color: 'red',
@@ -613,8 +614,9 @@
                     title: {text: ""},
                     plotOptions: {
                         series: {
-                            animation: {
-                                duration: 300
+                            marker: {
+                                enabled:false,
+
                             }
                         },
                         column: {
@@ -673,11 +675,11 @@
                                 fontSize: "13px"
                             }
                         },
-                        plotLines: plotLines
+                      plotLines: plotLines
                     },
                     series: series,
                     legend: {
-                        enabled: false
+                        enabled: true
                     }
                 });
             }
