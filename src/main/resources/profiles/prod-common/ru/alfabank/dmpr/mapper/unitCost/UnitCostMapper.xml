@@ -481,7 +481,7 @@
     <!--ECXEL-->
     <select id="getUnitCost" useCache="false"
             parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
-            resultType="ru.alfabank.dmpr.model.unitCost.UnitCost">
+            resultType="ru.alfabank.dmpr.model.unitCost.unitCost">
         <![CDATA[
        SELECT
  PRDTYPE_CCODE  as prdtypeCcode
