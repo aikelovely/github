@@ -41,7 +41,7 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
     protected String FormatRow(String name, String value){
         return "<tr><td>" + name + "</td><td>" + value + "</td></tr>";
     }
-
+//
     protected abstract ObQualityQueryOptions getQueryOptions(ObQualityOptions options);
 
     @Override

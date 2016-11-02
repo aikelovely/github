@@ -527,7 +527,7 @@
                     $(gridElement).find("thead [data-field=kpiRatioAvg]").html(title)
                 })
             }
-
+//
             function createDynamic($container, filterData, jsonData, customParams) {
                 var chart = jsonData[0], series = chart.series;
                 var height = 262;//customParams.group === "Directions" ? 262 : 442;
