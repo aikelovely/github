@@ -52,7 +52,7 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
         final Selector<ObQualityDataItem, Double> selectValue = new Selector<ObQualityDataItem, Double>() {
             @Override
             public Double select(ObQualityDataItem item) {
-                return options.kpiId != null ? item.kpiRatioAvg : item.getQualityLevel();
+                return options.kpiId != null ? item.getQualityLevel() : item.getQualityLevel();
             }
         };
 
@@ -68,8 +68,8 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
         ObQualityDataItem first = items.length > 0 ? items[0] : new ObQualityDataItem();
         final double normative = selectNormative.select(first);
 
-        bag.put("normative", normative * 100);
-
+//        bag.put("normative",String.format("%(.2f", (normative * 100)));
+        bag.put("normative",normative*100 );
         Point[] points = LinqWrapper.from(items).select(new Selector<ObQualityDataItem, Point>() {
             @Override
             public Point select(ObQualityDataItem item) {

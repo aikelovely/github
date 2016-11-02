@@ -574,14 +574,19 @@
                 };
                 var plot =series[0].data[1];
                 var normative = chart.bag.normative, plotLines = [],
-                    minPoint = _.clone(_.minBy(series[0].data, function(p) { return p.y; })),
-                    maxPoint = _.clone(_.maxBy(series[0].data, function(p) { return p.y; }));
+                    minPoint = _.clone(_.minBy(series[0].data,function(p) { return p.y; })),
+                    maxPoint = _.clone(_.maxBy(series[0].data,function(p) { return p.y; }));
+                var minPoint2 =  _.chain(series).map(function(s) { return _.minBy(s.data, function(p) { return p.y; })})
+                        .min(function(p) { return p.y; }).value().y;
+                var maxPoint2 =  _.chain(series).map(function(s) { return _.maxBy(s.data, function(p) { return p.y; })})
+                        .min(function(p) { return p.y; }).value().y;
+
 
                 if (!plot) {
                     plotLines.push(
                             {
                                 color: 'red',
-                                label: {align: 'right', text: '<b>Цель</b>: {0}%'.format(normative)},
+                                label: {align: 'right', text: '<b>Цель</b>: {0}%'.format(normative.toFixed(2))},
                                 value: normative,
                                 width: 2,
                                 zIndex: 5
@@ -665,8 +670,8 @@
                     },
                     xAxis: xAxis,
                     yAxis: {
-                        min: Math.max(Math.floor(minPoint.y) - 1, 0),
-                        max: Math.min(Math.floor(maxPoint.y) + 1, 100),
+                        min: Math.max(Math.floor(minPoint2) - 2, 0),
+                        max: Math.min(Math.floor(maxPoint2) + 2, 100),
                         title: {text: ''},
                         labels: {
                             format: '{value}%',
@@ -679,7 +684,7 @@
                     },
                     series: series,
                     legend: {
-                        enabled: true
+                        enabled: false
                     }
                 });
             }
