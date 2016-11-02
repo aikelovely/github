@@ -37,6 +37,7 @@ public class UnitCostReport extends BaseReport <UnitCostPeriodOptions> {
         Bpiep2profitcenterShist[] data5= rep.getBpiep2profitcenterShist(options);
         UcBpplallocrulesShist[] data6= rep.getBpplallocrulesShist(options);
         BpucplrptstringShist[] data7= rep.getBpucplrptstringShist(options);
+        UnitCostReportCurRate[] data8 = rep.getCurrRate(options);
 
         builder.addWorksheet(UnitCost.class)
         .bindTo(data2)
@@ -172,6 +173,18 @@ public class UnitCostReport extends BaseReport <UnitCostPeriodOptions> {
                          }
                 );
 
+        builder.addWorksheet(UnitCostReportCurRate.class)
+                .bindTo(data8)
+                .title("Курс валют")
+                .columns(new ColumnFactoryWrapper() {
+                             @Override
+                             public void createColumns(ColumnFactory c) {
+                                 c.add("busnDate").title("Дата").format("dd.MM.yyyy");
+                                 c.add("codeCurr").title("Код валюты").width(10);
+                                 c.add("rateCurr").title("Курс валюты").format("0.00").width(20);
+                             }
+                         }
+                );
 ///---/
 
 
