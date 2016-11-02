@@ -42,7 +42,8 @@ public class ObQualityDataItem {
     }
 
     public Double getQualityLevelNormative(){
-        return 1d;
+        if (kpiNorm == null) return 1d;
+        return kpiNorm;
     }
 
     public Double getNormative() {
