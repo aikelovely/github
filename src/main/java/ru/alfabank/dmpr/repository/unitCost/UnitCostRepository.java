@@ -63,7 +63,7 @@ public class UnitCostRepository {
         return mapper.getUCUnitCostDynamic(options);
     }
 
-    public UnitCost[] getunitCost(UnitCostPeriodOptions options) {
+    public unitCost[] getunitCost(UnitCostPeriodOptions options) {
         return mapper.getUnitCost(options);
     }
     public Pl[] getPl(UnitCostPeriodOptions options) {
@@ -81,6 +81,10 @@ public class UnitCostRepository {
     }
     public BpucplrptstringShist[] getBpucplrptstringShist(UnitCostPeriodOptions options) {
         return mapper.getBpucplrptstringShist(options);
+    }
+
+    public UnitCostReportCurRate[] getCurrRate(UnitCostPeriodOptions options){
+        return mapper.getCurrRate(options);
     }
 
 }
