@@ -712,7 +712,7 @@
                     }
                 });
             }
-
+//
             function createDetailsTable($container, filterData, jsonData, customParams) {
                 var kpiId = app.viewModel.getFilterValue("DirectionsDetails.kpiId");
 
