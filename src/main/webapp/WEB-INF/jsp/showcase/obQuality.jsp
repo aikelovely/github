@@ -573,14 +573,38 @@
                     }
                 };
                 var plot =series[0].data[1];
-                var normative = chart.bag.normative, plotLines = [],
-                    minPoint = _.clone(_.minBy(series[0].data,function(p) { return p.y; })),
-                    maxPoint = _.clone(_.maxBy(series[0].data,function(p) { return p.y; }));
-                var minPoint2 =  _.chain(series).map(function(s) { return _.minBy(s.data, function(p) { return p.y; })})
-                        .min(function(p) { return p.y; }).value().y;
-                var maxPoint2 =  _.chain(series).map(function(s) { return _.maxBy(s.data, function(p) { return p.y; })})
-                        .min(function(p) { return p.y; }).value().y;
+                var maxmass = [];
+                var min= [];
+                var max= [];
+                minPoint=_.clone(_.minBy(series[0].data,function(p) { return p.y; }));
+                maxPoint=_.clone(_.maxBy(series[0].data,function(p) { return p.y; }));
+                var i=0; i<=series.length; i++
+                {
 
+                    min=_.clone(_.minBy(series[i].data,function(p) { return p.y; }));
+                    max=_.clone(_.maxBy(series[i].data,function(p) { return p.y; }));
+                    var min1 = Math.min(minPoint.y, min.y);
+                    var max1 = Math.max(maxPoint.y, max.y);
+                    minPoint=_.clone(_.minBy(series[i].data,function(p) { return p.y; }));
+                    maxPoint=_.clone(_.maxBy(series[i].data,function(p) { return p.y; }));
+
+//                    if minPoint.y > _.clone(_.minBy(series[0,1].data,function(p) { return p.y; })).y
+//                    min= [];
+//                    min=_.clone(_.minBy(series[i].data,function(p) { return p.y; }));
+//                    minPoint = _.clone(_.minBy(series[i].data,function(p) { return p.y; }));
+
+                  // var minPoint3 = minPoint.y;
+//                    maxPoint = _.clone(_.maxBy(series[0,1].data,function(p) { return p.y; }));
+//                    var min = Math.min(minPoint.y, minPoint2.y);
+                };
+
+                var normative = chart.bag.normative, plotLines = []; // запятая
+//                    minPoint = _.clone(_.minBy(series.data,function(p) { return p.y; })),
+//                    maxPoint = _.clone(_.maxBy(series.data,function(p) { return p.y; }));
+//                var minPoint2 =  _.chain(series).map(function(s) { return _.minBy(s.data, function(p) { return p.y; })})
+//                        .min(function(p) { return p.y; }).value().y;
+//                var maxPoint2 =  _.chain(series).map(function(s) { return _.maxBy(s.data, function(p) { return p.y; })})
+//                        .min(function(p) { return p.y; }).value().y;
 
                 if (!plot) {
                     plotLines.push(
@@ -670,8 +694,8 @@
                     },
                     xAxis: xAxis,
                     yAxis: {
-                        min: Math.max(Math.floor(minPoint2) - 2, 0),
-                        max: Math.min(Math.floor(maxPoint2) + 2, 100),
+                        min: Math.max(min1 - 2, 0),
+                        max: Math.min(max1 + 2, 100),
                         title: {text: ''},
                         labels: {
                             format: '{value}%',
