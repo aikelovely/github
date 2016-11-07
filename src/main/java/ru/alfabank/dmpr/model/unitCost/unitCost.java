@@ -3,7 +3,7 @@ package ru.alfabank.dmpr.model.unitCost;
 import org.joda.time.LocalDate;
 
 /**
- * Набор данных для формирования выгрузки в Excel. 123
+ * 4545Набор данных для формирования выгрузки в Excel. 123
  */
 public class unitCost {
     public String prdtypeCcode;
