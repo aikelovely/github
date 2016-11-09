@@ -6,6 +6,7 @@ import ru.alfabank.dmpr.mapper.ob.ObQualityMapper;
 import ru.alfabank.dmpr.model.ob.ObQualityDataItem;
 import ru.alfabank.dmpr.model.ob.ObQualityQueryOptions;
 import ru.alfabank.dmpr.model.ob.ObReportSummaryQuality;
+import ru.alfabank.dmpr.model.ob.ObReportSummaryQualityFilter;
 
 /**
  * Маппер, отвечающий за загрузку данных для графиков витрины "Показатели качества ОБ".
@@ -41,6 +42,7 @@ public class ObQualityRepository {
     public ObQualityDataItem[] getDetailsData(ObQualityQueryOptions options){
         return mapper.getDetailsData(options);
     }
+    public ObReportSummaryQualityFilter[] getsummarykpiob_filter(ObQualityQueryOptions options){return mapper.getsummarykpiob_filter(options);}
     public ObReportSummaryQuality[] getsummarykpiob(){
         return mapper.getsummarykpiob();
     }}
