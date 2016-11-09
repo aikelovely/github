@@ -52,7 +52,7 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
         final Selector<ObQualityDataItem, Double> selectValue = new Selector<ObQualityDataItem, Double>() {
             @Override
             public Double select(ObQualityDataItem item) {
-                return options.kpiId != null ? item.getQualityLevel() : item.getQualityLevel();
+                return options.kpiId != null ? item.kpiRatioAvg : item.getQualityLevel();
             }
         };
 
