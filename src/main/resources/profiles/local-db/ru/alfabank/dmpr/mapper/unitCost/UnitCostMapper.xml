@@ -58,7 +58,7 @@
           p_CalcTypeID         => #{calcTypeId},
           p_BPORGRegionID      => #{bgOrgRegionId},
           p_BPDivisionGroupDK  => #{directionId},
-          p_type  => 2
+          p_type  => 1
         ))
         ]]>
     </select>
@@ -144,7 +144,7 @@
           p_BPORGRegionID       => #{bgOrgRegionId},
           p_BPDivisionGroupDK   => #{directionId},
           p_BPInnerEndProductDK => #{innerEndProductId},
-          p_type  => 1
+          p_type  => 2
         ))
         ]]>
     </select>
