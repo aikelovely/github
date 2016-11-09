@@ -83,4 +83,8 @@ public class UnitCostRepository {
         return mapper.getBpucplrptstringShist(options);
     }
 
+    public UnitCostReportCurRate[] getCurrRate(UnitCostPeriodOptions options){
+        return mapper.getCurrRate(options);
+    }
+
 }

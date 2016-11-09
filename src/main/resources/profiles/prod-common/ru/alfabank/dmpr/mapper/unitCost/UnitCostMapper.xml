@@ -625,4 +625,21 @@ PC pc
         ]]>
     </select>
 
+    <select id="getCurrRate" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostReportCurRate">
+        <![CDATA[
+SELECT busnDate,
+       codeCurr,
+       rateCurr
+FROM TABLE(dmpr.pkg_uc_api.get_UC_currency(
+          p_DateFrom    => #{startDate},
+          p_DateTo      => #{endDate}
+        ))
+ORDER BY  busnDate
+
+        ]]>
+    </select>
+
+
 </mapper>

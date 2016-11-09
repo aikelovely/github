@@ -52,4 +52,5 @@ public interface UnitCostMapper {
     Bpiep2profitcenterShist[] getBpiep2profitcenterShist(UnitCostPeriodOptions options);
     UcBpplallocrulesShist[] getBpplallocrulesShist(UnitCostPeriodOptions options);
     BpucplrptstringShist[] getBpucplrptstringShist(UnitCostPeriodOptions options);
+    UnitCostReportCurRate[] getCurrRate(UnitCostPeriodOptions options);
 }

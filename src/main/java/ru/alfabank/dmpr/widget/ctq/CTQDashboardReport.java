@@ -20,7 +20,7 @@ import ru.alfabank.dmpr.widget.BaseReport;
 import java.text.SimpleDateFormat;
 
 /**
- * Выгрузка в Excel
+ * Выгрузка в Excel файло
  */
 @Service
 public class CTQDashboardReport extends BaseReport<CTQDashboardReportOptions> {
