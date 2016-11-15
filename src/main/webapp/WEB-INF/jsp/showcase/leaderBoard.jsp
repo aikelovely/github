@@ -417,9 +417,14 @@
                 });
 
                 if (!jsonData || jsonData.length === 0) return;
-
-                var groups = _.groupBy(jsonData, function (c) {
+                var groupsSort = _.sortBy(jsonData, function (c) {
+                    return c.groupOrder;
+                });
+                var groups2 = _.groupBy(groupsSort, function (c) {
                     return c.groupId;
+                    });
+                var groups = _.sortBy(groups2, function (c) {
+                    return c[0].groupOrder;
                 });
 
                 var chartNames = [];
@@ -627,7 +632,57 @@
                 }
                 return seriesConfig;
             }
+            // Создает серию "Факт"   // Создает серию "Факт за предыдущий год"
+            function createFactSeries2(metaData) {
+                var color = metaData.fontColor || "white";
+                var style = {};
+                if (color.toUpperCase() === "BLACK") {
+                    style.color = "#000000";
+                    style.textShadow = "0 0 6px #ffffff, 0 0 3px #ffffff";
+                } else {
+                    style.color = "#ffffff";
+                    style.textShadow = "0 0 6px #000000, 0 0 3px #000000";
+                }
 
+                var chartType = getChartTypeByWidgetType(metaData.widgetType);
+
+                var seriesConfig = {
+                    type: chartType,
+                    name: metaData.seriesName || "Факт за предыдущий год",
+                    color: metaData.seriesColor || color.prevValue,
+                    zIndex: 1,
+                    dataLabels: {
+                        inside: true,
+                        enabled: metaData.dataLabelPosition !== "N",
+                        formatter: function () {
+                            if (metaData.unitCode == "PRC") {
+                                return this.y < 4 ? null : (this.y.toFixed(metaData.dataLabelPrecision) + "%");
+                            }
+                            return this.y < 0.05 ? null : (this.y.toFixed(metaData.dataLabelPrecision));
+                        },
+                        style: style,
+                        rotation: metaData.dataLabelPosition === "H" ? 0 : 270
+                    },
+                    pointPlacement: 0,
+                    groupPadding: 0,
+                    pointPadding: getPointPadding(metaData.barWidth, 40)
+                };
+
+                if (chartType === 'areaspline') {
+                    _.assign(seriesConfig,
+                            {
+                                zIndex: 2,
+                                marker: {
+                                    lineWidth: 3,
+                                    lineColor: "white",
+                                    radius: 6,
+                                    symbol: 'circle'
+                                },
+                                index: 1
+                            });
+                }
+                return seriesConfig;
+            }
             // Создает серию "Факт за предыдущий год"
             function createPrevFactSeries(metaData) {
                 return {
@@ -782,7 +837,7 @@
                                 series = createPlanSeries(metaData);
                                 break;
                             case seriesCode.prevValue:
-                                series = createPrevFactSeries(metaData);
+                                series = createFactSeries2(metaData);
                                 break;
                         }
 
@@ -859,6 +914,8 @@
 
                         if (config.yAxis.min == undefined) {
                             config.yAxis.min = Math.max(Math.min(currentValue, prevValue, planValue) - 5, 0);
+
+                            config.yAxis.max=Math.max(Math.max(currentValue, prevValue, planValue) + 5, 0);
                         }
 
 //                        config.chart.marginTop = 60;
@@ -877,6 +934,7 @@
 
                         metaData = findMetaDataByCode(seriesMetaData, seriesCode.currentValue);
                         if (metaData) {
+                           //  if (!currentValue) {currentValue=1;}
                             series = createFactSeries(metaData);
                             series.data = [currentValue];
                             series.pointPadding = getPointPadding(metaData.barWidth, 40);
@@ -1186,7 +1244,8 @@
                                 series = createPlanSeries(metaData);
                                 break;
                             case seriesCode.prevValue:
-                                series = createPrevFactSeries(metaData);
+//                             --   series = createPrevFactSeries(metaData);
+                                series = createFactSeries(metaData);
                                 break;
                         }
 
