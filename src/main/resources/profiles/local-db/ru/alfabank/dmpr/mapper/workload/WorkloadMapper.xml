@@ -16,6 +16,7 @@
             WLUNITTK as id,
             WLPARENTUNITTK as parentId,
             WLUNITNAME as unitName,
+            WLUNITNAME2 as unitName2,
             BPDIVISIONGROUP_DK as divisionGroupId,
             BPORGREGION_DK as regionId,
             decode(DUODR_FLAG, 'N', 0, 1) as isDuodr,

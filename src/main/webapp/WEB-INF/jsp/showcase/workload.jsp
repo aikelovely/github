@@ -478,6 +478,7 @@
 
                 var dataSource = new kendo.data.TreeListDataSource({
                     data: jsonData,
+                    sort: { field: "unitName2", dir: "asc" },
                     schema: {
                         model: {
                             id: "id",

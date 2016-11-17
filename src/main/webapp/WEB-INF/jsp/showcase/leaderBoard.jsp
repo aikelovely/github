@@ -934,7 +934,7 @@
 
                         metaData = findMetaDataByCode(seriesMetaData, seriesCode.currentValue);
                         if (metaData) {
-                           //  if (!currentValue) {currentValue=1;}
+                             if (!currentValue) {currentValue=0;}
                             series = createFactSeries(metaData);
                             series.data = [currentValue];
                             series.pointPadding = getPointPadding(metaData.barWidth, 40);

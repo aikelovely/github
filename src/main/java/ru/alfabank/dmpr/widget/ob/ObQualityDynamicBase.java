@@ -132,9 +132,11 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
 
                 } else {
 
-                    p.customHTMLTooltip += FormatRow("Факт", new DecimalFormat("#.##").format(value2 * 100) + "%") +
-                            FormatRow("Общее количество", FormatCount(item.totalCount)) +
-                            FormatRow("Количество успешных", FormatCount(item.inKpiCount));
+                    p.customHTMLTooltip += FormatRow("Уровень качества", new DecimalFormat("#.##").format(selectValue.select(item) * 100) + "%") +
+                            FormatRow("Цель", new DecimalFormat("#.##").format(selectNormative.select(item) * 100) + "%");
+//                    p.customHTMLTooltip += FormatRow("Факт", new DecimalFormat("#.##").format(value2 * 100) + "%") +
+//                            FormatRow("Общее количество", FormatCount(item.totalCount)) +
+//                            FormatRow("Количество успешных", FormatCount(item.inKpiCount));
                 }
                 p.customHTMLTooltip += "</table>";
                 return p;
@@ -143,7 +145,7 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
 
         Series[] series = new Series[]{
                 new Series("Факт", points,ChartType.column),
-                new Series("Цель", points2,ChartType.spline,Color.SuperRedColor),
+                new Series("Цель", points2,ChartType.line,Color.SuperRedColor),
 //                new Series("План2", points2,ChartType.line),
         };
 //        return new ChartResult[]{new ChartResult(new Series[]{new Series(points)}, bag)};

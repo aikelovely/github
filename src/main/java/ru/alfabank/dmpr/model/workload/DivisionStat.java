@@ -4,6 +4,7 @@ public class DivisionStat {
     public String id;
     public String parentId;
     public String unitName;
+    public String unitName2;
     public Long divisionGroupId;
     public Long regionId;
     public String regionName;
