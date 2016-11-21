@@ -121,8 +121,8 @@ public class CTQDashboardReport extends BaseReport<CTQDashboardReportOptions> {
                         c.add("successfully").title("Успешно").width(15);
                         c.add("factkpi").title("Факт KPI").format("0.00%");
                         c.add("goalkpi").title("Цель KPI").format("0.00%");
-                        c.add("executekpi").title("Выполнение  KPI").format("0.00%");
-
+                        c.add("executekpi").title("Выполнение  KPI")
+                        .format("0.00%");
                     }
                 });
 

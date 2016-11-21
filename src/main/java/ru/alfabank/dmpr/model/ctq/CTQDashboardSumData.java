@@ -18,9 +18,9 @@ public  String namekpi;
 public  String direction;
 public  Long summary;
 public  Long successfully;
-public  Long factkpi;
-public  Long goalkpi;
-public  Long executekpi;
+public  Double factkpi;
+public  Double goalkpi;
+public  Double executekpi;
 }
 
 /*  valueday     DATE not null,

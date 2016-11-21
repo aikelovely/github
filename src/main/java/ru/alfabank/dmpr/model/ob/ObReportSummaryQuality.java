@@ -20,9 +20,9 @@ public class ObReportSummaryQuality {
   public String direction;
   public Long summary;
   public Long successfully;
-  public Long factkpi;
-  public Long goatkpi;
-  public Long executekpi;
+  public Double factkpi;
+  public Double goatkpi;
+  public Double executekpi;
   public String descript;
   public String duodr_flag;
 }

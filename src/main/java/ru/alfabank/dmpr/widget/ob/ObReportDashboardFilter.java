@@ -10,6 +10,7 @@ import ru.alfabank.dmpr.repository.ob.ObQualityFilterRepository;
 import ru.alfabank.dmpr.repository.ob.ObQualityRepository;
 import ru.alfabank.dmpr.widget.BaseReport;
 
+
 /**
  * Created by U_M0U9C on 09.11.2016.
  */
@@ -28,6 +29,9 @@ public class ObReportDashboardFilter extends BaseReport<ObQualityOptions> {
         super(ObQualityOptions.class);
     }
 
+  /*  public ObQualityQueryOptions getQueryOptions(ObQualityOptions options) {
+        return null;
+    }*/
 
     @Override
     protected String getReportName(ObQualityOptions options) {
@@ -36,13 +40,23 @@ public class ObReportDashboardFilter extends BaseReport<ObQualityOptions> {
 
     @Override
     protected void configure(ReportBuilder builder, ObQualityOptions options) {
+
+
+        /*ObQualityQueryOptions queryOptions = getQueryOptions(options);*/
+
         ObQualityAdditionalOptions addOptions = new ObQualityAdditionalOptions();
         addOptions.detailsMode = options.kpiId == null ? 2 : 1;
         addOptions.doudrFlag = options.doudrFlag;
+
+
+
         ObQualityQueryOptions queryOptions = new ObQualityQueryOptions(options, addOptions, filterRepository,
-                ObQualityQueryOptionsGenerationType.FromYear, filterRepository.getWeeks());
+                ObQualityQueryOptionsGenerationType.FromPeriod, filterRepository.getWeeks());
+
+
+
         ObReportSummaryQualityFilter[] data = repository.getsummarykpiob_filter(queryOptions);
-/*9999*/
+
         builder.addWorksheet(ObReportSummaryQualityFilter.class)
                 .bindTo(data)
                 .title("Детальные данные")
