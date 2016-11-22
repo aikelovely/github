@@ -11,7 +11,7 @@ import ru.alfabank.dmpr.model.Period;
  */
 public class ClientTimeOptions extends BaseOptions implements PeriodOptions {
     /**
-     * Значение фильтра "Тип заявки"
+     *  45 Значение фильтра "Тип заявки"
      */
     public long kpiId;
 
