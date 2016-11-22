@@ -915,8 +915,9 @@
                         if (config.yAxis.min == undefined) {
                             config.yAxis.min = Math.max(Math.min(currentValue, prevValue, planValue) - 5, 0);
 
-                            config.yAxis.max=Math.max(Math.max(currentValue, prevValue, planValue) + 5, 0);
+                            config.yAxis.max=Math.max(Math.max(currentValue, prevValue, planValue) - 1, 0);
                         }
+
 
 //                        config.chart.marginTop = 60;
 //                        config.chart.marginBottom = 30;
@@ -934,7 +935,7 @@
 
                         metaData = findMetaDataByCode(seriesMetaData, seriesCode.currentValue);
                         if (metaData) {
-                             if (!currentValue) {currentValue=0;}
+//                             if (!currentValue) {currentValue=0;}
                             series = createFactSeries(metaData);
                             series.data = [currentValue];
                             series.pointPadding = getPointPadding(metaData.barWidth, 40);
@@ -2142,7 +2143,7 @@
                     <chart params="name: 'placeholder3'" class="mb-0"></chart>
                 </tab>
                 <tab>
-                    <chart params="name: 'kpi19Chart'"></chart>
+                    <%--<chart params="name: 'kpi19Chart'"></chart>--%>
                     <div class="row">
                             <%--<div class="col-xs-6">--%>
                             <%--<div class="group-section ">--%>
@@ -2213,9 +2214,9 @@
                 </tab>
                 <tab>
                     <div class="row mb-0">
-                        <div class="col-xs-8">
-                            <chart params="name: 'kpi16Chart'"></chart>
-                        </div>
+                        <%--<div class="col-xs-8">--%>
+                            <%--<chart params="name: 'kpi16Chart'"></chart>--%>
+                        <%--</div>--%>
                         <div class="col-xs-4">
                             <chart params="name: 'kpi15ByYearChart'"></chart>
                         </div>
