@@ -673,7 +673,7 @@
                     },
                     tooltip: {
                         useHTML: true,
-                        formatter: function() { return this.point.customHTMLTooltip; },
+                        formatter: function() { if (this.point.tag!='false') {return this.point.customHTMLTooltip;} else {return false;} },
                         positioner: function(labelWidth, labelHeight, point){
                             var tooltipX, tooltipY;
                             if (point.plotX + labelWidth > this.chart.plotWidth) {

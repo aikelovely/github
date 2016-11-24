@@ -90,9 +90,18 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
                 p.periodId = pSOptions.id;
 
                 p.customHTMLTooltip += p.periodName;
+                Double norma =normative2.get();
+                if (norma == 0) {
+                    norma=1.0;
 
+                }
+                norma=(value/norma) * 100;
+                if (norma > 100.0) {
+                    norma=100.0;
+
+                }
                 if (options.kpiId == null) {
-                    p.customHTMLTooltip += FormatRow("Уровень качества", new DecimalFormat("#.##").format(value * 100) + "%") +
+                    p.customHTMLTooltip += FormatRow("Уровень качества", new DecimalFormat("#.##").format(norma) + "%") +
                             FormatRow("Цель", new DecimalFormat("#.##").format(item.getNormative() * 100) + "%");
 
                 } else {
@@ -112,7 +121,7 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
                 Double value2 = selectNormative.select(item);
                 ObRichPoint p = new ObRichPoint(item.timeUnitDD, value2 * 100);
                 p.color = Color.SuperRedColor;
-                p.customHTMLTooltip = "<table class='dynamic-tooltip-table'>";
+             //   p.customHTMLTooltip = "<table class='dynamic-tooltip-table'>";
 
                 PeriodSelectOption pSOptions;
                 if (options.timeUnitId == Period.week.getValue()) {
@@ -123,22 +132,22 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
                 p.periodName = pSOptions.name;
                 p.periodNum = pSOptions.periodNum;
                 p.periodId = pSOptions.id;
+                p.tag="false";
+         //       p.customHTMLTooltip += p.periodName;
 
-                p.customHTMLTooltip += p.periodName;
-
-                if (options.kpiId == null) {
-                    p.customHTMLTooltip += FormatRow("Уровень качества", new DecimalFormat("#.##").format(selectValue.select(item) * 100) + "%") +
-                            FormatRow("Цель", new DecimalFormat("#.##").format(selectNormative.select(item) * 100) + "%");
-
-                } else {
-
-                    p.customHTMLTooltip += FormatRow("Уровень качества", new DecimalFormat("#.##").format(selectValue.select(item) * 100) + "%") +
-                            FormatRow("Цель", new DecimalFormat("#.##").format(selectNormative.select(item) * 100) + "%");
-//                    p.customHTMLTooltip += FormatRow("Факт", new DecimalFormat("#.##").format(value2 * 100) + "%") +
-//                            FormatRow("Общее количество", FormatCount(item.totalCount)) +
-//                            FormatRow("Количество успешных", FormatCount(item.inKpiCount));
-                }
-                p.customHTMLTooltip += "</table>";
+//                if (options.kpiId == null) {
+//                    p.customHTMLTooltip += FormatRow("Уровень качества", new DecimalFormat("#.##").format(selectValue.select(item) * 100) + "%") +
+//                            FormatRow("Цель", new DecimalFormat("#.##").format(selectNormative.select(item) * 100) + "%");
+//
+//                } else {
+//
+//                    p.customHTMLTooltip += FormatRow("Уровень качества", new DecimalFormat("#.##").format(selectValue.select(item) * 100) + "%") +
+//                            FormatRow("Цель", new DecimalFormat("#.##").format(selectNormative.select(item) * 100) + "%");
+////                    p.customHTMLTooltip += FormatRow("Факт", new DecimalFormat("#.##").format(value2 * 100) + "%") +
+////                            FormatRow("Общее количество", FormatCount(item.totalCount)) +
+////                            FormatRow("Количество успешных", FormatCount(item.inKpiCount));
+//                }
+//                p.customHTMLTooltip += "</table>";
                 return p;
             }
         }).toArray(Point.class);
