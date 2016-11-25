@@ -17,8 +17,8 @@ public class ObReportSummaryQualityFilter {
     public String regions;
     public String regioncenter;
     public String direction;
-    public Long summary;
-    public Long successfully;
+    public Double summary;
+    public Double successfully;
     public Double factkpi;
     public Double goatkpi;
     public Double executekpi;
