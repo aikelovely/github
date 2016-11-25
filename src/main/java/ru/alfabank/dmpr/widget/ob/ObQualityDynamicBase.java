@@ -121,8 +121,6 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
                 Double value2 = selectNormative.select(item);
                 ObRichPoint p = new ObRichPoint(item.timeUnitDD, value2 * 100);
                 p.color = Color.SuperRedColor;
-             //   p.customHTMLTooltip = "<table class='dynamic-tooltip-table'>";
-
                 PeriodSelectOption pSOptions;
                 if (options.timeUnitId == Period.week.getValue()) {
                     pSOptions = PeriodSelectHelper.getWeekByYearAndNum(item.timeUnitYear, item.timeUnitPrdNum, filterRepository.getWeeks());
@@ -133,13 +131,17 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
                 p.periodNum = pSOptions.periodNum;
                 p.periodId = pSOptions.id;
                 p.tag="false";
-         //       p.customHTMLTooltip += p.periodName;
+                if (options.kpiId != null) {
+                    p.customHTMLTooltip = "<table class='dynamic-tooltip-table'>";
+                    p.customHTMLTooltip += p.periodName;
+                    p.customHTMLTooltip += FormatRow("Цель", new DecimalFormat("#.##").format(selectNormative.select(item) * 100) + "%");
+                    p.customHTMLTooltip += "</table>";
+                    p.tag="true";
+// FormatRow("Уровень качества", new DecimalFormat("#.##").format(selectValue.select(item) * 100) + "%") +
 
-//                if (options.kpiId == null) {
-//                    p.customHTMLTooltip += FormatRow("Уровень качества", new DecimalFormat("#.##").format(selectValue.select(item) * 100) + "%") +
-//                            FormatRow("Цель", new DecimalFormat("#.##").format(selectNormative.select(item) * 100) + "%");
-//
-//                } else {
+
+                  }
+// else {
 //
 //                    p.customHTMLTooltip += FormatRow("Уровень качества", new DecimalFormat("#.##").format(selectValue.select(item) * 100) + "%") +
 //                            FormatRow("Цель", new DecimalFormat("#.##").format(selectNormative.select(item) * 100) + "%");
@@ -147,7 +149,6 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
 ////                            FormatRow("Общее количество", FormatCount(item.totalCount)) +
 ////                            FormatRow("Количество успешных", FormatCount(item.inKpiCount));
 //                }
-//                p.customHTMLTooltip += "</table>";
                 return p;
             }
         }).toArray(Point.class);
