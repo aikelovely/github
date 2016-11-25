@@ -5,7 +5,7 @@ import org.joda.time.LocalDate;
 /**
  * Набор данных для формирования выгрузки в Excel. 123
  */
-public class unitCost {
+public class UnitCost {
     public String prdtypeCcode;
     public String lvl;
     public LocalDate valueDay;

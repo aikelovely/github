@@ -5,38 +5,59 @@ import org.springframework.stereotype.Service;
 import ru.alfabank.dmpr.infrastructure.export.excel.ReportBuilder;
 import ru.alfabank.dmpr.infrastructure.export.excel.fluent.ColumnFactory;
 import ru.alfabank.dmpr.infrastructure.export.excel.fluent.ColumnFactoryWrapper;
-import ru.alfabank.dmpr.mapper.ob.ObQualityMapper;
-import ru.alfabank.dmpr.model.ctq.CTQDashboardReportOptions;
-import ru.alfabank.dmpr.model.ob.ObQualityAdditionalOptions;
-import ru.alfabank.dmpr.model.ob.ObReportSummaryQuality;
+import ru.alfabank.dmpr.model.ob.*;
+import ru.alfabank.dmpr.repository.ob.ObQualityFilterRepository;
 import ru.alfabank.dmpr.repository.ob.ObQualityRepository;
 import ru.alfabank.dmpr.widget.BaseReport;
 
+
 /**
- * Created by U_M0U9C on 09.09.2016.
+ * Created by U_M0U9C on 09.11.2016.
  */
+
 @Service
-public class ObReportDashboard extends BaseReport<ObQualityAdditionalOptions> {
+public class ObReportDashboardFilter extends BaseReport<ObQualityOptions> {
 
     @Autowired
     private ObQualityRepository repository;
 
-    public ObReportDashboard() {
-        super(ObQualityAdditionalOptions.class);
+
+    @Autowired
+    protected ObQualityFilterRepository filterRepository;
+
+    public ObReportDashboardFilter() {
+        super(ObQualityOptions.class);
     }
 
+  /*  public ObQualityQueryOptions getQueryOptions(ObQualityOptions options) {
+        return null;
+    }*/
 
     @Override
-    protected String getReportName(ObQualityAdditionalOptions options) {
-        return "Summary table of quality OB";
+    protected String getReportName(ObQualityOptions options) {
+        return "Summary table of quality OB(Filter)";
     }
 
     @Override
-    protected void configure(ReportBuilder builder, ObQualityAdditionalOptions options) {
+    protected void configure(ReportBuilder builder, ObQualityOptions options) {
 
-   ObReportSummaryQuality[] data = repository.getsummarykpiob();
-/*9999*/
-   builder.addWorksheet(ObReportSummaryQuality.class)
+
+        /*ObQualityQueryOptions queryOptions = getQueryOptions(options);*/
+
+        ObQualityAdditionalOptions addOptions = new ObQualityAdditionalOptions();
+        addOptions.detailsMode = options.kpiId == null ? 2 : 1;
+        addOptions.doudrFlag = options.doudrFlag;
+
+
+
+        ObQualityQueryOptions queryOptions = new ObQualityQueryOptions(options, addOptions, filterRepository,
+                ObQualityQueryOptionsGenerationType.FromPeriod, filterRepository.getWeeks());
+
+
+
+        ObReportSummaryQualityFilter[] data = repository.getsummarykpiob_filter(queryOptions);
+
+        builder.addWorksheet(ObReportSummaryQualityFilter.class)
                 .bindTo(data)
                 .title("Детальные данные")
                 .columns(new ColumnFactoryWrapper() {
@@ -64,5 +85,3 @@ public class ObReportDashboard extends BaseReport<ObQualityAdditionalOptions> {
                 });
     }
 }
-
-

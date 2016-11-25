@@ -119,10 +119,10 @@ public class CTQDashboardReport extends BaseReport<CTQDashboardReportOptions> {
                         c.add("direction").title("Направление").width(15);
                         c.add("summary").title("Всего").width(15);
                         c.add("successfully").title("Успешно").width(15);
-                        c.add("factkpi").title("Факт KPI").width(15);
-                        c.add("goalkpi").title("Цель KPI").width(15);
-                        c.add("executekpi").title("Выполнение  KPI").width(15);
-
+                        c.add("factkpi").title("Факт KPI").format("0.00%");
+                        c.add("goalkpi").title("Цель KPI").format("0.00%");
+                        c.add("executekpi").title("Выполнение  KPI")
+                        .format("0.00%");
                     }
                 });
 

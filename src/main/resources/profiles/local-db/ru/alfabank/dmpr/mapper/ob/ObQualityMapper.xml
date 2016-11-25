@@ -123,7 +123,6 @@
         ]]>
     </select>
 
-
     <select id="getsummarykpiob" useCache="false"
             parameterType="ru.alfabank.dmpr.model.ob.ObQualityQueryOptions"
             resultType="ru.alfabank.dmpr.model.ob.ObReportSummaryQuality">
@@ -150,5 +149,39 @@
         from table(pkg_kpiob_api.get_summaryKpiOb())
         ]]>
     </select>
+
+    <select id="getsummarykpiob_filter" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.ob.ObQualityQueryOptions"
+            resultType="ru.alfabank.dmpr.model.ob.ObReportSummaryQualityFilter">
+        <![CDATA[
+        select
+             valueday,
+             period,
+             typeperiod,
+             numperiod,
+             directorate,
+             nametype,
+             codekpi,
+             namekpi  ,
+             regions,
+             regioncenter,
+             direction,
+             summary,
+             successfully,
+             factkpi,
+             goatkpi,
+             executekpi,
+             descript,
+             duodr_flag
+        from table(pkg_kpiob_api.get_summaryKpiOb_filter(
+                    p_DateFrom           => #{startDate},
+                    p_DateTill           => #{endDate},
+                    p_KPIKindID          => #{kpiKindId},
+                    p_BPDivisionGroupIDs => #{directionIds},
+                    p_BushIDs            => #{regionIds}
+        ))
+        ]]>
+    </select>
+
 
 </mapper>

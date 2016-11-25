@@ -48,9 +48,9 @@ public class LeaderBoardReportDashboard extends BaseReport<LeaderBoardOptions> {
                         c.add("nameKpi").title("Показатель").width(15);
                         c.add("regions").title("Регион").width(15);
                         c.add("regionCenter").title("Региональный  центр").width(15);
-                        c.add("factKpi").title("Факт KPI").width(15);
-                        c.add("goalKpi").title("Цель KPI").width(15);
-                        c.add("executeKpi").title("Выполнение  KPI").width(15);
+                        c.add("factKpi").title("Факт KPI").format("0.00%");
+                        c.add("goalKpi").title("Цель KPI").format("0.00%");
+                        c.add("executeKpi").title("Выполнение  KPI").format("0.00%");
                     }
                 });
     }

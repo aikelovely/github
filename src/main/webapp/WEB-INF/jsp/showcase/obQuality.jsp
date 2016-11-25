@@ -894,6 +894,9 @@
                 <div class="filter-element" style="margin-top: 18px;">
                     <report-button params="reportUrl: 'ObReportDashboard', group: 'default'"></report-button>
                 </div>
+                <div class="filter-element" style="margin-top: 18px;">
+                    <report-button params="reportUrl: 'ObReportDashboardFilter', group: 'default', text: 'Выгрузить данные по фильтру'"></report-button>
+                </div>
             </div>
             <filter-log></filter-log>
         </div>
