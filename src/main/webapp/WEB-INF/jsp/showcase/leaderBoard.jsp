@@ -594,9 +594,12 @@
                 }
 
                 var chartType = getChartTypeByWidgetType(metaData.widgetType);
-
+                var chartType2 = getChartTypeByWidgetType(metaData.widgetType);
+                if (chartType === 'LEGO') {
+                    chartType2 ='column';
+                }
                 var seriesConfig = {
-                    type: chartType,
+                    type: chartType2,
                     name: metaData.seriesName || "Факт",
                     color: metaData.seriesColor || color.currentValue,
                     zIndex: 1,
@@ -762,7 +765,7 @@
             }
 
             function getChartTypeByWidgetType(widgetType) {
-                return chartTypeCodes[widgetType] || "bar";
+                return chartTypeCodes[widgetType] || "column";
             }
 
             function createBlockChart($container, filterData, jsonData, seriesMetaData) {

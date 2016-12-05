@@ -91,7 +91,8 @@
           block_HEIGTH as height,
           block_INTERVAL_CCODE as intervalType,
           block_UNIT_CCODE as unitCode,
-          block_WIDGETTYPE_CCODE as widgetType,
+           -- block_WIDGETTYPE_CCODE as widgetType,
+          'LEGO' as widgetType,
           block_data_range as dataMinMax,
           decode(block_HIDE_IF_EMPTY_FLAG, 'Y', 1, 0) as hideIfEmpty,
           bpkpi_dk as kpiId,
@@ -103,7 +104,7 @@
           SERIES_CODE as seriesCode,
           FONTCOLOR_CCODE as fontColor,
           BAR_WIDTH_PCT as barWidth
-        from table(pkg_leaderboard_api.get_layout)
+        from table(pkg_leaderboard_api.get_layout) where block_dk=1077037693
         ]]>
     </select>
 
