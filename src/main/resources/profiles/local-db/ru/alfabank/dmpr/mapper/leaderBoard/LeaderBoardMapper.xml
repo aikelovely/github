@@ -103,7 +103,9 @@
           SERIESTYPE_CCODE as seriesType,
           SERIES_CODE as seriesCode,
           FONTCOLOR_CCODE as fontColor,
-          BAR_WIDTH_PCT as barWidth
+          BAR_WIDTH_PCT as barWidth,
+          legoTipeS legoTipeS,
+           decode(legoGroup_flag, 'Y', 1, 0) legoGroup
         from table(pkg_leaderboard_api.get_layout) where block_dk=1077037693
         ]]>
     </select>

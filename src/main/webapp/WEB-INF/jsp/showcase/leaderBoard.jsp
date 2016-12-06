@@ -594,12 +594,12 @@
                 }
 
                 var chartType = getChartTypeByWidgetType(metaData.widgetType);
-                var chartType2 = getChartTypeByWidgetType(metaData.widgetType);
-                if (chartType === 'LEGO') {
-                    chartType2 ='column';
+
+                if (metaData.widgetType === 'LEGO') {
+                    chartType =metaData.legoTipeS;
                 }
                 var seriesConfig = {
-                    type: chartType2,
+                    type: chartType,
                     name: metaData.seriesName || "Факт",
                     color: metaData.seriesColor || color.currentValue,
                     zIndex: 1,
@@ -648,7 +648,9 @@
                 }
 
                 var chartType = getChartTypeByWidgetType(metaData.widgetType);
-
+                if (metaData.widgetType === 'LEGO') {
+                    chartType =metaData.legoTipeS;
+                }
                 var seriesConfig = {
                     type: chartType,
                     name: metaData.seriesName || "Факт за предыдущий год",
@@ -687,7 +689,7 @@
                 return seriesConfig;
             }
             // Создает серию "Факт за предыдущий год"
-            function createPrevFactSeries(metaData) {
+            function createPrevFactSeries(metaData) { // не
                 return {
                     type: metaData.widgetType == "PFPFV" ? "column" : "bar",
                     name: metaData.seriesName || "Факт за предыдущий год",
@@ -715,9 +717,12 @@
                 }
 
                 var chartType = getChartTypeByWidgetType(metaData.widgetType);
-
+                if (metaData.widgetType === 'LEGO') {
+                    chartType ='LEGO';
+                }
                 var seriesConfig = {
-                    type: chartType === 'areaspline' ? 'areaspline' : "line",
+                    type: chartType === 'areaspline' ? 'areaspline' :
+                          chartType === 'LEGO' ? metaData.legoTipeS : "line",
                     name: metaData.seriesName || "План",
                     color: metaData.seriesColor || color.planValue,
                     zIndex: 2,
@@ -770,6 +775,7 @@
 
             function createBlockChart($container, filterData, jsonData, seriesMetaData) {
                 var chartMeta = seriesMetaData[0];
+
                 var selectedOption = app.viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];
                 if (!selectedOption) {
                     selectedOption = app.viewModel.getFilter("divisionGroupId").options()[0];
@@ -885,12 +891,12 @@
 
                 config.plotOptions = {
                     column: {
-                        grouping: false,
+                        grouping: chartMeta.legoGroup === "0" ? false : true ,
                         shadow: false,
                         borderWidth: 0
                     },
                     bar: {
-                        grouping: false,
+                        grouping: chartMeta.legoGroup === "0" ? false : true ,
                         shadow: false,
                         borderWidth: 0
                     },
