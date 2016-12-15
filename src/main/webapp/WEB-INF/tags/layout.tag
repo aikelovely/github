@@ -19,6 +19,8 @@
 
     <link rel="stylesheet" href="<c:url value="/libs/kendo-ui/css/kendo.common.min.css" />" />
     <link rel="stylesheet" href="<c:url value="/libs/kendo-ui/css/kendo.silver.min.css" />" />
+    <%--<link rel="stylesheet" href="<c:url value="/libs/kendo-ui/css/kendo.common-material.min.css" />" />--%>
+    <%--<link rel="stylesheet" href="<c:url value="/libs/kendo-ui/css/kendo.material.min.css" />" />--%>
 
     <link rel="stylesheet" href="<c:url value="/libs/bootstrap/css/bootstrap.css" />" />
     <link rel="stylesheet" href="<c:url value="/libs/bootstrap-datepicker/css/bootstrap-datepicker3.css" />" />
@@ -76,6 +78,7 @@
 <script type="text/javascript" charset="UTF-8" src="<c:url value="/libs/kendo-ui/js/kendo.web.min.js" />"></script>
 <script type="text/javascript" charset="UTF-8" src="<c:url value="/libs/kendo-ui/js/kendo.culture.ru-RU.min.js" />"></script>
 <script type="text/javascript" charset="UTF-8" src="<c:url value="/libs/kendo-ui/js/kendo.messages.ru-RU.min.js" />"></script>
+<script type="text/javascript" charset="UTF-8" src="<c:url value="/libs/kendo-ui/js/kendo.all.min.js" />"></script>
 
 <script type="text/javascript" charset="UTF-8" src="<c:url value="/app/app.js" />"></script>
 <script type="text/javascript" charset="UTF-8" src="<c:url value="/app/builders/checkBox.js" />"></script>
