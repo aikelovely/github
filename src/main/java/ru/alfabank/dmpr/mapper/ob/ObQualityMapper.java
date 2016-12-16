@@ -1,9 +1,8 @@
 package ru.alfabank.dmpr.mapper.ob;
 
-import ru.alfabank.dmpr.model.ob.ObQualityDataItem;
-import ru.alfabank.dmpr.model.ob.ObQualityQueryOptions;
-import ru.alfabank.dmpr.model.ob.ObReportSummaryQuality;
-import ru.alfabank.dmpr.model.ob.ObReportSummaryQualityFilter;
+import ru.alfabank.dmpr.model.ob.*;
+import ru.alfabank.dmpr.model.ob.ObDss;
+
 
 /**
  * Маппер, отвечающий за загрузку данных для графиков витрины "Показатели качества ОБ".
@@ -38,5 +37,9 @@ public interface ObQualityMapper {
     ObReportSummaryQuality[] getsummarykpiob();
 
     ObReportSummaryQualityFilter[] getsummarykpiob_filter(ObQualityQueryOptions options);
+
+    ObDss[] getObDss(ObQualityQueryOptions options);
+    ObDssemployees[] getObDssEmployees(ObQualityQueryOptions options);
+
 
 }

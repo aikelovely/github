@@ -18,7 +18,7 @@ public class ReportDashboardQualityBo {
   public String regionCenter;
   public Double factKpi;
   public Double goalKpi;
-  public Long executeKpi;
+  public Double executeKpi;
 
 }
 /*
