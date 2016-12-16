@@ -184,4 +184,49 @@
     </select>
 
 
+    <select id="getObDssEmployees" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.ob.ObQualityQueryOptions"
+            resultType="ru.alfabank.dmpr.model.ob.ObDssemployees">
+        <![CDATA[
+
+      select division_name
+          ,user_name
+          ,oper1
+          ,goodtime24
+          ,goodtime24p
+          ,goodtime48
+          ,goodtime48p
+          ,dop
+        from table(pkg_kpiob_api.get_DssEmployees(
+         p_DateFrom           => #{startDate},
+                    p_DateTill           => #{endDate}
+
+        )) order by 1
+
+        ]]>
+    </select>
+
+
+    <select id="getObDss" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.ob.ObQualityQueryOptions"
+            resultType="ru.alfabank.dmpr.model.ob.ObDss">
+        <![CDATA[
+     select  division_name,
+        loanappl_ref,
+        user_name,
+        slaoperationsrc_name,
+        slaoperationsrc_no,
+        operation_start_time,
+        operation_end_time,
+        di,
+        time2
+        from table(pkg_kpiob_api.get_Dss(
+         p_DateFrom           => #{startDate},
+         p_DateTill           => #{endDate}
+        ))
+
+        ]]>
+    </select>
+
+
 </mapper>
