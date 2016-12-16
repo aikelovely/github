@@ -91,12 +91,17 @@
           block_HEIGTH as height,
           block_INTERVAL_CCODE as intervalType,
           block_UNIT_CCODE as unitCode,
-           -- block_WIDGETTYPE_CCODE as widgetType,
-          'LEGO' as widgetType,
+           block_WIDGETTYPE_CCODE as widgetType,
+         -- 'LEGO' as widgetType,
           block_data_range as dataMinMax,
           decode(block_HIDE_IF_EMPTY_FLAG, 'Y', 1, 0) as hideIfEmpty,
           bpkpi_dk as kpiId,
-          barcolor_ccode as seriesColor,
+        --  barcolor_ccode as seriesColor,
+        case when SERIES_CODE ='PLAN' then
+
+        'RGBA(255,0,0,0.3)' else
+'RGBa(242,175,175,1)' end
+         as seriesColor,
           order_num as chartOrder,
           DATALABEL_POSITION as dataLabelPosition,
           DATALABEL_PRECISION as dataLabelPrecision,
@@ -106,7 +111,8 @@
           BAR_WIDTH_PCT as barWidth,
           legoTipeS legoTipeS,
            decode(legoGroup_flag, 'Y', 1, 0) legoGroup
-        from table(pkg_leaderboard_api.get_layout) where block_dk=1077037693
+        from table(pkg_leaderboard_api.get_layout)
+        where block_dk in (1067383997)
         ]]>
     </select>
 
