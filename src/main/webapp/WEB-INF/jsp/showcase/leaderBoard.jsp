@@ -726,6 +726,9 @@
                     name: metaData.seriesName || "План",
                     color: metaData.seriesColor || color.planValue,
                     zIndex: 2,
+                    pointPlacement: 0,
+                    groupPadding: 0,
+                    pointPadding: getPointPadding(metaData.barWidth, 40),
                     dataLabels: {
                         inside: true,
                         enabled: metaData.dataLabelPosition !== "N",
