@@ -12,16 +12,20 @@ import ru.alfabank.dmpr.model.BaseOptions;
 import ru.alfabank.dmpr.model.workload.*;
 import ru.alfabank.dmpr.repository.workload.WorkloadRepository;
 import ru.alfabank.dmpr.widget.BaseReport;
-
+import java.io.FileInputStream;
+import java.io.InputStream;
 import static org.joda.time.LocalDateTime.*;
 
 /**
  * Created by U_M0NCT on 26.07.2016.
  */
 
+
+
 @Service
 public class BpiepnormValueReport extends BaseReport <WorkloadOptions> {
 @Autowired
+
     WorkloadRepository rep;
     public BpiepnormValueReport( ) {
         super(WorkloadOptions.class);
@@ -142,3 +146,4 @@ public class BpiepnormValueReport extends BaseReport <WorkloadOptions> {
 
     }
 }
+
