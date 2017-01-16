@@ -34,6 +34,6 @@ public class ReportManager {
 //    return servletContext.getRealPath("/report");
     public String getReportDirectory() {
 
-        return servletContext.getRealPath("/report");
+        return servletContext.getRealPath("report");
     }
 }
