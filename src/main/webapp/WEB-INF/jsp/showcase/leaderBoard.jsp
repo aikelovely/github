@@ -601,9 +601,11 @@
                 var seriesConfig = {
                     type: chartType,
                     name: metaData.seriesName || "Факт",
+                    fillColor: metaData.seriesColor || color.currentValue,
                     color: metaData.seriesColor || color.currentValue,
                     zIndex: 1,
                     dataLabels: {
+                        allowOverlap:true,
                         inside: true,
                         enabled: metaData.dataLabelPosition !== "N",
                         formatter: function () {
@@ -654,10 +656,12 @@
                 var seriesConfig = {
                     type: chartType,
                     name: metaData.seriesName || "Факт за предыдущий год",
+                    fillColor: metaData.seriesColor || color.prevValue,
                     color: metaData.seriesColor || color.prevValue,
                     zIndex: 1,
                     dataLabels: {
                         inside: true,
+                        allowOverlap:true,
                         enabled: metaData.dataLabelPosition !== "N",
                         formatter: function () {
                             if (metaData.unitCode == "PRC") {
@@ -724,6 +728,7 @@
                     type: chartType === 'areaspline' ? 'areaspline' :
                           chartType === 'LEGO' ? metaData.legoTipeS : "line",
                     name: metaData.seriesName || "План",
+                    fillColor: metaData.seriesColor || color.planValue,
                     color: metaData.seriesColor || color.planValue,
                     zIndex: 2,
                     pointPlacement: 0,
@@ -740,6 +745,7 @@
                         },
                         rotation: metaData.dataLabelPosition === "H" ? 0 : 270,
                         marker: {enabled: false},
+                        allowOverlap:true,
                         style: style
                     }
                 };
