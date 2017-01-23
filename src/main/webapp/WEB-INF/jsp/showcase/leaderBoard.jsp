@@ -625,14 +625,14 @@
                 if (chartType === 'areaspline') {
                     _.assign(seriesConfig,
                             {
-                                zIndex: 2,
+                           //     zIndex: 2,
                                 marker: {
                                     lineWidth: 3,
                                     lineColor: "white",
                                     radius: 6,
                                     symbol: 'circle'
-                                },
-                                index: 1
+                                } //,
+                             //   index: 1
                             });
                 }
                 return seriesConfig;
@@ -680,14 +680,14 @@
                 if (chartType === 'areaspline') {
                     _.assign(seriesConfig,
                             {
-                                zIndex: 2,
+                              //  zIndex: 2,
                                 marker: {
                                     lineWidth: 3,
                                     lineColor: "white",
                                     radius: 6,
                                     symbol: 'circle'
-                                },
-                                index: 1
+                                }//,
+                               // index: 1
                             });
                 }
                 return seriesConfig;
@@ -753,14 +753,14 @@
                 if (chartType === 'areaspline') {
                     _.assign(seriesConfig,
                             {
-                                zIndex: 1,
+                             //   zIndex: 1,
                                 marker: {
                                     lineWidth: 3,
                                     lineColor: "white",
                                     radius: 6,
                                     symbol: 'circle'
-                                },
-                                index: 0
+                                }//,
+                              //  index: 0
                             });
                 }
 
@@ -928,7 +928,7 @@
                                 planValue = getValueBySeriesCode(firstRow, seriesCode.planValue, chartMeta);
 
                         config.xAxis.categories = [currentYear];
-                        config.legend = {enabled: false};
+                        config.legend = {enabled: true};
 
                         if (config.yAxis.min == undefined) {
                             config.yAxis.min = Math.max(Math.min(currentValue, prevValue, planValue) - 5, 0);
@@ -961,14 +961,26 @@
                         }
 
                         metaData = findMetaDataByCode(seriesMetaData, seriesCode.planValue);
+                        var color = metaData.fontColor || "black";
+                        var style = {};
+                        if (color.toUpperCase() === "WHITE") {
+                            style.color = "#ffffff";
+                            style.textShadow = "0 0 6px #000000, 0 0 3px #000000";
+
+                        } else {
+                            style.color = "#000000";
+                            style.textShadow = "0 0 6px #ffffff, 0 0 3px #ffffff";
+                        }
                         if (metaData && planValue) {
+
                             config.yAxis.plotLines = [{
                                 color: metaData.seriesColor || color.planValue,
                                 value: planValue,
                                 width: 2,
                                 zIndex: 5,
                                 label: {
-                                    text: 'План: {0}{1}'.format(planValue.toFixed(dataPrecision), valueSuffix),
+                                    style:style,
+                                    text: '{0}{1}'.format(planValue.toFixed(dataPrecision), valueSuffix),
                                     zIndex: 8,
                                     x: 5,
                                     rotation: 0,
@@ -1043,13 +1055,14 @@
 //                    _.forEach(jsonData, function(data) {
 //
 //                    });
+                    var filterJsonData = jsonData.filter(function (data) {
+                        return data.currentValue != 0 && data.currentValue != null;
+                    });
                     var filterJsonData2 = jsonData.filter(function (data) {
                         return data.planValue != 0 && data.planValue != null;
 //                    берем план для автомасштабирования , теперь он тоже ва деле
                     });
-                    var filterJsonData = jsonData.filter(function (data) {
-                        return data.currentValue != 0 && data.currentValue != null;
-                    });
+
                     var minC = Math.min.apply(
                             Math,
                             filterJsonData.map(function (o) {
@@ -1164,7 +1177,7 @@
                         shared: true,
                         useHTML: true
                     },
-                    legend: {enabled: false},
+                    legend: {enabled: true},
                     series: chartSeries
                 });
             }
@@ -1833,7 +1846,7 @@
                     color: color.planValue,
                     label: {
                         align: 'right',
-                        text: '<b>План</b>: {0}%'.format(planValue.toFixed(2)),
+                        text: '{0}%'.format(planValue.toFixed(2)),
                         x: -10
                     },
                     value: planValue.toFixed(2),
