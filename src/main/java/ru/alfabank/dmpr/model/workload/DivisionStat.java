@@ -15,6 +15,7 @@ public class DivisionStat {
     public int vacancyCnt;
     public int decretVacancyCnt;
     public double hfCriterionCnt;
+    public double hfCriterionCnt2;
     public double hfCriterionW4Cnt;
     public double hfCriterionW8Cnt;
     public int nonSLAStaffCnt;

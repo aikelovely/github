@@ -168,19 +168,22 @@
             }
 
             .styled-chart-container .chart-container {
-                height: 235px;
+                height: 323px;
             }
 
             .styled-chart-title {
                 font-weight: bold;
                 margin-bottom: 5px;
             }
-
             .styled-chart-container th {
                 font-weight: bold;
                 text-align: center;
                 border-bottom-width: 1px !important;
+                border-right-width: 1px !important;
                 line-height: 15px !important;
+            }
+            .styled-chart-container td {
+                row-span: 3;
             }
 
             .styled-chart-container tbody {
@@ -1026,8 +1029,21 @@
                             attributes: {
                                 style: "text-align: left"
                             }
-                        }
+                        },
+                        {
+                            field: "hfCriterionCnt2",
+                            title: "Критерий на ввод/вывод с <br>учетом заполнения всех вакансий",
+                            width: 180,
+                            format: "{0}",
+                            filterable: false,
+                            template: "# var iconCss =  (hfCriterionCnt > 0) ? 'icon-red-arrow-up icon-small-arrow' : " +
+                            "(hfCriterionCnt == 0) ? '' :'icon-green-arrow-down icon-small-arrow' #" +
+                            "#= hfCriterionCnt # <span data-toggle2='tooltip' data-placement='bottom' html='true' title=' #=helpers2.tooltips2.hfCriterion2(staffCountDeltaCnt,hfCriterionW4Cnt,hfCriterionW8Cnt,hfCriterionCnt2)#' <div class=' #= iconCss # '>  </div> </span> ",
 
+                            attributes: {
+                                style: "text-align: left"
+                            }
+                        }
                     ],
                     detailTemplate: '<div class="chart">' +
                     '<div class="roller"></div>' +
@@ -1448,15 +1464,15 @@
                          <span data-bind="text: hfCriterionCnt" class="big-title-font"></span>
                     </div>
                 </div>
-
-                <div class="col-xs-12 ob-custom-table-item"
-                     data-bind="if: hfCriterionCnt == 0 , ">
+                <div class="col-xs-12 ob-custom-table-item">
                     <div class="small-title-font">
                         Критерий на ввод/вывод
+                        с учетом заполнения
+                        всех вакансий
                     </div>
                     <div class="value">
-                        <i data-bind="if: hfCriterionCnt !== 0, css: hfCriterionCnt > 0 ? 'icon-red-arrow-up' :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
-                        <span data-bind="text: hfCriterionCnt" class="big-title-font"></span>
+                        <i class="icon-people"></i>
+                        <span data-bind="text: staffCountFact" class="big-title-font"></span>
                     </div>
                 </div>
                 <div class="col-xs-12 ob-custom-table-item">
@@ -1655,14 +1671,17 @@
                                 <table class="styled-chart-container table">
                                     <thead>
                                     <tr>
-                                        <th>Изменение ш.ч.</th>
+
+                                        <th >Изменение ш.ч.</th>
+                                        <th >Фактическая численность(в т.ч. не SLA)</th>
+                                        <th>Численность не SLA</th>
                                         <th>Критерий на ввод/вывод</th>
-                                        <th>Фактическая численность(в т.ч. не SLA)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td>
+
+                                        <td >
                                             <i data-bind="css: staffCountDeltaCnt > 0 ? 'icon-red-arrow-up': 'icon-green-arrow-down',
                                             tooltip: {title: helpers.tooltips.staffCountDelta($data), html: true}"></i>
                                             <span data-bind="text: staffCountDeltaCnt"></span>
@@ -1682,20 +1701,25 @@
                                             <span data-bind="if: slaFactValueDoubleCnt > 0, tooltip: {title: 'Дублирование: ' + slaFactValueDoubleCnt, html: true}"
                                                   style="color: red; font-weight: bold;">!</span>
                                         </td>
+                                        <td>
+                                            <i data-bind="css: staffCountDeltaCnt > 0 ? 'icon-red-arrow-up': 'icon-green-arrow-down',
+                                            tooltip: {title: helpers.tooltips.staffCountDelta($data), html: true}"></i>
+                                            <span data-bind="text: staffCountDeltaCnt"></span>
+                                        </td>
                                     </tr>
                                     </tbody>
                                     <thead>
                                     <tr>
                                         <th>Декретные вакансии</th>
                                         <th>Текущие вакансии</th>
-                                        <th>Численность не SLA</th>
+                                        <th colspan="2">Критерий на ввод/вывод с учетом заполнения всех вакансий</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
                                         <td data-bind="text: decretVacancyCnt"></td>
                                         <td data-bind="text: vacancyCnt"></td>
-                                        <td data-bind="text: nonSLAStaffCnt"></td>
+                                        <td colspan="2" data-bind="text: nonSLAStaffCnt"></td>
                                     </tr>
                                     </tbody>
                                 </table>
