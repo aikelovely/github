@@ -453,6 +453,12 @@
                         var template = "{0}<br>Шт. единиц за 4 недели: {1}<br>Шт. единиц за 8 недель: {2}";
                         return template.format(dataItem.hfCriterionCnt > 0 ? "Требуется увеличение фактической численности" :
                                 "Требуется уменьшение фактической численности", dataItem.hfCriterionW4Cnt, dataItem.hfCriterionW8Cnt);
+                    },
+                    //Критерий на ввод/вывод с учетом заполнения всех вакансий
+                    hfCriterion21: function (dataItem) {
+                        var template = "{0}<br>Вакансий SLA: {1}<br>Декретные вакансии SLA: {2}";
+                        return template.format(dataItem.hfCriterionCnt > 0 ? "Требуется увеличение фактической численности" :
+                                "Требуется уменьшение фактической численности", dataItem.SlaFactVacancyCnt, dataItem.SlaFactVacancyTempCnt);
                     }
                 }
             };
@@ -465,6 +471,12 @@
                         var template = "{0}<br>Шт. единиц за 4 недели: {1}<br>Шт. единиц за 8 недель: {2}";
                         return template.format(hfCriterionCnt > 0 ? "Требуется увеличение фактической численности" :
                                 "Требуется уменьшение фактической численности", hfCriterionW4Cnt, hfCriterionW8Cnt);
+                    },
+                    //Критерий на ввод/вывод с учетом заполнения всех вакансий
+                    hfCriterion22: function (hfCriterionCnt2,SlaFactVacancyCnt,SlaFactVacancyTempCnt) {
+                        var template = "{0}<br>Вакансий SLA: {1}<br>Декретные вакансии SLA: {2}";
+                        return template.format(hfCriterionCnt2 > 0 ? "Требуется увеличение фактической численности" :
+                                "Требуется уменьшение фактической численности", SlaFactVacancyCnt, SlaFactVacancyTempCnt);
                     }
                 }
             };
@@ -1030,15 +1042,16 @@
                                 style: "text-align: left"
                             }
                         },
+                            /* дирекция дуодр регион*/
                         {
                             field: "hfCriterionCnt2",
-                            title: "Критерий на ввод/вывод с <br>учетом заполнения всех вакансий",
+                            title: "Критерий на ввод/вывод с учетом заполнения всех вакансий",
                             width: 180,
                             format: "{0}",
                             filterable: false,
-                            template: "# var iconCss =  (hfCriterionCnt > 0) ? 'icon-red-arrow-up icon-small-arrow' : " +
-                            "(hfCriterionCnt == 0) ? '' :'icon-green-arrow-down icon-small-arrow' #" +
-                            "#= hfCriterionCnt # <span data-toggle2='tooltip' data-placement='bottom' html='true' title=' #=helpers2.tooltips2.hfCriterion2(staffCountDeltaCnt,hfCriterionW4Cnt,hfCriterionW8Cnt,hfCriterionCnt2)#' <div class=' #= iconCss # '>  </div> </span> ",
+                            template: "# var iconCss =  (hfCriterionCnt2 > 0) ? 'icon-red-arrow-up icon-small-arrow' : " +
+                            "(hfCriterionCnt2 == 0) ? '' :'icon-green-arrow-down icon-small-arrow' #" +
+                            "#= hfCriterionCnt2 # <span data-toggle2='tooltip' data-placement='bottom' html='true' title=' #=helpers2.tooltips2.hfCriterion22(hfCriterionCnt2,SlaFactVacancyCnt,SlaFactVacancyTempCnt)#' <div class=' #= iconCss # '>  </div> </span> ",
 
                             attributes: {
                                 style: "text-align: left"
@@ -1464,15 +1477,16 @@
                          <span data-bind="text: hfCriterionCnt" class="big-title-font"></span>
                     </div>
                 </div>
-                <div class="col-xs-12 ob-custom-table-item">
+                <div class="col-xs-12 ob-custom-table-item"
+                    data-bind="if: hfCriterionCnt !== 0 , tooltip: {title: helpers.tooltips.hfCriterion21($data), html: true}">
                     <div class="small-title-font">
                         Критерий на ввод/вывод
                         с учетом заполнения
                         всех вакансий
                     </div>
                     <div class="value">
-                        <i class="icon-people"></i>
-                        <span data-bind="text: staffCountFact" class="big-title-font"></span>
+                        <i data-bind="if: hfCriterionCnt2 !== 0, css: hfCriterionCnt2 > 0 ? 'icon-red-arrow-up' :hfCriterionCnt2 == 0 ? '' : 'icon-green-arrow-down'"></i>
+                        <span data-bind="text: hfCriterionCnt2" class="big-title-font"></span>
                     </div>
                 </div>
                 <div class="col-xs-12 ob-custom-table-item">
@@ -1687,24 +1701,21 @@
                                             <span data-bind="text: staffCountDeltaCnt"></span>
                                         </td>
                                         <td>
-                                            <div data-bind="if: hfCriterionCnt !== 0 , tooltip: {title: helpers.tooltips.hfCriterion($data), html: true} ">
-                                            <i data-bind="css: hfCriterionCnt > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
-                                            <span data-bind="text: hfCriterionCnt"></span>
-                                        </div>
-                                            <div data-bind="if: hfCriterionCnt == 0 ,  ">
-                                                <i data-bind="css: hfCriterionCnt > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
-                                                <span data-bind="text: hfCriterionCnt"></span>
-                                            </div>
-                                        </td>
-                                        <td>
                                             <span data-bind="text: staffCountFact"></span>
                                             <span data-bind="if: slaFactValueDoubleCnt > 0, tooltip: {title: 'Дублирование: ' + slaFactValueDoubleCnt, html: true}"
                                                   style="color: red; font-weight: bold;">!</span>
                                         </td>
+
+                                        <td data-bind="text: nonSLAStaffCnt"></td>
                                         <td>
-                                            <i data-bind="css: staffCountDeltaCnt > 0 ? 'icon-red-arrow-up': 'icon-green-arrow-down',
-                                            tooltip: {title: helpers.tooltips.staffCountDelta($data), html: true}"></i>
-                                            <span data-bind="text: staffCountDeltaCnt"></span>
+                                            <div data-bind="if: hfCriterionCnt !== 0 , tooltip: {title: helpers.tooltips.hfCriterion($data), html: true} ">
+                                                <i data-bind="css: hfCriterionCnt > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
+                                                <span data-bind="text: hfCriterionCnt"></span>
+                                            </div>
+                                            <div data-bind="if: hfCriterionCnt == 0 ,  ">
+                                                <i data-bind="css: hfCriterionCnt > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
+                                                <span data-bind="text: hfCriterionCnt"></span>
+                                            </div>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -1719,7 +1730,16 @@
                                     <tr>
                                         <td data-bind="text: decretVacancyCnt"></td>
                                         <td data-bind="text: vacancyCnt"></td>
-                                        <td colspan="2" data-bind="text: nonSLAStaffCnt"></td>
+                                        <td  colspan="2" >
+                                            <div data-bind="if: hfCriterionCnt2 !== 0 , tooltip: {title: helpers.tooltips.hfCriterion21($data), html: true} ">
+                                                <i data-bind="css: hfCriterionCnt2 > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt2 == 0 ? '' : 'icon-green-arrow-down'"></i>
+                                                <span data-bind="text: hfCriterionCnt2"></span>
+                                            </div>
+                                            <div data-bind="if: hfCriterionCnt2 == 0 ,  ">
+                                                <i data-bind="css: hfCriterionCnt2 > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt2 == 0 ? '' : 'icon-green-arrow-down'"></i>
+                                                <span data-bind="text: hfCriterionCnt2"></span>
+                                            </div>
+                                        </td>
                                     </tr>
                                     </tbody>
                                 </table>
