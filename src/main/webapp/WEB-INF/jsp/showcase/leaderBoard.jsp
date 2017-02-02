@@ -2123,10 +2123,10 @@
                 <tab>
                     <div class="row">
                         <div class="col-xs-5">
-                            <div style="margin-top: 73px">
+                            <%--<div style="margin-top: 73px">--%>
                                 <chart params="name: 'kpi8_1Pie'"></chart>
                                 <chart params="name: 'kpi8_2Pie'"></chart>
-                            </div>
+                            <%--</div>--%>
                         </div>
                             <%--<div class="col-xs-7">--%>
                             <%--&lt;%&ndash;<div class="group-section">&ndash;%&gt;--%>
@@ -2138,9 +2138,10 @@
                             <%--&lt;%&ndash;<chart params="name: 'kpi8_2Dynamic', group: 'kpi8'"></chart>&ndash;%&gt;--%>
                             <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
                             <%--</div>--%>
+                        <chart params="name: 'kpi21Chart'" class="mb-0"></chart>
+                        <chart params="name: 'placeholder3'" class="mb-0"></chart>
                     </div>
-                    <chart params="name: 'kpi21Chart'" class="mb-0"></chart>
-                    <chart params="name: 'placeholder3'" class="mb-0"></chart>
+
                 </tab>
                 <tab>
                     <%--<chart params="name: 'kpi19Chart'"></chart>--%>
@@ -2157,7 +2158,7 @@
                             <%--</div>--%>
                             <%--</div>--%>
                             <%--</div>--%>
-                        <div class="col-xs-6" style="margin-top: 92px">
+                        <div class="col-xs-6" >
                             <chart params="name: 'kpi22Chart'"></chart>
                         </div>
                     </div>
