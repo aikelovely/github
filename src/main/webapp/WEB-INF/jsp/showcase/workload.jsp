@@ -456,7 +456,7 @@
                     },
                     //Критерий на ввод/вывод с учетом заполнения всех вакансий
                     hfCriterion21: function (dataItem) {
-                        var template = "{0}<br>Вакансий SLA: {1}<br>Декретные вакансии SLA: {2}";
+                        var template = "{0}<br>Вакансии SLA: {1}<br>Декретные вакансии SLA: {2}";
                         return template.format(dataItem.hfCriterionCnt > 0 ? "Требуется увеличение фактической численности" :
                                 "Требуется уменьшение фактической численности", dataItem.SlaFactVacancyCnt, dataItem.SlaFactVacancyTempCnt);
                     }
@@ -996,7 +996,8 @@
                     columns: [
                         {
                             field: "unitName",
-                            title: "Отделы"
+                            title: "Отделы",
+                            width: 80
                         },
                         {
                             field: "staffCountFact",
@@ -1031,7 +1032,7 @@
                         {
                             field: "hfCriterionCnt",
                             title: "Критерий на ввод/вывод",
-                            width: 180,
+                            width: 100,
                             format: "{0}",
                             filterable: false,
                             template: "# var iconCss =  (hfCriterionCnt > 0) ? 'icon-red-arrow-up icon-small-arrow' : " +
