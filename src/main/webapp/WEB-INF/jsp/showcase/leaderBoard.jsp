@@ -595,12 +595,17 @@
 
                 var chartType = getChartTypeByWidgetType(metaData.widgetType);
 
+                if (metaData.widgetType === 'LEGO') {
+                    chartType =metaData.legoTipeS;
+                }
                 var seriesConfig = {
                     type: chartType,
                     name: metaData.seriesName || "Факт",
+                    fillColor: metaData.seriesColor || color.currentValue,
                     color: metaData.seriesColor || color.currentValue,
                     zIndex: 1,
                     dataLabels: {
+                        allowOverlap:true,
                         inside: true,
                         enabled: metaData.dataLabelPosition !== "N",
                         formatter: function () {
@@ -620,14 +625,14 @@
                 if (chartType === 'areaspline') {
                     _.assign(seriesConfig,
                             {
-                                zIndex: 2,
+                           //     zIndex: 2,
                                 marker: {
                                     lineWidth: 3,
                                     lineColor: "white",
                                     radius: 6,
                                     symbol: 'circle'
-                                },
-                                index: 1
+                                } //,
+                             //   index: 1
                             });
                 }
                 return seriesConfig;
@@ -645,14 +650,18 @@
                 }
 
                 var chartType = getChartTypeByWidgetType(metaData.widgetType);
-
+                if (metaData.widgetType === 'LEGO') {
+                    chartType =metaData.legoTipeS;
+                }
                 var seriesConfig = {
                     type: chartType,
                     name: metaData.seriesName || "Факт за предыдущий год",
+                    fillColor: metaData.seriesColor || color.prevValue,
                     color: metaData.seriesColor || color.prevValue,
                     zIndex: 1,
                     dataLabels: {
                         inside: true,
+                        allowOverlap:true,
                         enabled: metaData.dataLabelPosition !== "N",
                         formatter: function () {
                             if (metaData.unitCode == "PRC") {
@@ -671,20 +680,20 @@
                 if (chartType === 'areaspline') {
                     _.assign(seriesConfig,
                             {
-                                zIndex: 2,
+                              //  zIndex: 2,
                                 marker: {
                                     lineWidth: 3,
                                     lineColor: "white",
                                     radius: 6,
                                     symbol: 'circle'
-                                },
-                                index: 1
+                                }//,
+                               // index: 1
                             });
                 }
                 return seriesConfig;
             }
             // Создает серию "Факт за предыдущий год"
-            function createPrevFactSeries(metaData) {
+            function createPrevFactSeries(metaData) { // не
                 return {
                     type: metaData.widgetType == "PFPFV" ? "column" : "bar",
                     name: metaData.seriesName || "Факт за предыдущий год",
@@ -712,12 +721,19 @@
                 }
 
                 var chartType = getChartTypeByWidgetType(metaData.widgetType);
-
+                if (metaData.widgetType === 'LEGO') {
+                    chartType ='LEGO';
+                }
                 var seriesConfig = {
-                    type: chartType === 'areaspline' ? 'areaspline' : "line",
+                    type: chartType === 'areaspline' ? 'areaspline' :
+                          chartType === 'LEGO' ? metaData.legoTipeS : "line",
                     name: metaData.seriesName || "План",
+                    fillColor: metaData.seriesColor || color.planValue,
                     color: metaData.seriesColor || color.planValue,
                     zIndex: 2,
+                    pointPlacement: 0,
+                    groupPadding: 0,
+                    pointPadding: getPointPadding(metaData.barWidth, 40),
                     dataLabels: {
                         inside: true,
                         enabled: metaData.dataLabelPosition !== "N",
@@ -729,6 +745,7 @@
                         },
                         rotation: metaData.dataLabelPosition === "H" ? 0 : 270,
                         marker: {enabled: false},
+                        allowOverlap:true,
                         style: style
                     }
                 };
@@ -736,14 +753,14 @@
                 if (chartType === 'areaspline') {
                     _.assign(seriesConfig,
                             {
-                                zIndex: 1,
+                             //   zIndex: 1,
                                 marker: {
                                     lineWidth: 3,
                                     lineColor: "white",
                                     radius: 6,
                                     symbol: 'circle'
-                                },
-                                index: 0
+                                }//,
+                              //  index: 0
                             });
                 }
 
@@ -762,11 +779,12 @@
             }
 
             function getChartTypeByWidgetType(widgetType) {
-                return chartTypeCodes[widgetType] || "bar";
+                return chartTypeCodes[widgetType] || "column";
             }
 
             function createBlockChart($container, filterData, jsonData, seriesMetaData) {
                 var chartMeta = seriesMetaData[0];
+
                 var selectedOption = app.viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];
                 if (!selectedOption) {
                     selectedOption = app.viewModel.getFilter("divisionGroupId").options()[0];
@@ -882,12 +900,12 @@
 
                 config.plotOptions = {
                     column: {
-                        grouping: false,
+                        grouping: chartMeta.legoGroup === "0" ? false : true ,
                         shadow: false,
                         borderWidth: 0
                     },
                     bar: {
-                        grouping: false,
+                        grouping: chartMeta.legoGroup === "0" ? false : true ,
                         shadow: false,
                         borderWidth: 0
                     },
@@ -910,7 +928,7 @@
                                 planValue = getValueBySeriesCode(firstRow, seriesCode.planValue, chartMeta);
 
                         config.xAxis.categories = [currentYear];
-                        config.legend = {enabled: false};
+                        config.legend = {enabled: true};
 
                         if (config.yAxis.min == undefined) {
                             config.yAxis.min = Math.max(Math.min(currentValue, prevValue, planValue) - 5, 0);
@@ -943,14 +961,26 @@
                         }
 
                         metaData = findMetaDataByCode(seriesMetaData, seriesCode.planValue);
+                        var color = metaData.fontColor || "black";
+                        var style = {};
+                        if (color.toUpperCase() === "WHITE") {
+                            style.color = "#ffffff";
+                            style.textShadow = "0 0 6px #000000, 0 0 3px #000000";
+
+                        } else {
+                            style.color = "#000000";
+                            style.textShadow = "0 0 6px #ffffff, 0 0 3px #ffffff";
+                        }
                         if (metaData && planValue) {
+
                             config.yAxis.plotLines = [{
                                 color: metaData.seriesColor || color.planValue,
                                 value: planValue,
                                 width: 2,
                                 zIndex: 5,
                                 label: {
-                                    text: 'План: {0}{1}'.format(planValue.toFixed(dataPrecision), valueSuffix),
+                                    style:style,
+                                    text: '{0}{1}'.format(planValue.toFixed(dataPrecision), valueSuffix),
                                     zIndex: 8,
                                     x: 5,
                                     rotation: 0,
@@ -1025,13 +1055,14 @@
 //                    _.forEach(jsonData, function(data) {
 //
 //                    });
+                    var filterJsonData = jsonData.filter(function (data) {
+                        return data.currentValue != 0 && data.currentValue != null;
+                    });
                     var filterJsonData2 = jsonData.filter(function (data) {
                         return data.planValue != 0 && data.planValue != null;
 //                    берем план для автомасштабирования , теперь он тоже ва деле
                     });
-                    var filterJsonData = jsonData.filter(function (data) {
-                        return data.currentValue != 0 && data.currentValue != null;
-                    });
+
                     var minC = Math.min.apply(
                             Math,
                             filterJsonData.map(function (o) {
@@ -1146,7 +1177,7 @@
                         shared: true,
                         useHTML: true
                     },
-                    legend: {enabled: false},
+                    legend: {enabled: true},
                     series: chartSeries
                 });
             }
@@ -1815,7 +1846,7 @@
                     color: color.planValue,
                     label: {
                         align: 'right',
-                        text: '<b>План</b>: {0}%'.format(planValue.toFixed(2)),
+                        text: '{0}%'.format(planValue.toFixed(2)),
                         x: -10
                     },
                     value: planValue.toFixed(2),
@@ -2123,10 +2154,10 @@
                 <tab>
                     <div class="row">
                         <div class="col-xs-5">
-                            <div style="margin-top: 73px">
+                            <%--<div style="margin-top: 73px">--%>
                                 <chart params="name: 'kpi8_1Pie'"></chart>
                                 <chart params="name: 'kpi8_2Pie'"></chart>
-                            </div>
+                            <%--</div>--%>
                         </div>
                             <%--<div class="col-xs-7">--%>
                             <%--&lt;%&ndash;<div class="group-section">&ndash;%&gt;--%>
@@ -2138,9 +2169,10 @@
                             <%--&lt;%&ndash;<chart params="name: 'kpi8_2Dynamic', group: 'kpi8'"></chart>&ndash;%&gt;--%>
                             <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
                             <%--</div>--%>
+                        <chart params="name: 'kpi21Chart'" class="mb-0"></chart>
+                        <chart params="name: 'placeholder3'" class="mb-0"></chart>
                     </div>
-                    <chart params="name: 'kpi21Chart'" class="mb-0"></chart>
-                    <chart params="name: 'placeholder3'" class="mb-0"></chart>
+
                 </tab>
                 <tab>
                     <%--<chart params="name: 'kpi19Chart'"></chart>--%>
@@ -2157,7 +2189,7 @@
                             <%--</div>--%>
                             <%--</div>--%>
                             <%--</div>--%>
-                        <div class="col-xs-6" style="margin-top: 92px">
+                        <div class="col-xs-6" >
                             <chart params="name: 'kpi22Chart'"></chart>
                         </div>
                     </div>

@@ -10,7 +10,7 @@ public class CTQFilterHelper {
     public static CTQLayoutItem[] getSections(LinqWrapper<CTQLayoutItem> list){
         return list.group(new Selector<CTQLayoutItem, Object>() {
             @Override
-            public Integer select(CTQLayoutItem ctqLayoutItem) {
+            public Long select(CTQLayoutItem ctqLayoutItem) {
                 return ctqLayoutItem.blockGroupId;
             }
         }).select(new Selector<Group<Object,CTQLayoutItem>, CTQLayoutItem>() {
@@ -18,42 +18,42 @@ public class CTQFilterHelper {
             public CTQLayoutItem select(Group<Object, CTQLayoutItem> ctqLayoutItems) {
                 return ctqLayoutItems.getItems().first();
             }
-        }).sort(new Selector<CTQLayoutItem, Integer>() {
+        }).sort(new Selector<CTQLayoutItem, Long>() {
             @Override
-            public Integer select(CTQLayoutItem ctqLayoutItem) {
+            public Long select(CTQLayoutItem ctqLayoutItem) {
                 return ctqLayoutItem.blockGroupOrderNum;
             }
         }).toArray(CTQLayoutItem.class);
     }
 
-    public static LinqWrapper<CTQLayoutItem> getBlocksBySection(LinqWrapper<CTQLayoutItem> blocks, final int neededSection){
+    public static LinqWrapper<CTQLayoutItem> getBlocksBySection(LinqWrapper<CTQLayoutItem> blocks, final long neededSection){
         return blocks.filter(new Predicate<CTQLayoutItem>() {
             @Override
             public boolean check(CTQLayoutItem item) {
                 return item.blockGroupId == neededSection;
             }
-        }).group(new Selector<CTQLayoutItem, Integer>() {
+        }).group(new Selector<CTQLayoutItem, Long>() {
             @Override
-            public Integer select(CTQLayoutItem ctqLayoutItem) {
+            public Long select(CTQLayoutItem ctqLayoutItem) {
                 return ctqLayoutItem.blockId;
             }
-        }).select(new Selector<Group<Integer, CTQLayoutItem>, CTQLayoutItem>() {
+        }).select(new Selector<Group<Long, CTQLayoutItem>, CTQLayoutItem>() {
             @Override
-            public CTQLayoutItem select(Group<Integer, CTQLayoutItem> ctqLayoutItems) {
+            public CTQLayoutItem select(Group<Long, CTQLayoutItem> ctqLayoutItems) {
                 return ctqLayoutItems.getItems().first();
             }
         });
     }
 
-    public static CTQLayoutItem[] getBlocksByColumn(LinqWrapper<CTQLayoutItem> blocks, final int neededColumn){
+    public static CTQLayoutItem[] getBlocksByColumn(LinqWrapper<CTQLayoutItem> blocks, final long neededColumn){
         return blocks.filter(new Predicate<CTQLayoutItem>() {
             @Override
             public boolean check(CTQLayoutItem item) {
                 return item.blockColumnNumber == neededColumn;
             }
-        }).sort(new Selector<CTQLayoutItem, Integer>() {
+        }).sort(new Selector<CTQLayoutItem, Long>() {
             @Override
-            public Integer select(CTQLayoutItem ctqLayoutItem) {
+            public Long select(CTQLayoutItem ctqLayoutItem) {
                 return ctqLayoutItem.blockRowNumber;
             }
         }).toArray(CTQLayoutItem.class);
@@ -63,7 +63,7 @@ public class CTQFilterHelper {
         return layoutWrapper.filter(new Predicate<CTQLayoutItem>() {
             @Override
             public boolean check(CTQLayoutItem item) {
-                return item.blockGroupId == Integer.parseInt(blockGroupId) && item.blockId == Integer.parseInt(blockId);
+                return item.blockGroupId == Long.parseLong(blockGroupId) && item.blockId == Long.parseLong(blockId);
             }
         }).toArray(CTQLayoutItem.class);
     }

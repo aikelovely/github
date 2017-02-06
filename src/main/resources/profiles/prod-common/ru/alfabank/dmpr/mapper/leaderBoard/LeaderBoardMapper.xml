@@ -91,7 +91,7 @@
           block_HEIGTH as height,
           block_INTERVAL_CCODE as intervalType,
           block_UNIT_CCODE as unitCode,
-          block_WIDGETTYPE_CCODE as widgetType,
+           block_WIDGETTYPE_CCODE as widgetType,
           block_data_range as dataMinMax,
           decode(block_HIDE_IF_EMPTY_FLAG, 'Y', 1, 0) as hideIfEmpty,
           bpkpi_dk as kpiId,
@@ -102,8 +102,11 @@
           SERIESTYPE_CCODE as seriesType,
           SERIES_CODE as seriesCode,
           FONTCOLOR_CCODE as fontColor,
-          BAR_WIDTH_PCT as barWidth
+          BAR_WIDTH_PCT as barWidth,
+          legoTipeS legoTipeS,
+           decode(legoGroup_flag, 'Y', 1, 0) legoGroup
         from table(pkg_leaderboard_api.get_layout)
+
         ]]>
     </select>
 
