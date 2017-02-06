@@ -264,6 +264,30 @@
                             width: 265,
                             postInit: createEndDateIdSubscriptions
                             <%--defaultValue: ${endDateId}--%>
+                        },
+                        kpiId: {
+                            type: "Select",
+                            multiple: false,
+                            title: "Показатель",
+                            enableSearch: true,
+                            optionsCaption: "Все",
+                            dataSource: {
+                                url: "obQualityFilter/KPIs",
+                                params: [
+                                    {name: "kpiKindId", group: "default", required: true},
+                                    {name: "directionIds", group: "default", required: false},
+                                    {name: "regionIds", group: "default", required: false},
+                                    {name: "startYear", group: "default", required: true},
+                                    {name: "endYear", group: "default", required: true},
+                                    {name: "startDateId", group: "default", required: true},
+                                    {name: "endDateId", group: "default", required: true},
+                                    {name: "timeUnitId", group: "default", required: true}
+                                ]
+                            },
+                            width: 650,
+                            onHide: function () {
+                                app.viewModel.groups.DirectionsDetails.showCharts();
+                            }
                         }
                     },
                     slaves: [{
@@ -433,23 +457,24 @@
                             tempStorage[customParams.unitCode]
                             || filterData.directionIds
                             || []).sort())){
-                            var filterGroup = app.viewModel.groups["DirectionsDetails"],
-                                filterConfig = filterGroup.config.filters.kpiId,
-                                filter = filterGroup.filters.kpiId;
-
-                            filterGroup.getDataForFilter(filterConfig.title, filterConfig.dataSource.url,
-                                    {
-                                        startYear: moment(filterData.startYear).format('YYYY-MM-DD'),
-                                        startDateId: filterData.startDateId,
-                                        endYear: moment(filterData.endYear).format('YYYY-MM-DD'),
-                                        endDateId: filterData.endDateId,
-                                        kpiKindId: filterData.kpiKindId,
-                                        directionIds: selectedFilterData[customParams.unitCode],
-                                        timeUnitId: filterData.timeUnitId
-                                    }, function(options){
-                                        options.unshift({id: null, name: "Все"});
-                                        filter.options(options);
-                                    }).done(refreshSlaves);
+//                            var filterGroup = app.viewModel.groups["DirectionsDetails"],
+//                                filterConfig = filterGroup.config.filters.kpiId,
+//                                filter = filterGroup.filters.kpiId;
+//
+//                            filterGroup.getDataForFilter(filterConfig.title, filterConfig.dataSource.url,
+//                                    {
+//                                        startYear: moment(filterData.startYear).format('YYYY-MM-DD'),
+//                                        startDateId: filterData.startDateId,
+//                                        endYear: moment(filterData.endYear).format('YYYY-MM-DD'),
+//                                        endDateId: filterData.endDateId,
+//                                        kpiKindId: filterData.kpiKindId,
+//                                        directionIds: selectedFilterData[customParams.unitCode],
+//                                        timeUnitId: filterData.timeUnitId
+//                                    }, function(options){
+//                                        options.unshift({id: null, name: "Все"});
+//                                        filter.options(options);
+//                                    }).done(refreshSlaves);
+                        refreshSlaves();
                     } else {
                         refreshSlaves();
                     }
