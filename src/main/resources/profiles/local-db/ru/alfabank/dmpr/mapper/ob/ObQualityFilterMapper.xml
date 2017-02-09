@@ -24,7 +24,7 @@
           p_DateTill => #{endDate},
           p_BPDivisionGroupIDs => #{directionIds},
           p_BushIDs => #{regionIds},
-           p_kpiKindId => #{kpiKindId},
+           p_kpiKindId => #{kpiKindId}
         )) order by sort_order
     ]]>
     </select>
