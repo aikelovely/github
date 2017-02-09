@@ -178,7 +178,15 @@
                             title: "Регион",
                             enableClear: true,
                             dataSource: {
-                                url: "obQualityFilter/regions"
+                                url: "obQualityFilter/regions",
+                                params: [
+                                    {name: "directionIds", group: "default", required: false},
+                                    {name: "startYear", group: "default", required: true},
+                                    {name: "endYear", group: "default", required: true},
+                                    {name: "startDateId", group: "default", required: true},
+                                    {name: "endDateId", group: "default", required: true},
+                                    {name: "timeUnitId", group: "default", required: true}
+                                ]
                             },
                             width: 230,
                             defaultValue: region,
@@ -264,30 +272,6 @@
                             width: 265,
                             postInit: createEndDateIdSubscriptions
                             <%--defaultValue: ${endDateId}--%>
-                        },
-                        kpiId: {
-                            type: "Select",
-                            multiple: false,
-                            title: "Показатель",
-                            enableSearch: true,
-                            optionsCaption: "Все",
-                            dataSource: {
-                                url: "obQualityFilter/KPIs",
-                                params: [
-                                    {name: "kpiKindId", group: "default", required: true},
-                                    {name: "directionIds", group: "default", required: false},
-                                    {name: "regionIds", group: "default", required: false},
-                                    {name: "startYear", group: "default", required: true},
-                                    {name: "endYear", group: "default", required: true},
-                                    {name: "startDateId", group: "default", required: true},
-                                    {name: "endDateId", group: "default", required: true},
-                                    {name: "timeUnitId", group: "default", required: true}
-                                ]
-                            },
-                            width: 650,
-                            onHide: function () {
-                                app.viewModel.groups.DirectionsDetails.showCharts();
-                            }
                         }
                     },
                     slaves: [{
@@ -934,6 +918,7 @@
                     <!-- /ko -->
                     <filter params="name: 'kpiId', group: 'DirectionsDetails'">
                     </filter>
+                    <filter-log params="group: 'DirectionsDetails'"></filter-log>
                 </header>
                 <div class="row chart">
                     <div class="col-xs-3 ob-rating">

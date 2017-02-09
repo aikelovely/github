@@ -23,14 +23,18 @@
          p_DateFrom => #{startDate},
           p_DateTill => #{endDate},
           p_BPDivisionGroupIDs => #{directionIds},
-          p_BushIDs => #{regionIds}
+          p_BushIDs => #{regionIds},
+           p_kpiKindId => #{kpiKindId},
         )) order by sort_order
     ]]>
     </select>
 
     <select id="getRegions" resultType="ru.alfabank.dmpr.model.BaseEntity">
         <![CDATA[
-        select id, name from table(pkg_kpiob_api.get_bushes) order by sort_order
+        select id, name from table(pkg_kpiob_api.get_bushes (         p_DateFrom => #{startDate},
+          p_DateTill => #{endDate},
+          p_BPDivisionGroupIDs => #{directionIds},
+          p_BushIDs => #{regionIds})) order by sort_order
     ]]>
     </select>
 

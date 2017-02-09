@@ -50,8 +50,8 @@ public class ObQualityFilterRepository {
      * Возвращает данные для фильтра "Регион"
      * @return
      */
-    public BaseEntity[] getRegions() {
-        return mapper.getRegions();
+    public BaseEntity[] getRegions(ObQualityOptions obQualityOptions) {
+        return mapper.getRegions(obQualityOptions);
     }
 
     /**
