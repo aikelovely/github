@@ -118,14 +118,14 @@ public class BpiepnormValueReport extends BaseReport <WorkloadOptions> {
                                  c.add("BporgRegionCcodeLvl2").title("Родитель региона присутствия").width(20);
                                  c.add("BporgRegionCcodeLvl3").title("Регион присутствия").width(20);
                                  c.add("TotalfactvalueCnt").title("Численность штатных должностей в подразделении").format("#,##0.0000").width(20);
-                                 c.add("SlafactvalueCnt").title("Численность штатных должностей с занятой позицей, создающие ВКП в подразделении").format("#,##0.0000").width(20);
+                                 c.add("SlafactvalueCnt").title("Численность штатных должностей с занятой позицией, создающие ВКП в подразделении").format("#,##0.0000").width(20);
                                  c.add("SlafactvaluedoubleCnt").title("Численность дублирования штатных должностей,  создающие ВКП в подразделении").format("#,##0.0000").width(20);
-                                 c.add("SlafactvacancyCnt").title("Численность штатных должностей с вакантной позицей, создающие ВКП в подразделении").format("#,##0.0000").width(20);
-                                 c.add("SlafactvacancytempCnt").title("Численность штатных должностей с декретной вакантной позицей, создающие ВКП в подразделении").format("#,##0.0000").width(20);
-                                 c.add("NoslafactvalueCnt").title("Численность штатных должностей с занятой позицей, не создающие ВКП в подразделении").format("#,##0.0000").width(20);
+                                 c.add("SlafactvacancyCnt").title("Численность штатных должностей с вакантной позицией, создающие ВКП в подразделении").format("#,##0.0000").width(20);
+                                 c.add("SlafactvacancytempCnt").title("Численность штатных должностей с декретной вакантной позицией, создающие ВКП в подразделении").format("#,##0.0000").width(20);
+                                 c.add("NoslafactvalueCnt").title("Численность штатных должностей с занятой позицией, не создающие ВКП в подразделении").format("#,##0.0000").width(20);
                                  c.add("NoslafactvaluedoubleCnt").title("Численность дублирования штатных должностей,  не создающие ВКП в подразделении").format("#,##0.0000").width(20);
-                                 c.add("NoslafactvacancyCnt").title("Численность штатных должностей с вакантной позицей, не создающие ВКП в подразделении").format("#,##0.0000").width(20);
-                                 c.add("NoslafactvacancytempCnt").title("Численность штатных должностей с декретной вакантной позицей, не создающие ВКП в подразделении").format("#,##0.0000").width(20);
+                                 c.add("NoslafactvacancyCnt").title("Численность штатных должностей с вакантной позицией, не создающие ВКП в подразделении").format("#,##0.0000").width(20);
+                                 c.add("NoslafactvacancytempCnt").title("Численность штатных должностей с декретной вакантной позицией, не создающие ВКП в подразделении").format("#,##0.0000").width(20);
                                  c.add("EstimatedstaffunitW8Cnt").title("Количество штатных единиц необходимых для выполнения фактической трудоемкости на 8 неделю (на отчетную дату)").format("#,##0.0000").width(20);
                                  c.add("Quartile1W8Cnt").title("1-ый квартиль за 8 недель. Нижняя граница интервала принятия решения").format("#,##0.0000").width(20);
                                  c.add("Quartile3W8Cnt").title("3-ий квартиль за 8 недель. Верхняя граница интервала принятия решения").format("#,##0.0000").width(20);
@@ -138,6 +138,7 @@ public class BpiepnormValueReport extends BaseReport <WorkloadOptions> {
                                  c.add("HighlimitW4Cnt").title("Верхняя граница коридора принятия решения за 4 недели").format("#,##0.0000").width(20);
                                  c.add("CriteriaW4Cnt").title("Критерий ввода/вывода штатных единиц за 4 недели").format("#,##0.0000").width(20);
                                  c.add("TotalcriteriaCnt").title("Совокупный критерий ввода/вывода").format("#,##0.0000").width(20);
+                                 c.add("VacancyFullCriteria").title("Совокупный критерий ввода/вывода с учетом заполнения всех вакансий").format("#,##0.0000").width(20);
                                  c.add("WorkloadFactor").title("Нагрузка на подразделение на 8 неделю (на отчетную дату)").format("#,##0.0000").width(20);
                                  c.add("DateNow").title("Дата выгрузки").format("dd.MM.yyyy HH:mm:ss").width(20);
                              }
