@@ -457,7 +457,7 @@
                     //Критерий на ввод/вывод с учетом заполнения всех вакансий
                     hfCriterion21: function (dataItem) {
                         var template = "{0}<br>Вакансии SLA: {1}<br>Декретные вакансии SLA: {2}";
-                        return template.format(dataItem.hfCriterionCnt > 0 ? "Требуется увеличение фактической численности" :
+                        return template.format(dataItem.hfCriterionCnt2 > 0 ? "Требуется увеличение фактической численности" :
                                 "Требуется уменьшение фактической численности", dataItem.SlaFactVacancyCnt, dataItem.SlaFactVacancyTempCnt);
                     }
                 }
@@ -1479,7 +1479,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 ob-custom-table-item"
-                    data-bind="if: hfCriterionCnt !== 0 , tooltip: {title: helpers.tooltips.hfCriterion21($data), html: true}">
+                    data-bind="if: hfCriterionCnt2 !== 0 , tooltip: {title: helpers.tooltips.hfCriterion21($data), html: true}">
                     <div class="small-title-font">
                         Критерий на ввод/вывод
                         с учетом заполнения
