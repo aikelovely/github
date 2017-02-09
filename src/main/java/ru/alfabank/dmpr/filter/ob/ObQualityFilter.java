@@ -102,7 +102,7 @@ public class ObQualityFilter {
         obQualityOptions.endDate = dates[1].toLocalDateTime(LocalTime.MIDNIGHT);
         obQualityOptions.directionIds = directionIds;
         obQualityOptions.regionIds = regionIds;
-
+        obQualityOptions.kpiKindId = kpiKindId;
         return LinqWrapper.from(filterRepository.getKPIs(obQualityOptions
                 )).filter(new Predicate<ChildEntityWithInfo>() {
             @Override
