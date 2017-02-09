@@ -1479,7 +1479,7 @@
                     </div>
                 </div>
                 <div class="col-xs-12 ob-custom-table-item"
-                    data-bind="if: hfCriterionCnt !== 0 , tooltip: {title: helpers.tooltips.hfCriterion21($data), html: true}">
+                    data-bind="if: hfCriterionCnt2 !== 0 , tooltip: {title: helpers.tooltips.hfCriterion21($data), html: true}">
                     <div class="small-title-font">
                         Критерий на ввод/вывод
                         с учетом заполнения
