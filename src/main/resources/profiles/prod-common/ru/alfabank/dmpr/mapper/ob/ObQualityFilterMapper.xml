@@ -31,10 +31,13 @@
 
     <select id="getRegions" resultType="ru.alfabank.dmpr.model.BaseEntity">
         <![CDATA[
-        select id, name from table(pkg_kpiob_api.get_bushes (         p_DateFrom => #{startDate},
+        select id, name from table(pkg_kpiob_api.get_bushes (
+          p_DateFrom => #{startDate},
           p_DateTill => #{endDate},
           p_BPDivisionGroupIDs => #{directionIds},
-          p_BushIDs => #{regionIds})) order by sort_order
+          p_TimeUnitID         => #{timeUnitId},
+          p_KPIKindID          => #{kpiKindId}
+          )) order by sort_order
     ]]>
     </select>
 

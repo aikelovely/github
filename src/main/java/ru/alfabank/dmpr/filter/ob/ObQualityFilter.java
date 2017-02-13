@@ -36,15 +36,13 @@ public class ObQualityFilter {
         options.endYear = endYear;
         options.endDateId = endDateId;
         options.timeUnitId = (int)timeUnitId;
-
         LocalDate[] dates = PeriodSelectHelper.getDatesByBasePeriodOptions(options, filterRepository.getWeeks());
-
         ObQualityOptions obQualityOptions = new ObQualityOptions();
         obQualityOptions.startDate = dates[0].toLocalDateTime(LocalTime.MIDNIGHT);
         obQualityOptions.endDate = dates[1].toLocalDateTime(LocalTime.MIDNIGHT);
         obQualityOptions.directionIds = directionIds;
         obQualityOptions.regionIds = regionIds;
-
+        obQualityOptions.kpiKindId = kpiKindId;
         return filterRepository.getRegions(obQualityOptions);
     }
 

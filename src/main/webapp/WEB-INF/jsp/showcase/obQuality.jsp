@@ -185,7 +185,8 @@
                                     {name: "endYear", group: "default", required: true},
                                     {name: "startDateId", group: "default", required: true},
                                     {name: "endDateId", group: "default", required: true},
-                                    {name: "timeUnitId", group: "default", required: true}
+                                    {name: "timeUnitId", group: "default", required: true},
+                                    {name: "kpiKindId", group: "default", required: true}
                                 ]
                             },
                             width: 230,
