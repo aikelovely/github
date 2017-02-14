@@ -91,12 +91,22 @@
             .ob-custom-table-wrapper .ob-custom-table-item:last-child {
                 border-bottom: 0;
             }
-
+            .small-title-font {
+                font-size: 15px;
+                font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+                font-weight: bold;
+            }
             .small-title-font2 {
                 font-size: 15px;
                 font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
                 font-weight: bold;
                 text-align: left;
+            }
+            .small-title-font3 {
+                font-size: 14px;
+                font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+                text-align: left;
+                font-weight: normal;
             }
             .big-title-font {
                 font-size: 26px;
@@ -182,7 +192,7 @@
                 margin-bottom: 5px;
             }
             .styled-chart2-title {
-                font-weight: bold;
+                font-weight: normal;
                 margin-bottom: 5px;
                 text-align: left;
             }
@@ -1776,7 +1786,10 @@
 
                                     <tr id="WorkloadByProductIdDiv3">
                                         <%--<div id="WorkloadByProductIdDiv3">--%>
-                                              <td  colspan="4"  class="styled-chart-title small-title-font2" data-bind="text: 'Коментарий: '+WorkloadInfo"> </td>
+                                            <td
+                                                 class="styled-chart-title small-title-font2"  data-bind="text: 'Коментарий: '"> </td>
+                                              <td  colspan="3"
+                                                   class="styled-chart2-title small-title-font3"  data-bind="text:  WorkloadInfo "> </td>
                                           <%--</div>--%>
                                     </tr>
 
