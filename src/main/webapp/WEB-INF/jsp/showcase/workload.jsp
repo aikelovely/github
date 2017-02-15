@@ -91,13 +91,23 @@
             .ob-custom-table-wrapper .ob-custom-table-item:last-child {
                 border-bottom: 0;
             }
-
             .small-title-font {
                 font-size: 15px;
                 font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
                 font-weight: bold;
             }
-
+            .small-title-font2 {
+                font-size: 15px;
+                font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+                font-weight: bold;
+                text-align: left;
+            }
+            .small-title-font3 {
+                font-size: 14px;
+                font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+                text-align: left;
+                font-weight: normal;
+            }
             .big-title-font {
                 font-size: 26px;
                 font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -162,7 +172,13 @@
                 text-align: center;
                 margin-bottom: 20px;
             }
-
+            .styled-chart2-container {
+                border: 1px solid rgba(0, 0, 0, 0.15);
+                padding: 5px 5px 5px 5px;
+                background-color: #F5F7FA;
+                text-align: center;
+                margin-bottom: 0px;
+            }
             .styled-chart-container .chart {
                 margin-bottom: 0;
             }
@@ -175,6 +191,12 @@
                 font-weight: bold;
                 margin-bottom: 5px;
             }
+            .styled-chart2-title {
+                font-weight: normal;
+                margin-bottom: 5px;
+                text-align: left;
+            }
+
             .styled-chart-container th {
                 font-weight: bold;
                 text-align: center;
@@ -580,13 +602,24 @@
                         if (dataItem) {
                             var drillDownData = {
                                 divisionGroupId: dataItem.divisionGroupId,
-                                regionId: dataItem.regionId
+                                regionId: dataItem.regionId,
+                                unitName: dataItem.unitName
                             };
 
                             group.selectedDivision(dataItem);
 
                             rightSideGroup.drillDown(dataItem.lvl, drillDownData);
                         }
+
+                        if (dataItem.unitName === "ОВК" || dataItem.lvl !==2) {
+                            $('#WorkloadByProductIdDiv3').hide();
+                            $('#WorkloadByProductIdDiv4').hide();
+                        }
+                         else  {
+                            $('#WorkloadByProductIdDiv3').show();
+                            $('#WorkloadByProductIdDiv4').show();
+                        }
+
                     },
                     dataBound: function () {
                         this.select(this.tbody.find("tr").first());
@@ -1054,6 +1087,14 @@
                             "(hfCriterionCnt2 == 0) ? '' :'icon-green-arrow-down icon-small-arrow' #" +
                             "#= hfCriterionCnt2 # <span data-toggle2='tooltip' data-placement='bottom' html='true' title=' #=helpers2.tooltips2.hfCriterion22(hfCriterionCnt2,SlaFactVacancyCnt,SlaFactVacancyTempCnt)#' <div class=' #= iconCss # '>  </div> </span> ",
 
+                            attributes: {
+                                style: "text-align: left"
+                            }
+                        },
+                        {
+                            field: "WorkloadInfo",
+                            title: "Коментарий",
+                            width: 180,
                             attributes: {
                                 style: "text-align: left"
                             }
@@ -1742,11 +1783,38 @@
                                             </div>
                                         </td>
                                     </tr>
+
+                                    <tr id="WorkloadByProductIdDiv3">
+                                        <%--<div id="WorkloadByProductIdDiv3">--%>
+                                            <td
+                                                 class="styled-chart-title small-title-font2"  data-bind="text: 'Коментарий: '"> </td>
+                                              <td  colspan="3"
+                                                   class="styled-chart2-title small-title-font3"  data-bind="text: WorkloadInfo "> </td>
+                                          <%--</div>--%>
+                                    </tr>
+
                                     </tbody>
                                 </table>
+                                <%--<div id="WorkloadByProductIdDiv4">--%>
+                                    <%--<table class="styled-chart-container table"  >--%>
+
+                                        <%--<thead>--%>
+                                        <%--<tr>--%>
+                                            <%--<th colspan="4">Коментарий</th>--%>
+                                        <%--</tr>--%>
+
+                                        <%--</thead>--%>
+                                        <%--<tr>--%>
+                                            <%--<td colspan="4"  class="styled-chart-title small-title-font2" data-bind="text: WorkloadInfo"></td>--%>
+                                        <%--</tr>--%>
+                                    <%--</table>--%>
+                                <%--</div>--%>
                             </div>
                             <!-- /ko -->
-                            <!-- ko if: groups.rightSide.drillDownLevel() == 1 && !groups.default.filters.innerEndProductId.value() -->
+                            <!-- ko if:  groups.rightSide.drillDownLevel() == 2 && !groups.default.filters.innerEndProductId.value()  -->
+
+                            <!-- /ko -->
+                            <!-- ko if: groups.rightSide.drillDownLevel() == 1 && !groups.default.selectedDivision.WorkloadInfo -->
                             <div class="row">
                                 <div class="col-xs-6">
                                     <div class="styled-chart-container">
