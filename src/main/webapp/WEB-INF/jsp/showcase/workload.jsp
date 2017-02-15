@@ -1789,7 +1789,7 @@
                                             <td
                                                  class="styled-chart-title small-title-font2"  data-bind="text: 'Коментарий: '"> </td>
                                               <td  colspan="3"
-                                                   class="styled-chart2-title small-title-font3"  data-bind="text:  WorkloadInfo "> </td>
+                                                   class="styled-chart2-title small-title-font3"  data-bind="text: WorkloadInfo "> </td>
                                           <%--</div>--%>
                                     </tr>
 
