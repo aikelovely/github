@@ -165,6 +165,23 @@
                 background-size: 33px 33px;
             }
 
+            .styled-chart-container5 {
+                /*width: 75%;*/
+                height: 223px;
+                border: 1px solid rgba(0, 0, 0, 0.15);
+                padding: 5px 5px 5px 5px;
+                background-color: #F5F7FA;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .styled-chart-container6 {
+                width: 76%;
+                border: 1px solid rgba(0, 0, 0, 0.15);
+                padding: 5px 5px 5px 5px;
+                background-color: #F5F7FA;
+                text-align: left;
+                margin-bottom: 20px;
+            }
             .styled-chart-container {
                 border: 1px solid rgba(0, 0, 0, 0.15);
                 padding: 5px 5px 5px 5px;
@@ -611,7 +628,7 @@
                             rightSideGroup.drillDown(dataItem.lvl, drillDownData);
                         }
 
-                        if (dataItem.unitName === "ОВК" || dataItem.lvl !==2) {
+                        if (dataItem.unitName === "ОВК" || dataItem.isDuodr || dataItem.lvl !==2) {
                             $('#WorkloadByProductIdDiv3').hide();
                             $('#WorkloadByProductIdDiv4').hide();
                         }
@@ -795,7 +812,7 @@
                             format: "{0:p1}"
                         }
                     ],
-                    detailTemplate: '<div class="styled-chart-container">' +
+                    detailTemplate: '<div class="styled-chart-container5">' +
                     '<div class="styled-chart-title small-title-font">Динамика количества и расчетной численности</div>' +
                     '<div class="chart-container"></div>' +
                     '</div>',
@@ -877,7 +894,8 @@
                     title: {text: null},
                     chart: {
                         type: 'area',
-                        marginTop: 15
+                        marginTop: 15,
+                        height: 195
                     },
                     xAxis: xAxis,
                     yAxis: [{
@@ -1093,15 +1111,15 @@
                         },
                         {
                             field: "WorkloadInfo",
-                            title: "Коментарий",
+                            title: "Комментарий",
                             width: 180,
                             attributes: {
                                 style: "text-align: left"
                             }
                         }
                     ],
-                    detailTemplate: '<div class="chart">' +
-                    '<div class="roller"></div>' +
+//                    blev
+                    detailTemplate: '<div class="styled-chart-container6">' +
                     '<div class="chart-container"></div>' +
                     '</div>',
                     detailInit: detailInit,
@@ -1787,7 +1805,7 @@
                                     <tr id="WorkloadByProductIdDiv3">
                                         <%--<div id="WorkloadByProductIdDiv3">--%>
                                             <td
-                                                 class="styled-chart-title small-title-font2"  data-bind="text: 'Коментарий: '"> </td>
+                                                 class="styled-chart-title small-title-font2"  data-bind="text: 'Комментарий: '"> </td>
                                               <td  colspan="3"
                                                    class="styled-chart2-title small-title-font3"  data-bind="text: WorkloadInfo "> </td>
                                           <%--</div>--%>
@@ -1800,7 +1818,7 @@
 
                                         <%--<thead>--%>
                                         <%--<tr>--%>
-                                            <%--<th colspan="4">Коментарий</th>--%>
+                                            <%--<th colspan="4">Комментарий</th>--%>
                                         <%--</tr>--%>
 
                                         <%--</thead>--%>
