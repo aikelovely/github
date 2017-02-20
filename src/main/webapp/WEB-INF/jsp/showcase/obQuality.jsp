@@ -178,7 +178,16 @@
                             title: "Регион",
                             enableClear: true,
                             dataSource: {
-                                url: "obQualityFilter/regions"
+                                url: "obQualityFilter/regions",
+                                params: [
+                                    {name: "directionIds", group: "default", required: false},
+                                    {name: "startYear", group: "default", required: true},
+                                    {name: "endYear", group: "default", required: true},
+                                    {name: "startDateId", group: "default", required: true},
+                                    {name: "endDateId", group: "default", required: true},
+                                    {name: "timeUnitId", group: "default", required: true},
+                                    {name: "kpiKindId", group: "default", required: true}
+                                ]
                             },
                             width: 230,
                             defaultValue: region,
@@ -433,23 +442,24 @@
                             tempStorage[customParams.unitCode]
                             || filterData.directionIds
                             || []).sort())){
-                            var filterGroup = app.viewModel.groups["DirectionsDetails"],
-                                filterConfig = filterGroup.config.filters.kpiId,
-                                filter = filterGroup.filters.kpiId;
-
-                            filterGroup.getDataForFilter(filterConfig.title, filterConfig.dataSource.url,
-                                    {
-                                        startYear: moment(filterData.startYear).format('YYYY-MM-DD'),
-                                        startDateId: filterData.startDateId,
-                                        endYear: moment(filterData.endYear).format('YYYY-MM-DD'),
-                                        endDateId: filterData.endDateId,
-                                        kpiKindId: filterData.kpiKindId,
-                                        directionIds: selectedFilterData[customParams.unitCode],
-                                        timeUnitId: filterData.timeUnitId
-                                    }, function(options){
-                                        options.unshift({id: null, name: "Все"});
-                                        filter.options(options);
-                                    }).done(refreshSlaves);
+//                            var filterGroup = app.viewModel.groups["DirectionsDetails"],
+//                                filterConfig = filterGroup.config.filters.kpiId,
+//                                filter = filterGroup.filters.kpiId;
+//
+//                            filterGroup.getDataForFilter(filterConfig.title, filterConfig.dataSource.url,
+//                                    {
+//                                        startYear: moment(filterData.startYear).format('YYYY-MM-DD'),
+//                                        startDateId: filterData.startDateId,
+//                                        endYear: moment(filterData.endYear).format('YYYY-MM-DD'),
+//                                        endDateId: filterData.endDateId,
+//                                        kpiKindId: filterData.kpiKindId,
+//                                        directionIds: selectedFilterData[customParams.unitCode],
+//                                        timeUnitId: filterData.timeUnitId
+//                                    }, function(options){
+//                                        options.unshift({id: null, name: "Все"});
+//                                        filter.options(options);
+//                                    }).done(refreshSlaves);
+                        refreshSlaves();
                     } else {
                         refreshSlaves();
                     }
@@ -909,6 +919,7 @@
                     <!-- /ko -->
                     <filter params="name: 'kpiId', group: 'DirectionsDetails'">
                     </filter>
+                    <filter-log params="group: 'DirectionsDetails'"></filter-log>
                 </header>
                 <div class="row chart">
                     <div class="col-xs-3 ob-rating">

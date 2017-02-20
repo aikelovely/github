@@ -36,6 +36,7 @@ public class WorkloadReport {
     public double CriteriaW4Cnt;
     public double TotalcriteriaCnt;
     public double WorkloadFactor;
+    public double VacancyFullCriteria;
     public LocalDateTime DateNow= LocalDateTime.now();
 
 }

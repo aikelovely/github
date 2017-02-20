@@ -28,4 +28,7 @@ public class ChartMetaData {
     public String seriesCode;
     public String fontColor;
     public Double barWidth;
+    public String legoTipeS;
+    public String legoGroup;
+
 }
