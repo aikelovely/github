@@ -274,13 +274,13 @@ app.FilterGroup = function (groupConfig, viewModel) {
              drillDownData["" + level] = extensionData;
         } 
         else if (level < currentDrillDownLevel) {
-            // blev Так и непонял зачем было это услоовие , похоже ошибку кто то заложил специально, раскоментировать и
-            // параметры будут передавться и с низу в верх по дереву? тестировать тут через  console.log
-              // drillDownData["" + level] = extensionData;
+            // blev Так и непонял зачем было это услоовие
             // а это убрать
-            for (var i = currentDrillDownLevel; i > level; i--) {
-                delete drillDownData["" + i];
-            }
+
+            drillDownData["" + level] = extensionData;
+            // for (var i = currentDrillDownLevel; i > level; i--) {
+            //     delete drillDownData["" + i];
+            // }
         }
 
         else  {
