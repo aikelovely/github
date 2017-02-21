@@ -35,7 +35,7 @@ public interface ObQualityFilterMapper {
      * Возвращает данные для фильтра "Регион"
      * @return
      */
-    BaseEntity[] getRegions();
+    BaseEntity[] getRegions(ObQualityOptions obQualityOptions);
 
     /**
      * Возвращает данные для фильтра "Дирекция"

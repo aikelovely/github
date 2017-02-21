@@ -216,6 +216,35 @@
 
     <profiles>
         <profile>
+            <id>prod-demo2</id>
+            <properties>
+                <build.warname>OpEx</build.warname>
+            </properties>
+            <build>
+                <resources>
+                    <resource>
+                        <directory>src/main/resources/profiles/common</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources/profiles/prod-common</directory>
+                    </resource>
+                    <resource>
+                        <directory>src/main/resources/profiles/prod-demo2</directory>
+                    </resource>
+                </resources>
+                <plugins>
+                    <plugin>
+                        <groupId>org.apache.maven.plugins</groupId>
+                        <version>2.3</version>
+                        <artifactId>maven-war-plugin</artifactId>
+                        <configuration>
+                            <webXml>src/main/resources/profiles/prod-common/web.xml</webXml>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
             <id>prod-demo</id>
             <properties>
                 <build.warname>OpExDemo</build.warname>

@@ -91,13 +91,23 @@
             .ob-custom-table-wrapper .ob-custom-table-item:last-child {
                 border-bottom: 0;
             }
-
             .small-title-font {
                 font-size: 15px;
                 font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
                 font-weight: bold;
             }
-
+            .small-title-font2 {
+                font-size: 15px;
+                font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+                font-weight: bold;
+                text-align: left;
+            }
+            .small-title-font3 {
+                font-size: 14px;
+                font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+                text-align: left;
+                font-weight: normal;
+            }
             .big-title-font {
                 font-size: 26px;
                 font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
@@ -155,6 +165,23 @@
                 background-size: 33px 33px;
             }
 
+            .styled-chart-container5 {
+                /*width: 75%;*/
+                height: 223px;
+                border: 1px solid rgba(0, 0, 0, 0.15);
+                padding: 5px 5px 5px 5px;
+                background-color: #F5F7FA;
+                text-align: center;
+                margin-bottom: 20px;
+            }
+            .styled-chart-container6 {
+                width: 76%;
+                border: 1px solid rgba(0, 0, 0, 0.15);
+                padding: 5px 5px 5px 5px;
+                background-color: #F5F7FA;
+                text-align: left;
+                margin-bottom: 20px;
+            }
             .styled-chart-container {
                 border: 1px solid rgba(0, 0, 0, 0.15);
                 padding: 5px 5px 5px 5px;
@@ -162,25 +189,40 @@
                 text-align: center;
                 margin-bottom: 20px;
             }
-
+            .styled-chart2-container {
+                border: 1px solid rgba(0, 0, 0, 0.15);
+                padding: 5px 5px 5px 5px;
+                background-color: #F5F7FA;
+                text-align: center;
+                margin-bottom: 0px;
+            }
             .styled-chart-container .chart {
                 margin-bottom: 0;
             }
 
             .styled-chart-container .chart-container {
-                height: 235px;
+                height: 323px;
             }
 
             .styled-chart-title {
                 font-weight: bold;
                 margin-bottom: 5px;
             }
+            .styled-chart2-title {
+                font-weight: normal;
+                margin-bottom: 5px;
+                text-align: left;
+            }
 
             .styled-chart-container th {
                 font-weight: bold;
                 text-align: center;
                 border-bottom-width: 1px !important;
+                border-right-width: 1px !important;
                 line-height: 15px !important;
+            }
+            .styled-chart-container td {
+                row-span: 3;
             }
 
             .styled-chart-container tbody {
@@ -450,6 +492,12 @@
                         var template = "{0}<br>Шт. единиц за 4 недели: {1}<br>Шт. единиц за 8 недель: {2}";
                         return template.format(dataItem.hfCriterionCnt > 0 ? "Требуется увеличение фактической численности" :
                                 "Требуется уменьшение фактической численности", dataItem.hfCriterionW4Cnt, dataItem.hfCriterionW8Cnt);
+                    },
+                    //Критерий на ввод/вывод с учетом заполнения всех вакансий
+                    hfCriterion21: function (dataItem) {
+                        var template = "{0}<br>Вакансии SLA: {1}<br>Декретные вакансии SLA: {2}";
+                        return template.format(dataItem.hfCriterionCnt2 > 0 ? "Требуется увеличение фактической численности" :
+                                "Требуется уменьшение фактической численности", dataItem.SlaFactVacancyCnt, dataItem.SlaFactVacancyTempCnt);
                     }
                 }
             };
@@ -462,6 +510,12 @@
                         var template = "{0}<br>Шт. единиц за 4 недели: {1}<br>Шт. единиц за 8 недель: {2}";
                         return template.format(hfCriterionCnt > 0 ? "Требуется увеличение фактической численности" :
                                 "Требуется уменьшение фактической численности", hfCriterionW4Cnt, hfCriterionW8Cnt);
+                    },
+                    //Критерий на ввод/вывод с учетом заполнения всех вакансий
+                    hfCriterion22: function (hfCriterionCnt2,SlaFactVacancyCnt,SlaFactVacancyTempCnt) {
+                        var template = "{0}<br>Вакансий SLA: {1}<br>Декретные вакансии SLA: {2}";
+                        return template.format(hfCriterionCnt2 > 0 ? "Требуется увеличение фактической численности" :
+                                "Требуется уменьшение фактической численности", SlaFactVacancyCnt, SlaFactVacancyTempCnt);
                     }
                 }
             };
@@ -565,13 +619,24 @@
                         if (dataItem) {
                             var drillDownData = {
                                 divisionGroupId: dataItem.divisionGroupId,
-                                regionId: dataItem.regionId
+                                regionId: dataItem.regionId,
+                                unitName: dataItem.unitName
                             };
 
                             group.selectedDivision(dataItem);
 
                             rightSideGroup.drillDown(dataItem.lvl, drillDownData);
                         }
+
+                        if (dataItem.unitName === "ОВК" || dataItem.isDuodr || dataItem.lvl !==2) {
+                            $('#WorkloadByProductIdDiv3').hide();
+                            $('#WorkloadByProductIdDiv4').hide();
+                        }
+                         else  {
+                            $('#WorkloadByProductIdDiv3').show();
+                            $('#WorkloadByProductIdDiv4').show();
+                        }
+
                     },
                     dataBound: function () {
                         this.select(this.tbody.find("tr").first());
@@ -747,7 +812,7 @@
                             format: "{0:p1}"
                         }
                     ],
-                    detailTemplate: '<div class="styled-chart-container">' +
+                    detailTemplate: '<div class="styled-chart-container5">' +
                     '<div class="styled-chart-title small-title-font">Динамика количества и расчетной численности</div>' +
                     '<div class="chart-container"></div>' +
                     '</div>',
@@ -829,7 +894,8 @@
                     title: {text: null},
                     chart: {
                         type: 'area',
-                        marginTop: 15
+                        marginTop: 15,
+                        height: 195
                     },
                     xAxis: xAxis,
                     yAxis: [{
@@ -981,7 +1047,8 @@
                     columns: [
                         {
                             field: "unitName",
-                            title: "Отделы"
+                            title: "Отделы",
+                            width: 80
                         },
                         {
                             field: "staffCountFact",
@@ -1016,7 +1083,7 @@
                         {
                             field: "hfCriterionCnt",
                             title: "Критерий на ввод/вывод",
-                            width: 180,
+                            width: 100,
                             format: "{0}",
                             filterable: false,
                             template: "# var iconCss =  (hfCriterionCnt > 0) ? 'icon-red-arrow-up icon-small-arrow' : " +
@@ -1026,11 +1093,33 @@
                             attributes: {
                                 style: "text-align: left"
                             }
-                        }
+                        },
+                            /* дирекция дуодр регион*/
+                        {
+                            field: "hfCriterionCnt2",
+                            title: "Критерий на ввод/вывод с учетом заполнения всех вакансий",
+                            width: 180,
+                            format: "{0}",
+                            filterable: false,
+                            template: "# var iconCss =  (hfCriterionCnt2 > 0) ? 'icon-red-arrow-up icon-small-arrow' : " +
+                            "(hfCriterionCnt2 == 0) ? '' :'icon-green-arrow-down icon-small-arrow' #" +
+                            "#= hfCriterionCnt2 # <span data-toggle2='tooltip' data-placement='bottom' html='true' title=' #=helpers2.tooltips2.hfCriterion22(hfCriterionCnt2,SlaFactVacancyCnt,SlaFactVacancyTempCnt)#' <div class=' #= iconCss # '>  </div> </span> ",
 
+                            attributes: {
+                                style: "text-align: left"
+                            }
+                        },
+                        {
+                            field: "WorkloadInfo",
+                            title: "Комментарий",
+                            width: 180,
+                            attributes: {
+                                style: "text-align: left"
+                            }
+                        }
                     ],
-                    detailTemplate: '<div class="chart">' +
-                    '<div class="roller"></div>' +
+//                    blev
+                    detailTemplate: '<div class="styled-chart-container6">' +
                     '<div class="chart-container"></div>' +
                     '</div>',
                     detailInit: detailInit,
@@ -1448,15 +1537,16 @@
                          <span data-bind="text: hfCriterionCnt" class="big-title-font"></span>
                     </div>
                 </div>
-
                 <div class="col-xs-12 ob-custom-table-item"
-                     data-bind="if: hfCriterionCnt == 0 , ">
+                    data-bind="if: hfCriterionCnt2 !== 0 , tooltip: {title: helpers.tooltips.hfCriterion21($data), html: true}">
                     <div class="small-title-font">
                         Критерий на ввод/вывод
+                        с учетом заполнения
+                        всех вакансий
                     </div>
                     <div class="value">
-                        <i data-bind="if: hfCriterionCnt !== 0, css: hfCriterionCnt > 0 ? 'icon-red-arrow-up' :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
-                        <span data-bind="text: hfCriterionCnt" class="big-title-font"></span>
+                        <i data-bind="if: hfCriterionCnt2 !== 0, css: hfCriterionCnt2 > 0 ? 'icon-red-arrow-up' :hfCriterionCnt2 == 0 ? '' : 'icon-green-arrow-down'"></i>
+                        <span data-bind="text: hfCriterionCnt2" class="big-title-font"></span>
                     </div>
                 </div>
                 <div class="col-xs-12 ob-custom-table-item">
@@ -1655,32 +1745,37 @@
                                 <table class="styled-chart-container table">
                                     <thead>
                                     <tr>
-                                        <th>Изменение ш.ч.</th>
+
+                                        <th >Изменение ш.ч.</th>
+                                        <th >Фактическая численность(в т.ч. не SLA)</th>
+                                        <th>Численность не SLA</th>
                                         <th>Критерий на ввод/вывод</th>
-                                        <th>Фактическая численность(в т.ч. не SLA)</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
-                                        <td>
+
+                                        <td >
                                             <i data-bind="css: staffCountDeltaCnt > 0 ? 'icon-red-arrow-up': 'icon-green-arrow-down',
                                             tooltip: {title: helpers.tooltips.staffCountDelta($data), html: true}"></i>
                                             <span data-bind="text: staffCountDeltaCnt"></span>
                                         </td>
                                         <td>
+                                            <span data-bind="text: staffCountFact"></span>
+                                            <span data-bind="if: slaFactValueDoubleCnt > 0, tooltip: {title: 'Дублирование: ' + slaFactValueDoubleCnt, html: true}"
+                                                  style="color: red; font-weight: bold;">!</span>
+                                        </td>
+
+                                        <td data-bind="text: nonSLAStaffCnt"></td>
+                                        <td>
                                             <div data-bind="if: hfCriterionCnt !== 0 , tooltip: {title: helpers.tooltips.hfCriterion($data), html: true} ">
-                                            <i data-bind="css: hfCriterionCnt > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
-                                            <span data-bind="text: hfCriterionCnt"></span>
-                                        </div>
+                                                <i data-bind="css: hfCriterionCnt > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
+                                                <span data-bind="text: hfCriterionCnt"></span>
+                                            </div>
                                             <div data-bind="if: hfCriterionCnt == 0 ,  ">
                                                 <i data-bind="css: hfCriterionCnt > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt == 0 ? '' : 'icon-green-arrow-down'"></i>
                                                 <span data-bind="text: hfCriterionCnt"></span>
                                             </div>
-                                        </td>
-                                        <td>
-                                            <span data-bind="text: staffCountFact"></span>
-                                            <span data-bind="if: slaFactValueDoubleCnt > 0, tooltip: {title: 'Дублирование: ' + slaFactValueDoubleCnt, html: true}"
-                                                  style="color: red; font-weight: bold;">!</span>
                                         </td>
                                     </tr>
                                     </tbody>
@@ -1688,20 +1783,56 @@
                                     <tr>
                                         <th>Декретные вакансии</th>
                                         <th>Текущие вакансии</th>
-                                        <th>Численность не SLA</th>
+                                        <th colspan="2">Критерий на ввод/вывод с учетом заполнения всех вакансий</th>
                                     </tr>
                                     </thead>
                                     <tbody>
                                     <tr>
                                         <td data-bind="text: decretVacancyCnt"></td>
                                         <td data-bind="text: vacancyCnt"></td>
-                                        <td data-bind="text: nonSLAStaffCnt"></td>
+                                        <td  colspan="2" >
+                                            <div data-bind="if: hfCriterionCnt2 !== 0 , tooltip: {title: helpers.tooltips.hfCriterion21($data), html: true} ">
+                                                <i data-bind="css: hfCriterionCnt2 > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt2 == 0 ? '' : 'icon-green-arrow-down'"></i>
+                                                <span data-bind="text: hfCriterionCnt2"></span>
+                                            </div>
+                                            <div data-bind="if: hfCriterionCnt2 == 0 ,  ">
+                                                <i data-bind="css: hfCriterionCnt2 > 0 ? 'icon-red-arrow-up'  :hfCriterionCnt2 == 0 ? '' : 'icon-green-arrow-down'"></i>
+                                                <span data-bind="text: hfCriterionCnt2"></span>
+                                            </div>
+                                        </td>
                                     </tr>
+
+                                    <tr id="WorkloadByProductIdDiv3">
+                                        <%--<div id="WorkloadByProductIdDiv3">--%>
+                                            <td
+                                                 class="styled-chart-title small-title-font2"  data-bind="text: 'Комментарий: '"> </td>
+                                              <td  colspan="3"
+                                                   class="styled-chart2-title small-title-font3"  data-bind="text: WorkloadInfo "> </td>
+                                          <%--</div>--%>
+                                    </tr>
+
                                     </tbody>
                                 </table>
+                                <%--<div id="WorkloadByProductIdDiv4">--%>
+                                    <%--<table class="styled-chart-container table"  >--%>
+
+                                        <%--<thead>--%>
+                                        <%--<tr>--%>
+                                            <%--<th colspan="4">Комментарий</th>--%>
+                                        <%--</tr>--%>
+
+                                        <%--</thead>--%>
+                                        <%--<tr>--%>
+                                            <%--<td colspan="4"  class="styled-chart-title small-title-font2" data-bind="text: WorkloadInfo"></td>--%>
+                                        <%--</tr>--%>
+                                    <%--</table>--%>
+                                <%--</div>--%>
                             </div>
                             <!-- /ko -->
-                            <!-- ko if: groups.rightSide.drillDownLevel() == 1 && !groups.default.filters.innerEndProductId.value() -->
+                            <!-- ko if:  groups.rightSide.drillDownLevel() == 2 && !groups.default.filters.innerEndProductId.value()  -->
+
+                            <!-- /ko -->
+                            <!-- ko if: groups.rightSide.drillDownLevel() == 1 && !groups.default.selectedDivision.WorkloadInfo -->
                             <div class="row">
                                 <div class="col-xs-6">
                                     <div class="styled-chart-container">
