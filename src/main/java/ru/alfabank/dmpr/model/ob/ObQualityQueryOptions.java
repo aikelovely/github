@@ -18,6 +18,8 @@ public class ObQualityQueryOptions {
     public String[] regionIds;
     public LocalDate startDate;
     public LocalDate endDate;
+    public LocalDate startDateFirst;
+    public LocalDate endDateSecond;
     public int timeUnitId;
     public String systemUnitCode;
     public String doudrFlag;
@@ -45,6 +47,9 @@ public class ObQualityQueryOptions {
 
         switch (genType) {
             case FromEndDatePeriod:
+                periods = PeriodSelectHelper.getDatesByBasePeriodOptions(newOptions, weeks);
+                startDateFirst = periods[0];
+                endDateSecond = periods[1];
                 newOptions.startDateId = newOptions.endDateId;
                 newOptions.startYear = newOptions.endYear;
                 periods = PeriodSelectHelper.getDatesByBasePeriodOptions(newOptions, weeks);
