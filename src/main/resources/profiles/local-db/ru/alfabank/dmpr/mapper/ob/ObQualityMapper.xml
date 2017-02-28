@@ -112,6 +112,7 @@
         from table(pkg_kpiob_api.get_kpi_data(
           p_DateFrom           => #{startDate},
           p_DateTill           => #{endDate},
+          p_DateFromFirst      => #{startDateFirst},
           p_DimCode            => #{systemUnitCode},
           p_KPIKindID          => #{kpiKindId},
           p_BPDivisionGroupIDs => #{directionIds},

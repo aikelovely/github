@@ -75,8 +75,13 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
             public Point select(ObQualityDataItem item) {
                 AtomicReference<Double> normative2 = new AtomicReference<>(selectNormative.select(item));
                 Double value = selectValue.select(item);
-                ObRichPoint p = new ObRichPoint(item.timeUnitDD, value * 100);
-                p.color = value >= normative2.get() ? Color.DarkGreenColor : Color.SuperRedColor;
+                Double value2=value;
+                  if (value==null) {
+                       value2=0.0; }
+                ObRichPoint p = new ObRichPoint(item.timeUnitDD, value2 * 100);
+                    if (value==null) {
+                      p.y=null; }
+                p.color = value2 >= normative2.get() ? Color.DarkGreenColor : Color.SuperRedColor;
                 p.customHTMLTooltip = "<table class='dynamic-tooltip-table'>";
 
                 PeriodSelectOption pSOptions;
@@ -95,7 +100,7 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
                     norma=1.0;
 
                 }
-                norma=(value/norma) * 100;
+                norma=(value2/norma) * 100;
                 if (norma > 100.0) {
                     norma=100.0;
 
@@ -106,7 +111,7 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
 
                 } else {
 
-                    p.customHTMLTooltip += FormatRow("Факт", new DecimalFormat("#.##").format(value * 100) + "%") +
+                    p.customHTMLTooltip += FormatRow("Факт", new DecimalFormat("#.##").format(value2 * 100) + "%") +
                             FormatRow("Общее количество", FormatCount(item.totalCount)) +
                             FormatRow("Количество успешных", FormatCount(item.inKpiCount));
                 }
@@ -119,7 +124,12 @@ public abstract class ObQualityDynamicBase extends BaseChart<ObQualityOptions> {
             @Override
             public Point select(ObQualityDataItem item) {
                 Double value2 = selectNormative.select(item);
-                ObRichPoint p = new ObRichPoint(item.timeUnitDD, value2 * 100);
+                Double value3=value2;
+                if (value2==null) {
+                    value3=0.0; }
+                ObRichPoint p = new ObRichPoint(item.timeUnitDD, value3 * 100);
+                if (value2==null) {
+                    p.y=null; }
                 p.color = Color.SuperRedColor;
                 PeriodSelectOption pSOptions;
                 if (options.timeUnitId == Period.week.getValue()) {
