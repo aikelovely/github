@@ -230,9 +230,9 @@ round(EstimatedstaffunitCnt,4) EstimatedstaffunitCnt
  HighlimitW4Cnt,
  CriteriaW4Cnt,
  TotalcriteriaCnt,
- WorkloadFactor
+ WorkloadFactor,
+ Description
   from table(pkg_workload_api.get_Workload())
-
 
         ]]>
     </select>

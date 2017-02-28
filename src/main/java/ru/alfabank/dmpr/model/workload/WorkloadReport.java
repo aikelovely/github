@@ -14,6 +14,7 @@ public class WorkloadReport {
     public String BpDivisionGroupCcode;
     public String BporgRegionCcodeLvl2;
     public String BporgRegionCcodeLvl3;
+    public String Description;
     public double TotalfactvalueCnt;
     public double SlafactvalueCnt;
     public double SlafactvaluedoubleCnt;
