@@ -13,7 +13,8 @@
 
     <select id="getKPIs" resultType="ru.alfabank.dmpr.model.ctq.CTQDashboardKPIEntity">
         <![CDATA[
-        select id, code, parentid, name, sort_order sortOrder, additional_info additionalInfo
+         select  id,
+          code, parentid, name, sort_order sortOrder, additional_info additionalInfo
           from table (pkg_ctqb_api.get_kpis) order by sort_order
     ]]>
     </select>
