@@ -13,7 +13,8 @@
 
     <select id="getKPIs" resultType="ru.alfabank.dmpr.model.ctq.CTQDashboardKPIEntity">
         <![CDATA[
-        select id, code, parentid, name, sort_order sortOrder, additional_info additionalInfo
+         select case when id =1209705988 then 6423946549 else  id    end                as id,
+          code, parentid, name, sort_order sortOrder, additional_info additionalInfo
           from table (pkg_ctqb_api.get_kpis) order by sort_order
     ]]>
     </select>
@@ -36,7 +37,7 @@
           dshbblock_hidecaption_flag as blockHideCaptionFlag,
           dshbblock_zerotarget_flag  as blockZeroTargetFlag,
           dshbblock_drilldown_url    as blockDrillDownUrl,
-          bpkpi_dk                   as id,
+          case when bpkpi_dk =1209705988 then 6423946549 else  bpkpi_dk    end                as id,
           bpkpi_alias                as alias,
           description                as description,
           barcolor_ccode             as barColor,
