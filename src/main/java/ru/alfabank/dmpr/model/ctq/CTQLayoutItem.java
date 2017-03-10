@@ -20,7 +20,7 @@ public class CTQLayoutItem {
     public String blockZeroTargetFlag;
     public String blockDrillDownUrl;
 
-    public double id;
+    public long id;
     public String alias;
     public String description;
     public String barColor;
