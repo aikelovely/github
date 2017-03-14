@@ -127,7 +127,8 @@
               regionCenter as   regionCenter,
               factKpi as        factKpi,
               goalKpi as        goalKpi,
-              executeKpi as     executeKpi
+              executeKpi as     executeKpi,
+              FORECASTVALUE forecastvalue
               from table(pkg_leaderboard_api.get_qualityBo())
         ]]>
     </select>
