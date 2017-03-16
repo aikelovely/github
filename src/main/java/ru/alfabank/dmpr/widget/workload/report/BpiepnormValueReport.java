@@ -140,6 +140,7 @@ public class BpiepnormValueReport extends BaseReport <WorkloadOptions> {
                                  c.add("TotalcriteriaCnt").title("Совокупный критерий ввода/вывода").format("#,##0.0000").width(20);
                                  c.add("VacancyFullCriteria").title("Совокупный критерий ввода/вывода с учетом заполнения всех вакансий").format("#,##0.0000").width(20);
                                  c.add("WorkloadFactor").title("Нагрузка на подразделение на 8 неделю (на отчетную дату)").format("#,##0.0000").width(20);
+                                 c.add("Description").title("Комментарий").width(20);
                                  c.add("DateNow").title("Дата выгрузки").format("dd.MM.yyyy HH:mm:ss").width(20);
                              }
                          }

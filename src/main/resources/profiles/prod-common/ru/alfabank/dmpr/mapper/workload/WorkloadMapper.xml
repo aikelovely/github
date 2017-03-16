@@ -26,10 +26,6 @@
             VacancyCnt,
             DecretVacancyCnt,
             HFCriterionCnt,
-            HFCriterionCnt2,
-            workload_info WorkloadInfo,
-            SLAFACTVACANCY_CNT SlaFactVacancyCnt,
-            SLAFACTVACANCYTEMP_CNT SlaFactVacancyTempCnt,
             HFCriterionW4Cnt,
             HFCriterionW8Cnt,
             NonSLAStaffCnt,
@@ -235,9 +231,8 @@ round(EstimatedstaffunitCnt,4) EstimatedstaffunitCnt
  CriteriaW4Cnt,
  TotalcriteriaCnt,
  WorkloadFactor,
- VacancyFullCriteria
+ Description
   from table(pkg_workload_api.get_Workload())
-
 
         ]]>
     </select>
