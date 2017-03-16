@@ -172,7 +172,7 @@
  EffectifFrom ,
  EffectifTo
        from table(pkg_workload_api.get_BpiepnormValue())
-
+--
 
         ]]>
     </select>
