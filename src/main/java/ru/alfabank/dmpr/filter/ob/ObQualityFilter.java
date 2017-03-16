@@ -25,8 +25,25 @@ public class ObQualityFilter {
      * Возвращает данные для фильтра "Регион"
      * @return
      */
-    public BaseEntity[] getRegions() {
-        return filterRepository.getRegions();
+    public BaseEntity[] getRegions(@Param("startYear") LocalDate startYear, @Param("endYear") LocalDate endYear,
+                                @Param("startDateId") int startDateId, @Param("endDateId") int endDateId,
+                                @Param("kpiKindId") final long kpiKindId, @Param("directionIds[]") final String[] directionIds,
+                                @Param("regionIds[]") final String[] regionIds,
+                                @Param("timeUnitId") long timeUnitId){
+        BasePeriodOptions options = new BasePeriodOptions();
+        options.startYear = startYear;
+        options.startDateId = startDateId;
+        options.endYear = endYear;
+        options.endDateId = endDateId;
+        options.timeUnitId = (int)timeUnitId;
+        LocalDate[] dates = PeriodSelectHelper.getDatesByBasePeriodOptions(options, filterRepository.getWeeks());
+        ObQualityOptions obQualityOptions = new ObQualityOptions();
+        obQualityOptions.startDate = dates[0].toLocalDateTime(LocalTime.MIDNIGHT);
+        obQualityOptions.endDate = dates[1].toLocalDateTime(LocalTime.MIDNIGHT);
+        obQualityOptions.directionIds = directionIds;
+        obQualityOptions.regionIds = regionIds;
+        obQualityOptions.kpiKindId = kpiKindId;
+        return filterRepository.getRegions(obQualityOptions);
     }
 
     /**
@@ -83,7 +100,7 @@ public class ObQualityFilter {
         obQualityOptions.endDate = dates[1].toLocalDateTime(LocalTime.MIDNIGHT);
         obQualityOptions.directionIds = directionIds;
         obQualityOptions.regionIds = regionIds;
-
+        obQualityOptions.kpiKindId = kpiKindId;
         return LinqWrapper.from(filterRepository.getKPIs(obQualityOptions
                 )).filter(new Predicate<ChildEntityWithInfo>() {
             @Override
