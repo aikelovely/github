@@ -422,7 +422,7 @@
                 });
                 var groups2 = _.groupBy(groupsSort, function (c) {
                     return c.groupId;
-                    });
+                });
                 var groups = _.sortBy(groups2, function (c) {
                     return c[0].groupOrder;
                 });
@@ -529,16 +529,16 @@
                     case seriesCode.currentValue:
                         value = kpiDataItem.currentValue;
                         // value= value.toFixed(1);
-             /*          if ((value === undefined) || (value ==null)  || isNaN(value))
-                        {
-                      value = value;
-                }
-                        else {
-                            value = value;
-                            value = Math.round(value,2);
-                        value = value;}
+                        /*          if ((value === undefined) || (value ==null)  || isNaN(value))
+                         {
+                         value = value;
+                         }
+                         else {
+                         value = value;
+                         value = Math.round(value,2);
+                         value = value;}
 
-*/
+                         */
 
 
 
@@ -546,7 +546,7 @@
 //                        if (value) {  }
 //                           if (kpiDataItem.currentValue) {  value = (kpiDataItem.currentValue).toFixed(1);}
 
-                            break;
+                        break;
                     case seriesCode.planValue:
                         value = kpiDataItem.planValue;
 
@@ -595,17 +595,12 @@
 
                 var chartType = getChartTypeByWidgetType(metaData.widgetType);
 
-                if (metaData.widgetType === 'LEGO') {
-                    chartType =metaData.legoTipeS;
-                }
                 var seriesConfig = {
                     type: chartType,
                     name: metaData.seriesName || "Факт",
-                    fillColor: metaData.seriesColor || color.currentValue,
                     color: metaData.seriesColor || color.currentValue,
                     zIndex: 1,
                     dataLabels: {
-                        allowOverlap:true,
                         inside: true,
                         enabled: metaData.dataLabelPosition !== "N",
                         formatter: function () {
@@ -625,14 +620,14 @@
                 if (chartType === 'areaspline') {
                     _.assign(seriesConfig,
                             {
-                           //     zIndex: 2,
+                                zIndex: 2,
                                 marker: {
                                     lineWidth: 3,
                                     lineColor: "white",
                                     radius: 6,
                                     symbol: 'circle'
-                                } //,
-                             //   index: 1
+                                },
+                                index: 1
                             });
                 }
                 return seriesConfig;
@@ -650,18 +645,14 @@
                 }
 
                 var chartType = getChartTypeByWidgetType(metaData.widgetType);
-                if (metaData.widgetType === 'LEGO') {
-                    chartType =metaData.legoTipeS;
-                }
+
                 var seriesConfig = {
                     type: chartType,
                     name: metaData.seriesName || "Факт за предыдущий год",
-                    fillColor: metaData.seriesColor || color.prevValue,
                     color: metaData.seriesColor || color.prevValue,
                     zIndex: 1,
                     dataLabels: {
                         inside: true,
-                        allowOverlap:true,
                         enabled: metaData.dataLabelPosition !== "N",
                         formatter: function () {
                             if (metaData.unitCode == "PRC") {
@@ -680,20 +671,20 @@
                 if (chartType === 'areaspline') {
                     _.assign(seriesConfig,
                             {
-                              //  zIndex: 2,
+                                zIndex: 2,
                                 marker: {
                                     lineWidth: 3,
                                     lineColor: "white",
                                     radius: 6,
                                     symbol: 'circle'
-                                }//,
-                               // index: 1
+                                },
+                                index: 1
                             });
                 }
                 return seriesConfig;
             }
             // Создает серию "Факт за предыдущий год"
-            function createPrevFactSeries(metaData) { // не
+            function createPrevFactSeries(metaData) {
                 return {
                     type: metaData.widgetType == "PFPFV" ? "column" : "bar",
                     name: metaData.seriesName || "Факт за предыдущий год",
@@ -721,19 +712,12 @@
                 }
 
                 var chartType = getChartTypeByWidgetType(metaData.widgetType);
-                if (metaData.widgetType === 'LEGO') {
-                    chartType ='LEGO';
-                }
+
                 var seriesConfig = {
-                    type: chartType === 'areaspline' ? 'areaspline' :
-                          chartType === 'LEGO' ? metaData.legoTipeS : "line",
+                    type: chartType === 'areaspline' ? 'areaspline' : "line",
                     name: metaData.seriesName || "План",
-                    fillColor: metaData.seriesColor || color.planValue,
                     color: metaData.seriesColor || color.planValue,
                     zIndex: 2,
-                    pointPlacement: 0,
-                    groupPadding: 0,
-                    pointPadding: getPointPadding(metaData.barWidth, 40),
                     dataLabels: {
                         inside: true,
                         enabled: metaData.dataLabelPosition !== "N",
@@ -745,7 +729,6 @@
                         },
                         rotation: metaData.dataLabelPosition === "H" ? 0 : 270,
                         marker: {enabled: false},
-                        allowOverlap:true,
                         style: style
                     }
                 };
@@ -753,14 +736,14 @@
                 if (chartType === 'areaspline') {
                     _.assign(seriesConfig,
                             {
-                             //   zIndex: 1,
+                                zIndex: 1,
                                 marker: {
                                     lineWidth: 3,
                                     lineColor: "white",
                                     radius: 6,
                                     symbol: 'circle'
-                                }//,
-                              //  index: 0
+                                },
+                                index: 0
                             });
                 }
 
@@ -779,12 +762,11 @@
             }
 
             function getChartTypeByWidgetType(widgetType) {
-                return chartTypeCodes[widgetType] || "column";
+                return chartTypeCodes[widgetType] || "bar";
             }
 
             function createBlockChart($container, filterData, jsonData, seriesMetaData) {
                 var chartMeta = seriesMetaData[0];
-
                 var selectedOption = app.viewModel.getFilter("divisionGroupId").getSelectedOptions()[0];
                 if (!selectedOption) {
                     selectedOption = app.viewModel.getFilter("divisionGroupId").options()[0];
@@ -793,10 +775,10 @@
                 if (chartMeta.chartName == 'UC по конечным продуктам операционного блока в разрезе Дирекций.') {
 
                     $container.parent().find(".chart-url").html("" +
-                    "<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId=" + selectedOption.id + " >" +
-                    "На витрину UnitCost" +
+                            "<a href=${pageContext.request.contextPath}/showcase/unitCost?divisionGroupId=" + selectedOption.id + " >" +
+                            "На витрину UnitCost" +
 //                        selectedOption.name +
-                    "</a>");
+                            "</a>");
                 }
 
                 if (chartMeta.chartName == 'Динамика изменения CTQ' ||
@@ -900,12 +882,12 @@
 
                 config.plotOptions = {
                     column: {
-                        grouping: chartMeta.legoGroup === "0" ? false : true ,
+                        grouping: false,
                         shadow: false,
                         borderWidth: 0
                     },
                     bar: {
-                        grouping: chartMeta.legoGroup === "0" ? false : true ,
+                        grouping: false,
                         shadow: false,
                         borderWidth: 0
                     },
@@ -928,7 +910,7 @@
                                 planValue = getValueBySeriesCode(firstRow, seriesCode.planValue, chartMeta);
 
                         config.xAxis.categories = [currentYear];
-                        config.legend = {enabled: true};
+                        config.legend = {enabled: false};
 
                         if (config.yAxis.min == undefined) {
                             config.yAxis.min = Math.max(Math.min(currentValue, prevValue, planValue) - 5, 0);
@@ -961,26 +943,14 @@
                         }
 
                         metaData = findMetaDataByCode(seriesMetaData, seriesCode.planValue);
-                        var color = metaData.fontColor || "black";
-                        var style = {};
-                        if (color.toUpperCase() === "WHITE") {
-                            style.color = "#ffffff";
-                            style.textShadow = "0 0 6px #000000, 0 0 3px #000000";
-
-                        } else {
-                            style.color = "#000000";
-                            style.textShadow = "0 0 6px #ffffff, 0 0 3px #ffffff";
-                        }
                         if (metaData && planValue) {
-
                             config.yAxis.plotLines = [{
                                 color: metaData.seriesColor || color.planValue,
                                 value: planValue,
                                 width: 2,
                                 zIndex: 5,
                                 label: {
-                                    style:style,
-                                    text: '{0}{1}'.format(planValue.toFixed(dataPrecision), valueSuffix),
+                                    text: 'План: {0}{1}'.format(planValue.toFixed(dataPrecision), valueSuffix),
                                     zIndex: 8,
                                     x: 5,
                                     rotation: 0,
@@ -1055,14 +1025,13 @@
 //                    _.forEach(jsonData, function(data) {
 //
 //                    });
-                    var filterJsonData = jsonData.filter(function (data) {
-                        return data.currentValue != 0 && data.currentValue != null;
-                    });
                     var filterJsonData2 = jsonData.filter(function (data) {
                         return data.planValue != 0 && data.planValue != null;
 //                    берем план для автомасштабирования , теперь он тоже ва деле
                     });
-
+                    var filterJsonData = jsonData.filter(function (data) {
+                        return data.currentValue != 0 && data.currentValue != null;
+                    });
                     var minC = Math.min.apply(
                             Math,
                             filterJsonData.map(function (o) {
@@ -1177,7 +1146,7 @@
                         shared: true,
                         useHTML: true
                     },
-                    legend: {enabled: true},
+                    legend: {enabled: false},
                     series: chartSeries
                 });
             }
@@ -1846,7 +1815,7 @@
                     color: color.planValue,
                     label: {
                         align: 'right',
-                        text: '{0}%'.format(planValue.toFixed(2)),
+                        text: '<b>План</b>: {0}%'.format(planValue.toFixed(2)),
                         x: -10
                     },
                     value: planValue.toFixed(2),
@@ -2154,10 +2123,10 @@
                 <tab>
                     <div class="row">
                         <div class="col-xs-5">
-                            <%--<div style="margin-top: 73px">--%>
-                                <chart params="name: 'kpi8_1Pie'"></chart>
-                                <chart params="name: 'kpi8_2Pie'"></chart>
-                            <%--</div>--%>
+                                <%--<div style="margin-top: 73px">--%>
+                            <chart params="name: 'kpi8_1Pie'"></chart>
+                            <chart params="name: 'kpi8_2Pie'"></chart>
+                                <%--</div>--%>
                         </div>
                             <%--<div class="col-xs-7">--%>
                             <%--&lt;%&ndash;<div class="group-section">&ndash;%&gt;--%>
@@ -2175,7 +2144,7 @@
 
                 </tab>
                 <tab>
-                    <%--<chart params="name: 'kpi19Chart'"></chart>--%>
+                        <%--<chart params="name: 'kpi19Chart'"></chart>--%>
                     <div class="row">
                             <%--<div class="col-xs-6">--%>
                             <%--<div class="group-section ">--%>
@@ -2246,9 +2215,9 @@
                 </tab>
                 <tab>
                     <div class="row mb-0">
-                        <%--<div class="col-xs-8">--%>
+                            <%--<div class="col-xs-8">--%>
                             <%--<chart params="name: 'kpi16Chart'"></chart>--%>
-                        <%--</div>--%>
+                            <%--</div>--%>
                         <div class="col-xs-4">
                             <chart params="name: 'kpi15ByYearChart'"></chart>
                         </div>
