@@ -51,7 +51,7 @@ public class LeaderBoardReportDashboard extends BaseReport<LeaderBoardOptions> {
                         c.add("factKpi").title("Факт KPI").format("0.00%");
                         c.add("goalKpi").title("Цель KPI").format("0.00%");
                         c.add("executeKpi").title("Выполнение  KPI").format("0.00%");
-                        c.add("forecastvalue").title("Плановые показатели KPI. Прогнозное значние").format("0.00%");
+                        c.add("forecastvalue").title("Плановые показатели KPI. Прогнозное значние").width(30).format("0.00%");
                     }
                 });
     }
