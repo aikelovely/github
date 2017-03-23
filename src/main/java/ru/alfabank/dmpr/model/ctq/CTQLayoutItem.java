@@ -3,12 +3,12 @@ package ru.alfabank.dmpr.model.ctq;
 public class CTQLayoutItem {
     private static String yesString = "Y";
 
-    public long blockGroupId;
+    public int blockGroupId;
     public String blockGroupName;
-    public long blockGroupOrderNum;
-    public long blockId;
-    public long blockColumnNumber;
-    public long blockRowNumber;
+    public int blockGroupOrderNum;
+    public int blockId;
+    public int blockColumnNumber;
+    public int blockRowNumber;
     public String blockName;
     public String blockDescription;
 
@@ -20,12 +20,12 @@ public class CTQLayoutItem {
     public String blockZeroTargetFlag;
     public String blockDrillDownUrl;
 
-    public long id;
+    public int id;
     public String alias;
     public String description;
     public String barColor;
     public String normPrefix;
-    public long orderNum;
+    public int orderNum;
 
     public String getBlockCode(){
         return "Section" + blockGroupId + "Block" + blockId;

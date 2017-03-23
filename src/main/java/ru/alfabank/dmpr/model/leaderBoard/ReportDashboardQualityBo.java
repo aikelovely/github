@@ -19,7 +19,7 @@ public class ReportDashboardQualityBo {
   public Double factKpi;
   public Double goalKpi;
   public Double executeKpi;
-
+  public Double forecastvalue;
 }
 /*
 
