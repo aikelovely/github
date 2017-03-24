@@ -97,13 +97,13 @@
                 font-weight: bold;
             }
             .small-title-font2 {
-                font-size: 15px;
+                font-size: 12px;
                 font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
                 font-weight: bold;
                 text-align: left;
             }
             .small-title-font3 {
-                font-size: 14px;
+                font-size: 11px;
                 font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
                 text-align: left;
                 font-weight: normal;
@@ -1114,7 +1114,7 @@
                             title: "Комментарий",
                             width: 180,
                             attributes: {
-                                style: "text-align: left"
+                                style: "text-align: left; font-size: 11px;"
                             }
                         }
                     ],

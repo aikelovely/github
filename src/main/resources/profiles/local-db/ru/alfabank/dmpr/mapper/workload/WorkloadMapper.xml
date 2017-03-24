@@ -27,7 +27,7 @@
             DecretVacancyCnt,
             HFCriterionCnt,
             HFCriterionCnt2,
-            workload_info WorkloadInfo,
+            'ввод не требуется - в рамках проекта Редизайн процесса ОС Фаза 1 в ближайшее время будут внедрены доработки по оптимизации трудозатрат на 20 ш.е, далее в марте-апреле доработки в рамках Фазы 2' WorkloadInfo,
             SLAFACTVACANCY_CNT SlaFactVacancyCnt,
             SLAFACTVACANCYTEMP_CNT SlaFactVacancyTempCnt,
             HFCriterionW4Cnt,
