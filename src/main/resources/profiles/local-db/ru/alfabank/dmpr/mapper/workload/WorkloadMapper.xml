@@ -255,7 +255,8 @@ round(EstimatedstaffunitCnt,4) EstimatedstaffunitCnt
  CriteriaW4Cnt,
  TotalcriteriaCnt,
  WorkloadFactor,
- VacancyFullCriteria
+ VacancyFullCriteria,
+ Description
   from table(pkg_workload_api.get_Workload())
 
 

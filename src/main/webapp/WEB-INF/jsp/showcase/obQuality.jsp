@@ -593,8 +593,10 @@
 
                     min=_.clone(_.minBy(series[i].data,function(p) { return p.y; }));
                     max=_.clone(_.maxBy(series[i].data,function(p) { return p.y; }));
-                    var min1 = Math.min(minPoint.y, min.y);
-                    var max1 = Math.max(maxPoint.y, max.y);
+                    if (minPoint!= undefined ||maxPoint!= undefined  ) {
+                        var min1 = Math.min(minPoint.y, min.y);
+                        var max1 = Math.max(maxPoint.y, max.y);
+                    }
                     minPoint=_.clone(_.minBy(series[i].data,function(p) { return p.y; }));
                     maxPoint=_.clone(_.maxBy(series[i].data,function(p) { return p.y; }));
 
@@ -616,11 +618,11 @@
 //                var maxPoint2 =  _.chain(series).map(function(s) { return _.maxBy(s.data, function(p) { return p.y; })})
 //                        .min(function(p) { return p.y; }).value().y;
 
-                if (!plot) {
+                if (!plot&&!normative) {
                     plotLines.push(
                             {
                                 color: 'red',
-                                label: {align: 'right', text: '<b>Цель</b>: {0}%'.format(normative.toFixed(2))},
+                                label: {align: 'right', text: '<b>Цель</b>: {0}%'.format( normative.toFixed(2))},
                                 value: normative,
                                 width: 2,
                                 zIndex: 5
@@ -661,7 +663,7 @@
                         column: {
                             dataLabels: {
                                 enabled: true,
-                                formatter: function () { return this.point.y.toFixed(2); },
+                                formatter: function () { if (this.point.y != undefined) {return this.point.y.toFixed(2);} },
                                 rotation: series[0].data.length >= 10 ? 270 : 0,
                                 y: 35,
                                 style: {
