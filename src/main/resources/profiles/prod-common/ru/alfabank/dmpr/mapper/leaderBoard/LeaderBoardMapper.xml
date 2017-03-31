@@ -128,7 +128,7 @@
               factKpi as        factKpi,
               goalKpi as        goalKpi,
               executeKpi as     executeKpi
-              --, forecastvalue
+              , forecastvalue
               from table(pkg_leaderboard_api.get_qualityBo())
         ]]>
     </select>
