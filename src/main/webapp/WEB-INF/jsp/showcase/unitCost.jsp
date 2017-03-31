@@ -169,8 +169,9 @@
                                 dataSource: "UnitCostTabIndexChangeDynamic"
                             },
                             fotDistribution: {
-                                jsFunc: createFotDistribution,
-                                dataSource: "UnitCostTabFotDistribution"
+                                jsFunc: createDistributionDynamic,
+                                dataSource: "UnitCostTabFotDistribution",
+                                customParams: {titleFormat: "Распределение расходов ФОТ  {0}, тыс. {1}"}
                             }
                         }
                     }, {

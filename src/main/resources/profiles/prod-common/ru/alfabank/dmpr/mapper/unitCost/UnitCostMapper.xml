@@ -111,9 +111,9 @@
           unitcostsum_usd_amt as unitCostUsdSum,
           totallaborvalue_cnt as totalLaborValueCnt
         FROM TABLE (pkg_uc_api.get_UC_distribution_fot (
-          p_DateFrom           => #{endDate},
+          p_DateFrom           => #{startDate},
           p_DateTo             => #{endDate},
-          p_CalcTypeID         => 6,
+          p_CalcTypeID         => #{calcTypeId},
           p_BPORGRegionID      => #{bgOrgRegionId},
           p_BPDivisionGroupDK  => #{directionId}
         ))
