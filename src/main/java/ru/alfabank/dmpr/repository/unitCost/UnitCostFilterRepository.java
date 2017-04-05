@@ -11,6 +11,7 @@ import ru.alfabank.dmpr.mapper.unitCost.UnitCostFilterMapper;
 import ru.alfabank.dmpr.model.BaseEntity;
 import ru.alfabank.dmpr.model.BaseEntityWithCode;
 import ru.alfabank.dmpr.model.ChildEntity;
+import ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions;
 
 /**
  * Репозиторий, отвечающий за загрузку данных для фильтров витрины "Unit Cost".
@@ -83,5 +84,14 @@ public class UnitCostFilterRepository {
      */
     public BaseEntity[] getUCCurrencies() {
         return mapper.getUCCurrencies();
+    }
+    /**
+     * Возвращает данные для для profitCenter
+     *
+     * @param options Текущие значения фильтров
+     * @return
+     */
+    public BaseEntity[] getProfitCenter(UnitCostPeriodOptions options) {
+        return mapper.getProfitCenter(options);
     }
 }

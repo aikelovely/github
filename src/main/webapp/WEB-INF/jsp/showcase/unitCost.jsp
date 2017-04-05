@@ -135,7 +135,7 @@
                                 },
                                 disableIfComputed: {
                                     jsFunc: function (context) {
-                                        if(app.viewModel) {
+                                        if (app.viewModel) {
                                             var filter = app.viewModel.getFilter("bgOrgRegionId");
                                             if (filter) {
                                                 var orgRegion = _.find(filter.options(), function (option) {
@@ -151,6 +151,28 @@
                                     params: ["bgOrgRegionId"]
                                 },
                                 width: 250
+                            },
+                            profitCenter: {
+                                type: "Select",
+                                multiple: false,
+                                title: "Профит-центр",
+                                enableSearch: true,
+                                optionsCaption: "Все",
+                                dataSource: {
+                                    url: "unitCostFilter/ProfitCenter",
+                                    params: [
+                                        {name: "startDate"},
+                                        {name: "endDate"},
+                                        {name: "bgOrgRegionId"},
+                                        {name: "directionId", group: "tab1"},
+                                        {name: "calcTypeId", group: "tab1"}
+//                                           {name: "endDate", group: "tab2_left",  required: true},
+
+                                    ]
+                                },
+                                width: 450,
+                                defaultValue: null,
+//                                validationRules: [{type: "Required"}]
                             }
                         },
                         charts: {
@@ -212,7 +234,7 @@
                                 title: "Конечный продукт",
                                 dataSource: {
                                     url: "unitCostFilter/UCInnerEndProducts",
-                                    params: [{name: "endDate", group: "tab2_left",  required: true},
+                                    params: [{name: "endDate", group: "tab2_left", required: true},
                                         {name: "directionId", group: "tab2_left", required: true}]
                                 },
                                 width: 250,
@@ -305,7 +327,8 @@
                             showInLegend: true,
                             dataLabels: {
                                 enabled: true,
-                                format: "{y:,.0f}"
+                                format: "{y:,.0f}",
+                                overflow: "dgsrgdfg"
                             }
                         }
                     },
@@ -316,8 +339,16 @@
                     },
                     xAxis: xAxis,
                     yAxis: {
-                        min: 0,
-                        title: {text: ''}
+                        stackLabels: {
+                            style: {
+                                color: 'black',
+                                fontSize: 14,
+                            },
+                            enabled: true,
+                            format: "{total:,.0f}"
+
+                        },
+                        min: 0
                     },
                     series: series,
                     legend: {
@@ -577,13 +608,13 @@
                 })
             }
 
-            app.init(config, function(viewModel){
+            app.init(config, function (viewModel) {
                 var defaultGroup = viewModel.getGroup("default"),
                         tab2LeftGroup = viewModel.getGroup("tab2_left"),
                         tab2RightGroup = viewModel.getGroup("tab2_right");
 
-                defaultGroup.processing.subscribe(function(value){
-                    if(!value) return;
+                defaultGroup.processing.subscribe(function (value) {
+                    if (!value) return;
                     tab2LeftGroup.filters.startDate.value(defaultGroup.filters.startDate.value());
                     tab2RightGroup.filters.startDate.value(defaultGroup.filters.startDate.value());
 
@@ -644,6 +675,18 @@
                         <chart params="name: 'distribution', group: 'tab1'"></chart>
                         <chart params="name: 'costDistribution', group: 'tab1'"></chart>
                         <chart params="name: 'indexChangeDynamic', group: 'tab1'"></chart>
+                        <div class="filter-container">
+                            <div class="filter-row">
+                                <div class="filter-element">
+                                    <filter params="name: 'profitCenter', group: 'tab1'"></filter>
+                                </div>
+                                <div class="filter-element">
+                                    <refresh-button params="group: 'tab1'"></refresh-button>
+                                </div>
+                            </div>
+
+                            <filter-log params="group: 'tab1'"></filter-log>
+                        </div>
                         <chart params="name: 'fotDistribution', group: 'tab1'"></chart>
                     </div>
                 </tab>

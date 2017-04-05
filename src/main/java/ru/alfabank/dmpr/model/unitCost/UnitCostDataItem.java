@@ -23,4 +23,5 @@ public class UnitCostDataItem {
     public Double totalLaborValueCnt;
     public Double quantityCnt;
     public String topbyField;
+    public int orderColumnFot;
 }

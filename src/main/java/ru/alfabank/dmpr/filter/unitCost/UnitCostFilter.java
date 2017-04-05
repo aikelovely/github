@@ -7,6 +7,7 @@ import ru.alfabank.dmpr.infrastructure.spring.Param;
 import ru.alfabank.dmpr.model.BaseEntity;
 import ru.alfabank.dmpr.model.BaseEntityWithCode;
 import ru.alfabank.dmpr.model.ChildEntity;
+import ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions;
 import ru.alfabank.dmpr.repository.unitCost.UnitCostFilterRepository;
 
 /**
@@ -60,4 +61,24 @@ public class UnitCostFilter {
     public BaseEntity[] getUCCurrencies() {
         return repository.getUCCurrencies();
     }
+    /**
+     * Возвращает данные для
+     *
+     * @return
+     */
+    public  BaseEntity[] getProfitCenter(@Param("endDate") LocalDate endDate,
+                                         @Param("startDate") LocalDate startDate,
+                                         @Param("directionId") long directionId,
+                                         @Param("bgOrgRegionId") long bgOrgRegionId,
+                                         @Param("calcTypeId") int calcTypeId
+    ){
+        UnitCostPeriodOptions options = new UnitCostPeriodOptions();
+        options.endDate=endDate;
+        options.startDate=startDate;
+        options.directionId=directionId;
+        options.bgOrgRegionId=bgOrgRegionId;
+        options.calcTypeId=calcTypeId;
+        return repository.getProfitCenter(options);
+    }
+//    BaseEntity[] getProfitCenter(UnitCostPeriodOptions options);
 }

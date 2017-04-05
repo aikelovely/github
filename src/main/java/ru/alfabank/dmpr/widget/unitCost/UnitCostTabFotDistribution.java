@@ -1,5 +1,6 @@
 package ru.alfabank.dmpr.widget.unitCost;
 
+import org.apache.commons.lang3.ArrayUtils;
 import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -31,31 +32,68 @@ public class UnitCostTabFotDistribution extends BaseChart<UnitCostPeriodOptions>
     public UnitCostTabFotDistribution() {
         super(UnitCostPeriodOptions.class);
     }
+//    getUCFotDistribution
+@Override
+public ChartResult[] getData(final UnitCostPeriodOptions options) {
+    UnitCostDataItem[] data = repository.getUCFotDistribution(options);
 
-    @Override
-    public ChartResult[] getData(final UnitCostPeriodOptions options) {
-        LinqWrapper<UnitCostDataItem> data = LinqWrapper.from(repository.getUCFotDistribution(options));
+    LinqWrapper<Group<Long, UnitCostDataItem>> groups = LinqWrapper.from(data)
+            .sort(new Selector<UnitCostDataItem, LocalDate>() {
+                @Override
+                public LocalDate select(UnitCostDataItem item) {
+                    return item.calcDate;
+                }
+            })
+            .sortDesc(new Selector<UnitCostDataItem, Integer>() {
+                @Override
+                public Integer select(UnitCostDataItem item) {
+                    return item.orderColumnFot;
+                }
+            })
+            .group(new Selector<UnitCostDataItem, Long>() {
+                @Override
+                public Long select(UnitCostDataItem item) {
+                    return item.groupId;
+                }
+            });
 
-        class RichPoint extends Point{
-            public Double totalRurSum;
-            public Double totalUsdSum;
+    class RichPoint extends Point{
+        public Double totalRurSum;
+        public Double totalUsdSum;
 
-            public RichPoint(UnitCostDataItem item){
-                super((Double)null, options.currencyId == 1 ? item.totalRurSum : item.totalUsdSum);
-                this.totalRurSum = item.totalRurSum;
-                this.totalUsdSum = item.totalUsdSum;
-                this.y = this.y / 1000;
-                this.name = item.groupName;
-            }
+        public RichPoint(UnitCostDataItem item){
+            super(item.calcDate, options.currencyId == 1 ? item.totalRurSum : item.totalUsdSum);
+            this.totalRurSum = item.totalRurSum;
+            this.totalUsdSum = item.totalUsdSum;
+            this.y = this.y / 1000;
         }
-
-        Point[] points = data.select(new Selector<UnitCostDataItem, Point>() {
-            @Override
-            public Point select(UnitCostDataItem item) {
-                return new RichPoint(item);
-            }
-        }).toArray(Point.class);
-
-        return new ChartResult[]{new ChartResult(new Series[]{new Series(points)})};
     }
+
+    Series[] series = groups.select(new Selector<Group<Long,UnitCostDataItem>, Series>() {
+        @Override
+
+        public Series select(Group<Long, UnitCostDataItem> items) {
+            UnitCostDataItem first = items.getItems().first();
+
+            Point[] points = items.getItems().select(new Selector<UnitCostDataItem, Point>() {
+                @Override
+                public Point select(UnitCostDataItem item) {
+                    if(item == null) return null;
+                    return new RichPoint(item);
+                }
+            }).toArray(Point.class);
+
+            String seriesName = first.groupName;
+            Series series = new Series(seriesName, points);
+          //  series.color = seriesName.contains("Прочие") ? Color.DarkRedColor : Color.DarkBlueColor;
+
+            return series;
+        }
+    }).toArray(Series.class);
+
+    ArrayUtils.reverse(series);
+
+    return new ChartResult[]{new ChartResult(series)};
 }
+}
+

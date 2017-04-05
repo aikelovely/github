@@ -44,4 +44,5 @@ public class UnitCostPeriodOptions extends BaseOptions {
 
     // Заполняется при дриллдаун
     public Long groupId;
+    public String profitCenter;
 }

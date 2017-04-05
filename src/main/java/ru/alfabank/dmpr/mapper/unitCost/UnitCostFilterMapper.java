@@ -4,6 +4,8 @@ import org.joda.time.LocalDate;
 import ru.alfabank.dmpr.model.BaseEntity;
 import ru.alfabank.dmpr.model.BaseEntityWithCode;
 import ru.alfabank.dmpr.model.ChildEntity;
+import ru.alfabank.dmpr.model.unitCost.UnitCostDataItem;
+import ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions;
 
 /**
  * Маппер, отвечающий за загрузку данных для фильтров витрины "Unit Cost".
@@ -40,4 +42,6 @@ public interface UnitCostFilterMapper {
      * @return
      */
     BaseEntity[] getUCCurrencies();
+
+    BaseEntity[] getProfitCenter(UnitCostPeriodOptions options);
 }

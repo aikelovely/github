@@ -109,13 +109,15 @@
           indexchangeprevmon_factor as indexChangeFactor,
           unitcostsum_rur_amt as unitCostRurSum,
           unitcostsum_usd_amt as unitCostUsdSum,
-          totallaborvalue_cnt as totalLaborValueCnt
+          totallaborvalue_cnt as totalLaborValueCnt,
+          QUANTITY_CNT orderColumnFot
         FROM TABLE (pkg_uc_api.get_UC_distribution_fot (
           p_DateFrom           => #{startDate},
           p_DateTo             => #{endDate},
           p_CalcTypeID         => #{calcTypeId},
           p_BPORGRegionID      => #{bgOrgRegionId},
-          p_BPDivisionGroupDK  => #{directionId}
+          p_BPDivisionGroupDK  => #{directionId},
+          P_ProfitCenter  => #{profitCenter}
         ))
         ]]>
     </select>
@@ -172,33 +174,6 @@
           unitcostsum_usd_amt as unitCostUsdSum,
           totallaborvalue_cnt as totalLaborValueCnt
         FROM TABLE (pkg_unitcost_api.get_UC_distribution (
-          p_DateFrom      => #{startDate},
-          p_DateTo        => #{endDate},
-          p_CalcTypeID    => #{calcTypeId},
-          p_DirectionIDs  => #{directionIds}
-        ))
-        ]]>
-    </select>
-
-    <select id="getCostDistributionFot" useCache="false"
-            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
-            resultType="ru.alfabank.dmpr.model.unitCost.UnitCostDataItem">
-        <![CDATA[
-        SELECT
-          value_day as calcDate,
-          grptype_value_uk as groupId,
-          grptype_value_ccode as groupCode,
-          grptype_value_name as groupName,
-          bpinnerendproduct_dk as innerEndProductId,
-          bpinnerendproduct_ccode as innerEndProductCode,
-          bpinnerendproduct_name as innerEndProductName,
-          totalsum_rur_amt as totalRurSum,
-          totalsum_usd_amt as totalUsdSum,
-          indexchangeprevmon_factor as indexChangeFactor,
-          unitcostsum_rur_amt as unitCostRurSum,
-          unitcostsum_usd_amt as unitCostUsdSum,
-          totallaborvalue_cnt as totalLaborValueCnt
-        FROM TABLE (pkg_unitcost_api.get_UC_distribution_fot (
           p_DateFrom      => #{startDate},
           p_DateTo        => #{endDate},
           p_CalcTypeID    => #{calcTypeId},

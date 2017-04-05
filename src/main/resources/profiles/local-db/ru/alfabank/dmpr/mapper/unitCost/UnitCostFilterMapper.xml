@@ -17,6 +17,23 @@
         order by sort_order
     </select>
 
+    <select id="getProfitCenter" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.unitCost.UnitCostPeriodOptions"
+            resultType="ru.alfabank.dmpr.model.BaseEntity">
+        <![CDATA[
+        SELECT
+           id, name
+        FROM TABLE (pkg_uc_api.get_PROFITCENTER (
+          p_DateFrom           => #{startDate},
+          p_DateTo             => #{endDate},
+          p_CalcTypeID         => #{calcTypeId},
+          p_BPORGRegionID      => #{bgOrgRegionId},
+          p_BPDivisionGroupDK  => #{directionId}
+        ))
+        ]]>
+    </select>
+
+
     <select id="getUCDirections" resultType="ru.alfabank.dmpr.model.BaseEntity" parameterType="map" useCache="false">
         select id, name
         from table(pkg_uc_api.get_directions(#{endDate}))

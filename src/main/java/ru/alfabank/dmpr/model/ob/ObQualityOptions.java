@@ -35,6 +35,8 @@ public class ObQualityOptions extends BasePeriodOptions implements Cloneable {
     public LocalDateTime startDate;
     public LocalDateTime endDate;
 
+
+
     @Override
     protected ObQualityOptions clone() throws CloneNotSupportedException {
         return (ObQualityOptions)super.clone();
