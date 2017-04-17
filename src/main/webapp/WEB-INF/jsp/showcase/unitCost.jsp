@@ -191,7 +191,7 @@
                                 dataSource: "UnitCostTabIndexChangeDynamic"
                             },
                             fotDistribution: {
-                                jsFunc: createDistributionDynamic,
+                                jsFunc: createFot,
                                 dataSource: "UnitCostTabFotDistribution",
                                 customParams: {titleFormat: "Распределение расходов ФОТ  {0}, тыс. {1}"}
                             }
@@ -338,6 +338,60 @@
                         '<br/>Рубли: {point.totalRurSum:,.0f} P<br/>Доллары: {point.totalUsdSum:,.0f} $'
                     },
                     xAxis: xAxis,
+                    series: series,
+                    legend: {
+                        enabled: true,
+                        align: "right",
+                        verticalAlign: "middle",
+                        layout: "vertical",
+                        useHTML: true
+                    }
+                })
+            }
+            function createFot($container, filterData, jsonData, customParams) {
+                var chart = jsonData[0],
+                        series = chart.series;
+
+                filterData.timeUnitId = 4;
+                var xAxis = app.chartUtils.createDateTimeXAxis(filterData, false),
+                        periodText = app.chartUtils.getPeriodText(filterData.startDate, filterData.endDate);
+
+                var currencyText = filterData.currencyId == "1" ? "руб." : "$";
+                var title = customParams.titleFormat.format(periodText, currencyText);
+
+                if (series.length === 0 || series[0].data.length === 0) {
+                    $container.highcharts({
+                        title: {text: title},
+                        chart: {
+                            height: 100
+                        }
+                    });
+
+                    return;
+                }
+
+                $container.highcharts({
+                    chart: {
+                        type: "column"
+                    },
+                    title: {text: title},
+                    plotOptions: {
+                        column: {
+                            stacking: "normal",
+                            showInLegend: true,
+                            dataLabels: {
+                                enabled: true,
+                                format: "{y:,.0f}",
+                                overflow: "dgsrgdfg"
+                            }
+                        }
+                    },
+                    tooltip: {
+                        useHTML: true,
+                        pointFormat: '<span style="color:{series.color}">{series.name}</span>: <b>{point.percentage:.2f}%</b>' +
+                        '<br/>Рубли: {point.totalRurSum:,.0f} P<br/>Доллары: {point.totalUsdSum:,.0f} $'
+                    },
+                    xAxis: xAxis,
                     yAxis: {
                         stackLabels: {
                             style: {
@@ -360,7 +414,6 @@
                     }
                 })
             }
-
             function createIndexChangeDynamic($container, filterData, jsonData, customParams) {
                 var chart = jsonData[0],
                         series = chart.series;
