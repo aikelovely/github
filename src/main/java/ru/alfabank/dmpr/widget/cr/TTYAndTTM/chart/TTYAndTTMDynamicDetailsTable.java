@@ -88,6 +88,27 @@ public class TTYAndTTMDynamicDetailsTable extends BaseWidget<TTYAndTTMOptions, L
                 }
             });
         }
+        if(options.processIds == null || options.processIds.length == 0 || ArrayUtils.contains(options.processIds, 3)){
+            LinqWrapper<Dynamic> filteredData = data.filter(new Predicate<Dynamic>() {
+                @Override
+                public boolean check(Dynamic item) {
+                    return item.processId == 3;
+                }
+            });
+
+            filteredData.group(new Selector<Dynamic, Pair<Long, String>>() {
+                @Override
+                public Pair<Long, String> select(Dynamic item) {
+                    return Pair.of(item.id, item.name);
+                }
+            }).each(new Action<Group<Pair<Long, String>, Dynamic>>() {
+                @Override
+                public void act(Group<Pair<Long, String>, Dynamic> group) {
+                    rows.add(createRow(group, 3, dates, options));
+                }
+            });
+        }
+
 
         return LinqWrapper.from(rows).sort(new Selector<Map<String, Object>, Comparable>() {
             @Override

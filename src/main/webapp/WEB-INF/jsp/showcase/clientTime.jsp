@@ -200,7 +200,8 @@
                         main: {
                             tabs: [
                                 {title: "КБ 10-100", customParams: {processId: 1, group: 'cb10And100'}, group: "cb10And100"},
-                                {title: "КБ 100+", customParams: {processId: 2, group: 'cb100Plus'}, group: "cb100Plus"},
+                                {title: "КБ 100-300", customParams: {processId: 2, group: 'cb100Plus'}, group: "cb100Plus"},
+                                {title: "КБ 300+", customParams: {processId: 3, group: 'cb300Plus'}, group: "cb300Plus"},
                                 {title: "Total", customParams: {processId: 0, group: 'total'}, group: "total"}],
                             sameMarkup: true
                         }
@@ -270,7 +271,38 @@
                             },
                             dontShowAfterMaster: true
                         }]
-                    }, {
+                    },
+                        {
+                            name: "cb300Plus",
+                            charts: {
+                                breadcrumbs: {
+                                    jsFunc: createBreadcrumbs,
+                                    dataSource: "ClientTimeBreadcrumbs",
+                                    additionalParams: {processId: 3}
+                                },
+                                dynamicRequestByGroup: {
+                                    jsFunc: createDynamicRequestByGroup,
+                                    dataSource: "ClientTimeDynamicRequestByGroup",
+                                    additionalParams: {processId: 3}
+                                }
+                            },
+                            slaves: [{
+                                name: "cb300PlusByUnit",
+                                charts: {
+                                    dynamicWithPie: {
+                                        jsFunc: createDynamic,
+                                        dataSource: "ClientTimeDynamicWithPie",
+                                        additionalParams: {processId: 3}
+                                    },
+                                    detailsTable: {
+                                        jsFunc: createDetailsTable,
+                                        dataSource: "ClientTimeDetailsTable",
+                                        additionalParams: {processId: 3}
+                                    }
+                                },
+                                dontShowAfterMaster: true
+                            }]
+                        },{
                         name: "total",
                         charts: {
                             breadcrumbs: {
