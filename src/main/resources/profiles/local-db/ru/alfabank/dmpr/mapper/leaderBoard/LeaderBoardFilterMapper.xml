@@ -24,4 +24,26 @@
 
         ]]>
     </select>
+    <select id="getTimeUnits" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_leaderboard_api.get_timeunits)
+        order by sort_order
+    </select>
+
+    <select id="getKpi5" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        select id, name
+        from table(pkg_leaderboard_api.get_kpi5)
+        order by sort_order
+    </select>
+
+    <select id="getWeeks" resultType="ru.alfabank.dmpr.model.Week">
+        select
+        week_id as id,
+        week_year as year,
+        week_num as weekNum,
+        week_start_date as startDate,
+        week_end_date as endDate
+        from table(pkg_leaderboard_api.get_weeks)
+    </select>
+
 </mapper>

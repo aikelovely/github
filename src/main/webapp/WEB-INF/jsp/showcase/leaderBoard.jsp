@@ -21,7 +21,7 @@
                 padding: 10px 4px;
             }
 
-            .tab-1, .tab-2, .tab-3, .tab-4, .tab-5 {
+            .tab-1, .tab-2, .tab-3, .tab-4, .tab-5, .tab-6 {
                 color: #fff !important;
             }
 
@@ -63,6 +63,13 @@
 
             .active .tab-5 {
                 background-color: #DEC53E !important;
+            }
+            .tab-6 {
+                background-color: rgba(102, 102, 102, 0.75) !important;
+            }
+
+            .active .tab-6 {
+                background-color: #474747 !important;
             }
 
             hr {
@@ -218,7 +225,8 @@
                                 "Клиенты",
                                 "Процессы и технологии",
                                 "Эффективность",
-                                "Риски"
+                                "Риски",
+                                 "Достижения"
                             ]
                         }
                     },
@@ -298,7 +306,8 @@
                             dataSource: "LeaderBoardKpi23_24Chart"
                         }
                     },
-                    slaves: [{
+                    slaves: [
+                        {
                         name: "withQuarter",
                         filters: {
                             quarter: {
@@ -362,6 +371,86 @@
                                 defaultValue: "1",
                                 width: 145,
                                 forceShowCharts: true
+                            },
+                            timeUnitId: {
+                                type: "Select",
+                                multiple: false,
+                                title: "Единица времени",
+                                dataSource: {
+                                    url: "leaderBoardFilter/timeUnits"
+                                },
+                                defaultValue: "4",
+                                width: 125
+                            },
+                            kpi5: {
+                                type: "Select",
+                                multiple: false,
+                                title: "Показатели  «Достижения»",
+                                dataSource: {
+                                    url: "leaderBoardFilter/Kpi5"
+                                },
+                                optionsCaption: "Все",
+                                width: 175
+                            },
+                            startDateId: {
+                                type: "Select",
+                                multiple: false,
+                                title: "Период, с",
+                                dataSource: {
+                                    url: "leaderBoardFilter/startDates",
+                                    params: [{name: "startDate", group: "default", required: true},
+                                        {name: "startYear", group: "kpi14", required: true},
+                                        {
+                                        name: "timeUnitId",
+                                        group: "kpi14",
+                                        required: true
+                                    }]
+                                },
+                                width: 265,
+                                postInit: createStartDateIdSubscriptions
+                                <%--defaultValue: ${startDateId}--%>
+                            },
+                            startYear: {
+                                params: [{name: "startDate", group: "default", required: true}],
+                                type: "DatePicker",
+                                title: "Год",
+                                datepickerOptions: {
+                                    minViewMode: 2,
+                                    format: 'yyyy'
+                                },
+                                <%--defaultValue: new Date(${startDateYear}, 0, 1),--%>
+                                notAfter: "kpi14.endYear",
+                                width: 90
+                            },
+                            endYear: {
+                                type: "DatePicker",
+                                params: [{name: "startDate", group: "default", required: true}],
+                                title: "Год",
+                                datepickerOptions: {
+                                    minViewMode: 2,
+                                    format: 'yyyy'
+                                },
+                                <%--defaultValue: new Date(${endDateYear}, 0, 1),--%>
+                                notBefore: "kpi14.startYear",
+                                width: 90
+                            },
+                            endDateId: {
+                                type: "Select",
+                                multiple: false,
+                                title: "Период, по",
+                                dataSource: {
+                                    url: "leaderBoardFilter/endDates",
+                                    params: [{name: "startDate", group: "default", required: true},
+                                        {name: "endYear", group: "kpi14", required: true},
+                                        {
+                                        name: "timeUnitId",
+                                        group: "kpi14",
+                                        required: true
+                                    }]
+                                },
+                                width: 265,
+                                postInit: createEndDateIdSubscriptions
+                                <%--defaultValue: ${endDateId}--%>
                             }
                         },
                         charts: {
@@ -372,7 +461,8 @@
                             }
                         }
                     }]
-                }, {
+                },
+                    {
                     name: "kpi8",
                     filters: {
                         startDate: {
@@ -1913,6 +2003,52 @@
                 });
             }
 
+
+
+            function createStartDateIdSubscriptions(config, filter, viewModel) {
+                filter.value.subscribe(function (currentValue) {
+                    var startDateIdFilter = viewModel.getFilter("kpi14.startDateId");
+                    var endDateIdFilter = viewModel.getFilter("kpi14.endDateId");
+                    if (startDateIdFilter.getSelectedOptions().length && endDateIdFilter.getSelectedOptions().length) {
+                        var startDateSelected = moment(startDateIdFilter.getSelectedOptions()[0].startDate);
+                        var endDateSelected = moment(endDateIdFilter.getSelectedOptions()[0].startDate);
+
+                        if (startDateSelected > endDateSelected) {
+                            var firstPositive = _.find(endDateIdFilter.options(), function (op) {
+                                return moment(op.startDate) >= startDateSelected;
+                            });
+
+                            if (firstPositive) {
+                                endDateIdFilter.value(firstPositive.id);
+                            }
+                        }
+                    }
+                });
+            }
+
+            function createEndDateIdSubscriptions(config, filter, viewModel) {
+                filter.value.subscribe(function (currentValue) {
+                    var startDateIdFilter = viewModel.getFilter("kpi14.startDateId");
+                    var endDateIdFilter = viewModel.getFilter("kpi14.endDateId");
+
+                    if (startDateIdFilter.getSelectedOptions().length && endDateIdFilter.getSelectedOptions().length) {
+                        var startDateSelected = moment(startDateIdFilter.getSelectedOptions()[0].startDate);
+                        var endDateSelected = moment(endDateIdFilter.getSelectedOptions()[0].startDate);
+
+                        if (startDateSelected > endDateSelected) {
+                            var firstPositive = _.findLast(startDateIdFilter.options(), function (op) {
+                                return moment(op.startDate) <= endDateSelected;
+                            });
+
+                            if (firstPositive) {
+                                startDateIdFilter.value(firstPositive.id);
+                            }
+                        }
+                    }
+                });
+            }
+
+
             function createQuarterDynamicChartDeprecated($container, filterData, jsonData, customParams) {
                 var chart = jsonData[0],
                         series = chart.series,
@@ -2223,6 +2359,42 @@
                         </div>
                         <chart params="name: 'placeholder5'" class="mb-0"></chart>
                     </div>
+
+                </tab>
+                <tab>
+                    <div class="filter-row">
+
+                        <div class="filter-element">
+                            <filter params="name: 'timeUnitId', group: 'kpi14'"></filter>
+                        </div>
+
+                        <div class="filter-element">
+                            <filter params="name: 'kpi5', group: 'kpi14'"></filter>
+                        </div>
+                        <div class="filter-element">
+                            <filter params="name: 'startYear', group: 'kpi14'"></filter>
+                        </div>
+                        <div class="filter-element">
+                            <filter params="name: 'startDateId', group: 'kpi14'"></filter>
+                        </div>
+                        <div class="filter-element">
+                            <filter params="name: 'endYear', group: 'kpi14'"></filter>
+                        </div>
+                        <div class="filter-element">
+                            <filter params="name: 'endDateId', group: 'kpi14'"></filter>
+                        </div>
+                        <filter-log group="kpi14"></filter-log>
+                    </div>
+
+                    <%--<div class="row mb-0">--%>
+                            <%--&lt;%&ndash;<div class="col-xs-8">&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;<chart params="name: 'kpi16Chart'"></chart>&ndash;%&gt;--%>
+                            <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                        <%--<div class="col-xs-4">--%>
+                            <%--<chart params="name: 'kpi15ByYearChart'"></chart>--%>
+                        <%--</div>--%>
+                        <%--<chart params="name: 'placeholder5'" class="mb-0"></chart>--%>
+                    <%--</div>--%>
 
                 </tab>
             </tab-strip>

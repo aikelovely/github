@@ -6,7 +6,9 @@ import org.springframework.stereotype.Repository;
 import ru.alfabank.dmpr.infrastructure.linq.LinqWrapper;
 import ru.alfabank.dmpr.infrastructure.linq.Predicate;
 import ru.alfabank.dmpr.mapper.leaderBoard.LeaderBoardFilterMapper;
+import ru.alfabank.dmpr.model.BaseEntity;
 import ru.alfabank.dmpr.model.BaseEntityWithCode;
+import ru.alfabank.dmpr.model.Week;
 
 /**
  * Репозиторий для фильтров витрины КПЭ ОБ.
@@ -57,4 +59,36 @@ public class LeaderBoardFilterRepository {
                     }
                 });
     }
+
+    /**
+     * Возвращает список значений для фильтра "Единица времени"
+     * @return
+     */
+    public BaseEntity[] getTimeUnits() {
+        return mapper.getTimeUnits();
+    }
+
+    public BaseEntity[] getKpi5() {
+        return mapper.getKpi5();
+    }
+
+    public Week[] getWeeks(final int year) {
+        return LinqWrapper.from(mapper.getWeeks())
+                .filter(new Predicate<Week>() {
+                    @Override
+                    public boolean check(Week item) {
+                        return item.year == year;
+                    }
+                })
+                .toArray(Week.class);
+    }
+
+    /**
+     * Возвращает список значений для фильтра "Период, с", "Период, по" для единицы времени Неделя
+     * @return
+     */
+    public Week[] getWeeks() {
+        return mapper.getWeeks();
+    }
+
 }
