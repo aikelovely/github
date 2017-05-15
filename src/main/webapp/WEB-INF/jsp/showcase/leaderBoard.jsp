@@ -226,7 +226,7 @@
                                 "Процессы и технологии",
                                 "Эффективность",
                                 "Риски",
-                                 "Достижения"
+                                "Достижения"
                             ]
                         }
                     },
@@ -308,187 +308,161 @@
                     },
                     slaves: [
                         {
-                        name: "withQuarter",
-                        filters: {
-                            quarter: {
-                                type: "Select",
-                                multiple: false,
-                                title: "Квартал",
-                                dataSource: {
-                                    data: [
-                                        {id: 1, name: "1 квартал"},
-                                        {id: 2, name: "2 квартал"},
-                                        {id: 3, name: "3 квартал"},
-                                        {id: 4, name: "4 квартал"}
-                                    ]
-                                },
-                                forceShowCharts: true,
-                                defaultValue: moment().quarter(),
-                                width: 120
-                            }
-                        },
-                        charts: {
-                            kpi9PrevYearChart: {
-                                jsFunc: createKpi9Chart,
-                                dataSource: "LeaderBoardKpi9Chart",
-                                customParams: {isPrevYear: true}
-                            },
-                            kpi9CurrentYearChart: {
-                                jsFunc: createKpi9Chart,
-                                dataSource: "LeaderBoardKpi9Chart",
-                                customParams: {isPrevYear: false}
-                            },
-                            kpi10PrevYearChart: {
-                                jsFunc: createKpi10Chart,
-                                dataSource: "LeaderBoardKpi10Chart",
-                                customParams: {
-                                    isPrevYear: true,
-                                    messagesContainer: "#kpi10PrevYearChartMessages"
+                            name: "withQuarter",
+                            filters: {
+                                quarter: {
+                                    type: "Select",
+                                    multiple: false,
+                                    title: "Квартал",
+                                    dataSource: {
+                                        data: [
+                                            {id: 1, name: "1 квартал"},
+                                            {id: 2, name: "2 квартал"},
+                                            {id: 3, name: "3 квартал"},
+                                            {id: 4, name: "4 квартал"}
+                                        ]
+                                    },
+                                    forceShowCharts: true,
+                                    defaultValue: moment().quarter(),
+                                    width: 120
                                 }
                             },
-                            kpi10CurrentYearChart: {
-                                jsFunc: createKpi10Chart,
-                                dataSource: "LeaderBoardKpi10Chart",
-                                customParams: {
-                                    isPrevYear: false,
-                                    messagesContainer: "#kpi10CurrentYearChartMessages"
+                            charts: {
+                                kpi9PrevYearChart: {
+                                    jsFunc: createKpi9Chart,
+                                    dataSource: "LeaderBoardKpi9Chart",
+                                    customParams: {isPrevYear: true}
+                                },
+                                kpi9CurrentYearChart: {
+                                    jsFunc: createKpi9Chart,
+                                    dataSource: "LeaderBoardKpi9Chart",
+                                    customParams: {isPrevYear: false}
+                                },
+                                kpi10PrevYearChart: {
+                                    jsFunc: createKpi10Chart,
+                                    dataSource: "LeaderBoardKpi10Chart",
+                                    customParams: {
+                                        isPrevYear: true,
+                                        messagesContainer: "#kpi10PrevYearChartMessages"
+                                    }
+                                },
+                                kpi10CurrentYearChart: {
+                                    jsFunc: createKpi10Chart,
+                                    dataSource: "LeaderBoardKpi10Chart",
+                                    customParams: {
+                                        isPrevYear: false,
+                                        messagesContainer: "#kpi10CurrentYearChartMessages"
+                                    }
                                 }
                             }
-                        }
-                    }, {
-                        name: "kpi14",
-                        filters: {
-                            kpi14Value: {
-                                type: "Select",
-                                multiple: false,
-                                title: "Затраты",
-                                dataSource: {
-                                    data: [
-                                        {id: "1", name: "Более $500K"},
-                                        {id: "2", name: "Все"}
-                                    ]
+                        }, {
+                            name: "kpi14",
+                            filters: {
+                                kpi14Value: {
+                                    type: "Select",
+                                    multiple: false,
+                                    title: "Затраты",
+                                    dataSource: {
+                                        data: [
+                                            {id: "1", name: "Более $500K"},
+                                            {id: "2", name: "Все"}
+                                        ]
+                                    },
+                                    defaultValue: "1",
+                                    width: 145,
+                                    forceShowCharts: true
                                 },
-                                defaultValue: "1",
-                                width: 145,
+                                timeUnitId: {
+                                    type: "Select",
+                                    multiple: false,
+                                    title: "Единица времени",
+                                    dataSource: {
+                                        url: "leaderBoardFilter/timeUnits"
+                                    },
+                                    defaultValue: "4",
+                                    width: 125
+                                },
+                                kpi5: {
+                                    type: "Select",
+                                    multiple: false,
+                                    title: "Показатели  «Достижения»",
+                                    dataSource: {
+                                        url: "leaderBoardFilter/Kpi5"
+                                    },
+                                    optionsCaption: "Все",
+                                    width: 175
+                                },
+                                startDateId: {
+                                    type: "Select",
+                                    multiple: false,
+                                    title: "Период, с",
+                                    dataSource: {
+                                        url: "leaderBoardFilter/startDates",
+                                        params: [{name: "startDate", group: "default", required: true},
+                                            {
+                                                name: "timeUnitId",
+                                                group: "kpi14",
+                                                required: true
+                                            }]
+                                    },
+                                    width: 265,
+                                           postInit: createStartDateIdSubscriptions
+                                    <%--defaultValue: ${startDateId}--%>
+                                },
+                                endDateId: {
+                                    type: "Select",
+                                    multiple: false,
+                                    title: "Период, по",
+                                    dataSource: {
+                                        url: "leaderBoardFilter/endDates",
+                                        params: [{name: "startDate", group: "default", required: true},
+                                            {
+                                                name: "timeUnitId",
+                                                group: "kpi14",
+                                                required: true
+                                            }]
+                                    },
+                                    width: 265,
+                                    postInit: createEndDateIdSubscriptions
+                                    <%--defaultValue: ${endDateId}--%>
+                                }
+                            },
+                            charts: {
+                                kpi14Chart: {
+                                    jsFunc: createQuarterDynamicChartDeprecated,
+                                    dataSource: "LeaderBoardKpi14Chart",
+                                    customParams: {valueSuffix: "%", smallLabels: true}
+                                }
+                            }
+                        }]
+                },
+                    {
+                        name: "kpi8",
+                        filters: {
+                            startDate: {
+                                type: "DatePicker",
+                                title: "Месяц",
+                                datepickerOptions: {
+                                    minViewMode: 1
+                                },
+                                defaultValue: moment().date(0).toDate(),
+                                lastDayOfMonth: true,
                                 forceShowCharts: true
-                            },
-                            timeUnitId: {
-                                type: "Select",
-                                multiple: false,
-                                title: "Единица времени",
-                                dataSource: {
-                                    url: "leaderBoardFilter/timeUnits"
-                                },
-                                defaultValue: "4",
-                                width: 125
-                            },
-                            kpi5: {
-                                type: "Select",
-                                multiple: false,
-                                title: "Показатели  «Достижения»",
-                                dataSource: {
-                                    url: "leaderBoardFilter/Kpi5"
-                                },
-                                optionsCaption: "Все",
-                                width: 175
-                            },
-                            startDateId: {
-                                type: "Select",
-                                multiple: false,
-                                title: "Период, с",
-                                dataSource: {
-                                    url: "leaderBoardFilter/startDates",
-                                    params: [{name: "startDate", group: "default", required: true},
-                                        {name: "startYear", group: "kpi14", required: true},
-                                        {
-                                        name: "timeUnitId",
-                                        group: "kpi14",
-                                        required: true
-                                    }]
-                                },
-                                width: 265,
-                                postInit: createStartDateIdSubscriptions
-                                <%--defaultValue: ${startDateId}--%>
-                            },
-                            startYear: {
-                                params: [{name: "startDate", group: "default", required: true}],
-                                type: "DatePicker",
-                                title: "Год",
-                                datepickerOptions: {
-                                    minViewMode: 2,
-                                    format: 'yyyy'
-                                },
-                                <%--defaultValue: new Date(${startDateYear}, 0, 1),--%>
-                                notAfter: "kpi14.endYear",
-                                width: 90
-                            },
-                            endYear: {
-                                type: "DatePicker",
-                                params: [{name: "startDate", group: "default", required: true}],
-                                title: "Год",
-                                datepickerOptions: {
-                                    minViewMode: 2,
-                                    format: 'yyyy'
-                                },
-                                <%--defaultValue: new Date(${endDateYear}, 0, 1),--%>
-                                notBefore: "kpi14.startYear",
-                                width: 90
-                            },
-                            endDateId: {
-                                type: "Select",
-                                multiple: false,
-                                title: "Период, по",
-                                dataSource: {
-                                    url: "leaderBoardFilter/endDates",
-                                    params: [{name: "startDate", group: "default", required: true},
-                                        {name: "endYear", group: "kpi14", required: true},
-                                        {
-                                        name: "timeUnitId",
-                                        group: "kpi14",
-                                        required: true
-                                    }]
-                                },
-                                width: 265,
-                                postInit: createEndDateIdSubscriptions
-                                <%--defaultValue: ${endDateId}--%>
                             }
                         },
                         charts: {
-                            kpi14Chart: {
-                                jsFunc: createQuarterDynamicChartDeprecated,
-                                dataSource: "LeaderBoardKpi14Chart",
-                                customParams: {valueSuffix: "%", smallLabels: true}
+                            kpi8_1Dynamic: {
+                                jsFunc: createKpi8Dynamic,
+                                dataSource: "LeaderBoardKpi8DynamicChart",
+                                customParams: {kpiCode: "KPIOB~8~1"}
+                            },
+                            kpi8_2Dynamic: {
+                                jsFunc: createKpi8Dynamic,
+                                dataSource: "LeaderBoardKpi8DynamicChart",
+                                customParams: {kpiCode: "KPIOB~8~2"}
                             }
                         }
                     }]
-                },
-                    {
-                    name: "kpi8",
-                    filters: {
-                        startDate: {
-                            type: "DatePicker",
-                            title: "Месяц",
-                            datepickerOptions: {
-                                minViewMode: 1
-                            },
-                            defaultValue: moment().date(0).toDate(),
-                            lastDayOfMonth: true,
-                            forceShowCharts: true
-                        }
-                    },
-                    charts: {
-                        kpi8_1Dynamic: {
-                            jsFunc: createKpi8Dynamic,
-                            dataSource: "LeaderBoardKpi8DynamicChart",
-                            customParams: {kpiCode: "KPIOB~8~1"}
-                        },
-                        kpi8_2Dynamic: {
-                            jsFunc: createKpi8Dynamic,
-                            dataSource: "LeaderBoardKpi8DynamicChart",
-                            customParams: {kpiCode: "KPIOB~8~2"}
-                        }
-                    }
-                }]
             };
 
             function isSeriesFullOfZeros(series) {
@@ -631,8 +605,6 @@
                          */
 
 
-
-
 //                        if (value) {  }
 //                           if (kpiDataItem.currentValue) {  value = (kpiDataItem.currentValue).toFixed(1);}
 
@@ -655,19 +627,19 @@
                     value *= 100;
                 }
 //              округляем
-                if ((value === undefined) || (value ==null)  || isNaN(value))
-                {
-                    return  value;
+                if ((value === undefined) || (value == null) || isNaN(value)) {
+                    return value;
                 }
-                else
-                {value = roundPlus(value ,metaData.dataLabelPrecision);
-                    return  value;}
+                else {
+                    value = roundPlus(value, metaData.dataLabelPrecision);
+                    return value;
+                }
             }
 
             function roundPlus(x, n) { //x - число, n - количество знаков
-                if(isNaN(x) || isNaN(n)) return false;
-                var m = Math.pow(10,n);
-                return Math.round(x*m)/m;
+                if (isNaN(x) || isNaN(n)) return false;
+                var m = Math.pow(10, n);
+                return Math.round(x * m) / m;
 
             }
 
@@ -1005,7 +977,7 @@
                         if (config.yAxis.min == undefined) {
                             config.yAxis.min = Math.max(Math.min(currentValue, prevValue, planValue) - 5, 0);
 
-                            config.yAxis.max=Math.max(Math.max(currentValue, prevValue, planValue) - 1, 0);
+                            config.yAxis.max = Math.max(Math.max(currentValue, prevValue, planValue) - 1, 0);
                         }
 
 
@@ -2004,7 +1976,6 @@
             }
 
 
-
             function createStartDateIdSubscriptions(config, filter, viewModel) {
                 filter.value.subscribe(function (currentValue) {
                     var startDateIdFilter = viewModel.getFilter("kpi14.startDateId");
@@ -2294,7 +2265,7 @@
                             <%--</div>--%>
                             <%--</div>--%>
                             <%--</div>--%>
-                        <div class="col-xs-6" >
+                        <div class="col-xs-6">
                             <chart params="name: 'kpi22Chart'"></chart>
                         </div>
                     </div>
@@ -2362,39 +2333,33 @@
 
                 </tab>
                 <tab>
-                    <div class="filter-row">
-
-                        <div class="filter-element">
-                            <filter params="name: 'timeUnitId', group: 'kpi14'"></filter>
+                    <div class="filter-container">
+                        <div class="filter-row">
+                            <div class="filter-element">
+                                <filter params="name: 'timeUnitId', group: 'kpi14'"></filter>
+                            </div>
+                            <div class="filter-element">
+                                <filter params="name: 'kpi5', group: 'kpi14'"></filter>
+                            </div>
+                            <div class="filter-element">
+                                <filter params="name: 'startDateId', group: 'kpi14'"></filter>
+                            </div>
+                            <div class="filter-element">
+                                <filter params="name: 'endDateId', group: 'kpi14'"></filter>
+                            </div>
                         </div>
-
-                        <div class="filter-element">
-                            <filter params="name: 'kpi5', group: 'kpi14'"></filter>
-                        </div>
-                        <div class="filter-element">
-                            <filter params="name: 'startYear', group: 'kpi14'"></filter>
-                        </div>
-                        <div class="filter-element">
-                            <filter params="name: 'startDateId', group: 'kpi14'"></filter>
-                        </div>
-                        <div class="filter-element">
-                            <filter params="name: 'endYear', group: 'kpi14'"></filter>
-                        </div>
-                        <div class="filter-element">
-                            <filter params="name: 'endDateId', group: 'kpi14'"></filter>
-                        </div>
-                        <filter-log group="kpi14"></filter-log>
+                        <filter-log params="group: 'kpi14'"></filter-log>
                     </div>
 
-                    <%--<div class="row mb-0">--%>
-                            <%--&lt;%&ndash;<div class="col-xs-8">&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;<chart params="name: 'kpi16Chart'"></chart>&ndash;%&gt;--%>
-                            <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                        <%--<div class="row mb-0">--%>
+                        <%--&lt;%&ndash;<div class="col-xs-8">&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<chart params="name: 'kpi16Chart'"></chart>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
                         <%--<div class="col-xs-4">--%>
-                            <%--<chart params="name: 'kpi15ByYearChart'"></chart>--%>
+                        <%--<chart params="name: 'kpi15ByYearChart'"></chart>--%>
                         <%--</div>--%>
                         <%--<chart params="name: 'placeholder5'" class="mb-0"></chart>--%>
-                    <%--</div>--%>
+                        <%--</div>--%>
 
                 </tab>
             </tab-strip>

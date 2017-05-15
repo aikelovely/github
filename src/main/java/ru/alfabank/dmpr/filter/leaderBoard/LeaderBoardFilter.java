@@ -40,9 +40,8 @@ public class LeaderBoardFilter {
     }
 
     public BaseEntity[] getStartDates(@Param("startDate") LocalDate yearDate, @Param("timeUnitId") long timeUnitId){
-        if(timeUnitId == Period.week.getValue()){
-            Week[] weeks = repository.getWeeks(yearDate.getYear());
-            return PeriodSelectHelper.getWeeks(weeks);
+        if(timeUnitId == Period.quarter.getValue()){
+           return PeriodSelectHelper.getQuarter(yearDate.getYear());
         }
         return PeriodSelectHelper.getMonths(yearDate.getYear());
     }
@@ -54,9 +53,8 @@ public class LeaderBoardFilter {
      * @return
      */
     public BaseEntity[] getEndDates(@Param("startDate") LocalDate yearDate, @Param("timeUnitId") long timeUnitId){
-        if(timeUnitId == Period.week.getValue()){
-            Week[] weeks = repository.getWeeks(yearDate.getYear());
-            return PeriodSelectHelper.getWeeks(weeks);
+        if(timeUnitId == Period.quarter.getValue()){
+            return PeriodSelectHelper.getQuarter(yearDate.getYear());
         }
         return PeriodSelectHelper.getMonths(yearDate.getYear());
     }
