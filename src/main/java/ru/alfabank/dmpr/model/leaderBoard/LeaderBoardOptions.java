@@ -42,7 +42,7 @@ public class LeaderBoardOptions extends BaseOptions {
      * Квартал. Вспомогательное поле, используется для расчета endDate
      */
     public int quarter;
-
+    public int timeUnitId;
     public int kpi14Value;
 
     /**

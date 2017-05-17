@@ -1,10 +1,7 @@
 package ru.alfabank.dmpr.mapper.leaderBoard;
 
 import ru.alfabank.dmpr.model.BaseEntityWithCode;
-import ru.alfabank.dmpr.model.leaderBoard.ChartMetaData;
-import ru.alfabank.dmpr.model.leaderBoard.KpiDataItem;
-import ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions;
-import ru.alfabank.dmpr.model.leaderBoard.ReportDashboardQualityBo;
+import ru.alfabank.dmpr.model.leaderBoard.*;
 
 /**
  * MyBatis mapper. Используется для загрузки данных для графиков витрины КПЭ ОБ.
@@ -22,7 +19,7 @@ public interface LeaderBoardMapper {
      * @return KpiDataItem[]
      */
     KpiDataItem[] getKpiData(LeaderBoardOptions options);
-
+    Kpi5DescriptionData[] getKpi5DescriptionData(LeaderBoardOptions options);
     /**
      * Возвращает данные за последний месяц. Используется для kpi 23 и 24
      * @param options Список параметров

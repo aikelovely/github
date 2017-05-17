@@ -67,6 +67,31 @@
         ]]>
     </select>
 
+
+    <select id="getKpi5DescriptionData" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions"
+            resultType="ru.alfabank.dmpr.model.leaderBoard.Kpi5DescriptionData">
+        <![CDATA[
+
+       select
+          value_day valueDay,
+          DG_NAME dgName,
+          kpi_name nameKpi,
+          ccode   codeKpi,
+          description,
+          PRDTYPE_UK typePeriod
+         from table(PKG_LEADERBOARD_API.get_kpi5_description_data (
+          p_DateFrom        => #{startDate},
+          p_DateTill        => #{endDate},
+          p_KPIIDs           => #{kpiIds},
+          p_PrdTypeUK =>   #{timeUnitId}
+        )) where rownum<15
+        ]]>
+    </select>
+
+
+
+
     <select id="getLayout" useCache="false"
             parameterType="ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions"
             resultType="ru.alfabank.dmpr.model.leaderBoard.ChartMetaData">

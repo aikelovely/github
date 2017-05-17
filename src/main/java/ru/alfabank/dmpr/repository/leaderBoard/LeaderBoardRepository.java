@@ -11,6 +11,7 @@ import ru.alfabank.dmpr.model.leaderBoard.ChartMetaData;
 import ru.alfabank.dmpr.model.leaderBoard.KpiDataItem;
 import ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions;
 import ru.alfabank.dmpr.model.leaderBoard.ReportDashboardQualityBo;
+import ru.alfabank.dmpr.model.leaderBoard.Kpi5DescriptionData;
 
 /**
  * Репозиторий для графиков витрины КПЭ ОБ.
@@ -74,6 +75,10 @@ public class LeaderBoardRepository {
         return mapper.getKpiData(options);
     }
 
+    public Kpi5DescriptionData[] getKpi5DescriptionData(LeaderBoardOptions options)
+    {
+        return mapper.getKpi5DescriptionData(options);
+    }
     public ChartMetaData[] getLayout(LeaderBoardOptions options) {
         return mapper.getLayout(options);
     }

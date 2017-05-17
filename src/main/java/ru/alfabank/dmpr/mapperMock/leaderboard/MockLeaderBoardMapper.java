@@ -8,7 +8,7 @@ import ru.alfabank.dmpr.model.leaderBoard.ChartMetaData;
 import ru.alfabank.dmpr.model.leaderBoard.KpiDataItem;
 import ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions;
 import ru.alfabank.dmpr.model.leaderBoard.ReportDashboardQualityBo;
-
+import ru.alfabank.dmpr.model.leaderBoard.Kpi5DescriptionData;
 import java.util.Objects;
 
 @Component
@@ -31,6 +31,11 @@ public class MockLeaderBoardMapper implements LeaderBoardMapper {
         }
 
         return delegate.getKpiData(options);
+    }
+
+    @Override
+    public Kpi5DescriptionData[] getKpi5DescriptionData(LeaderBoardOptions options) {
+        return new Kpi5DescriptionData[0];
     }
 
     @Override

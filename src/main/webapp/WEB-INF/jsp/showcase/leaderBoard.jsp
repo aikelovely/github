@@ -64,6 +64,7 @@
             .active .tab-5 {
                 background-color: #DEC53E !important;
             }
+
             .tab-6 {
                 background-color: rgba(102, 102, 102, 0.75) !important;
             }
@@ -381,6 +382,11 @@
                                     },
                                     defaultValue: "4",
                                     width: 125
+                                    ,
+                                    onHide: function () {
+                                    //    app.viewModel.group.DataTableGroup.showCharts();
+                                        app.viewModel.groups.DataTableGroup.showCharts();
+                                    }
                                 },
                                 kpi5: {
                                     type: "Select",
@@ -406,7 +412,7 @@
                                             }]
                                     },
                                     width: 265,
-                                           postInit: createStartDateIdSubscriptions
+                                    postInit: createStartDateIdSubscriptions
                                     <%--defaultValue: ${startDateId}--%>
                                 },
                                 endDateId: {
@@ -433,8 +439,25 @@
                                     dataSource: "LeaderBoardKpi14Chart",
                                     customParams: {valueSuffix: "%", smallLabels: true}
                                 }
+//                                ,
+//                                Kpi5DescriptionDataTable: {
+//                                    jsFunc: createKpi5DescriptionDataTable,
+//                                    dataSource: "leaderBoardDescriptionTable"
+//                                }
                             }
-                        }]
+                            ,
+                            slaves: [{
+                                name: "DataTableGroup",
+                                charts: {
+                                    Kpi5DescriptionDataTable: {
+                                        jsFunc: createKpi5DescriptionDataTable,
+                                        dataSource: "leaderBoardDescriptionTable"
+                                    }
+                                }
+                                      }
+                                    ]
+                        }
+                    ]
                 },
                     {
                         name: "kpi8",
@@ -2019,6 +2042,81 @@
                 });
             }
 
+            function createKpi5DescriptionDataTable($container, filterData, jsonData, customParams) {
+                //  var systemUnitOptions = app.viewModel.getFilter("systemUnitIds").getSelectedOptions(),
+                //       systemUnitName = systemUnitOptions.length > 0 ? systemUnitOptions[0].name : "Единица сети",
+                rows = jsonData;
+
+                var columns = getDetailsColumns();
+
+                var detailInit = null;
+
+//                if(systemUnitOptions.length > 1){
+//                    detailInit = function(e){
+//                        var $container = $("<div/>").appendTo(e.detailCell),
+//                                systemUnit = systemUnitOptions[1],
+//                                parentId = e.data.unitId;
+//
+//                        var extender = {
+//                            systemUnitIds: [systemUnit.id],
+//                            cityIds: filterData.systemUnitIds[0] == 1 ? [parentId] : filterData.cityIds,
+//                            salesChannelIds: filterData.systemUnitIds[0] == 2 ? [parentId] : filterData.salesChannelIds,
+//                            bpTypeIds: filterData.systemUnitIds[0] == 3 ? [parentId] : filterData.bpTypeIds,
+//                            dopOfficeIds: filterData.systemUnitIds[0] == 4 ? [parentId] : filterData.dopOfficeIds
+//                        };
+//
+//                        var filterData2Level = _.assign({}, filterData, extender);
+//
+//                        $container.kendoGrid({
+//                            dataSource: {
+//                                transport: {
+//                                    read: function (o) {
+//                                        var request = app.ajaxUtils.postData("MassOpenAccountDetailsTable",
+//                                                JSON.stringify(filterData2Level));
+//                                        request.done(function (ajaxResult) {
+//                                            if (ajaxResult.success) {
+//                                                if(ajaxResult.data && ajaxResult.data.length > 1){
+//                                                    ajaxResult.data.splice(-1, 1);
+//                                                }
+//                                                o.success(ajaxResult.data);
+//
+//                                                if (app.viewModel.showSQL()) {
+//                                                    console.log("\n" + ajaxResult.queryList[0].sql);
+//                                                }
+//                                            } else {
+//                                                app.showAlert(ajaxResult.message);
+//                                            }
+//                                        });
+//                                    }
+//                                }
+//                            },
+//                            columns: getDetailsColumns()
+//                        });
+//                    }
+//                }
+
+                $container.kendoGrid({
+                    dataSource: {data: rows},
+                    sortable: true,
+                    columns: columns,
+                    detailInit: detailInit
+                });
+            }
+
+            function getDetailsColumns() {
+                var percentFormat = "{0:n1}%";
+
+                return [
+                    {
+                        field: "dgName",
+                        title: "dgName",
+                        width: 200
+                    },
+                    {
+                        field: "nameKpi",
+                        title: "nameKpi"
+                    }];
+            }
 
             function createQuarterDynamicChartDeprecated($container, filterData, jsonData, customParams) {
                 var chart = jsonData[0],
@@ -2350,7 +2448,13 @@
                         </div>
                         <filter-log params="group: 'kpi14'"></filter-log>
                     </div>
+                    <div class="row mb-0">
+                            <%--<div class="col-xs-8">--%>
+                            <%--<chart params="name: 'kpi16Chart'"></chart>--%>
+                            <%--</div>--%>
 
+                        <chart params="name: 'Kpi5DescriptionDataTable', group: 'DataTableGroup'" class="mb-0"></chart>
+                    </div>
                         <%--<div class="row mb-0">--%>
                         <%--&lt;%&ndash;<div class="col-xs-8">&ndash;%&gt;--%>
                         <%--&lt;%&ndash;<chart params="name: 'kpi16Chart'"></chart>&ndash;%&gt;--%>
