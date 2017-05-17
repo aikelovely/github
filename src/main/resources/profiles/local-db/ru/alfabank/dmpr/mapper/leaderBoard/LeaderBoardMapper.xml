@@ -69,7 +69,7 @@
 
 
     <select id="getKpi5DescriptionData" useCache="false"
-            parameterType="ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions"
+            parameterType="ru.alfabank.dmpr.model.leaderBoard.LeaderBoardQueryOptions"
             resultType="ru.alfabank.dmpr.model.leaderBoard.Kpi5DescriptionData">
         <![CDATA[
 
@@ -83,7 +83,7 @@
          from table(PKG_LEADERBOARD_API.get_kpi5_description_data (
           p_DateFrom        => #{startDate},
           p_DateTill        => #{endDate},
-          p_KPIIDs           => #{kpiIds},
+          p_KPIIDs           => #{kpiId},
           p_PrdTypeUK =>   #{timeUnitId}
         )) where rownum<15
         ]]>

@@ -19,7 +19,7 @@ public interface LeaderBoardMapper {
      * @return KpiDataItem[]
      */
     KpiDataItem[] getKpiData(LeaderBoardOptions options);
-    Kpi5DescriptionData[] getKpi5DescriptionData(LeaderBoardOptions options);
+    Kpi5DescriptionData[] getKpi5DescriptionData(LeaderBoardQueryOptions options);
     /**
      * Возвращает данные за последний месяц. Используется для kpi 23 и 24
      * @param options Список параметров

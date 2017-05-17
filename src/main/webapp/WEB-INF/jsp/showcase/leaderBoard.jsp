@@ -384,11 +384,10 @@
                                     width: 125
                                     ,
                                     onHide: function () {
-                                    //    app.viewModel.group.DataTableGroup.showCharts();
                                         app.viewModel.groups.DataTableGroup.showCharts();
                                     }
                                 },
-                                kpi5: {
+                                kpiId: {
                                     type: "Select",
                                     multiple: false,
                                     title: "Показатели  «Достижения»",
@@ -396,7 +395,10 @@
                                         url: "leaderBoardFilter/Kpi5"
                                     },
                                     optionsCaption: "Все",
-                                    width: 175
+                                    width: 175 ,
+                                    onHide: function () {
+                                        app.viewModel.groups.DataTableGroup.showCharts();
+                                    }
                                 },
                                 startDateId: {
                                     type: "Select",
@@ -412,7 +414,10 @@
                                             }]
                                     },
                                     width: 265,
-                                    postInit: createStartDateIdSubscriptions
+                                    postInit: createStartDateIdSubscriptions ,
+                                    onHide: function () {
+                                        app.viewModel.groups.DataTableGroup.showCharts();
+                                    }
                                     <%--defaultValue: ${startDateId}--%>
                                 },
                                 endDateId: {
@@ -429,7 +434,10 @@
                                             }]
                                     },
                                     width: 265,
-                                    postInit: createEndDateIdSubscriptions
+                                    postInit: createEndDateIdSubscriptions ,
+                                    onHide: function () {
+                                        app.viewModel.groups.DataTableGroup.showCharts();
+                                    }
                                     <%--defaultValue: ${endDateId}--%>
                                 }
                             },
@@ -2096,7 +2104,7 @@
 //                }
 
                 $container.kendoGrid({
-                    dataSource: {data: rows},
+                    dataSource: {data: jsonData[0].bag.data},
                     sortable: true,
                     columns: columns,
                     detailInit: detailInit
@@ -2437,7 +2445,7 @@
                                 <filter params="name: 'timeUnitId', group: 'kpi14'"></filter>
                             </div>
                             <div class="filter-element">
-                                <filter params="name: 'kpi5', group: 'kpi14'"></filter>
+                                <filter params="name: 'kpiId', group: 'kpi14'"></filter>
                             </div>
                             <div class="filter-element">
                                 <filter params="name: 'startDateId', group: 'kpi14'"></filter>

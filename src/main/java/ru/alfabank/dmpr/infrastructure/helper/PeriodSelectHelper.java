@@ -59,7 +59,14 @@ public class PeriodSelectHelper {
             }
         });
     }
-
+    public static PeriodSelectOption getMonthByIdQuarter(int year, final long id) {
+        return LinqWrapper.from(getQuarter(year)).firstOrNull(new Predicate<PeriodSelectOption>() {
+            @Override
+            public boolean check(PeriodSelectOption item) {
+                return item.id == id;
+            }
+        });
+    }
     public static PeriodSelectOption getMonthByDate(final LocalDate date) {
         return LinqWrapper.from(getMonths(date.getYear())).firstOrNull(new Predicate<PeriodSelectOption>() {
             @Override
@@ -120,6 +127,36 @@ public class PeriodSelectHelper {
 
                 if(startMonth != null) startDate = startMonth.startDate;
                 if(endMonth != null) endDate = endMonth.endDate;
+                break;
+            default:
+                break;
+        }
+
+        if (endDate == null) {
+            endDate = startDate;
+        }
+
+        return new LocalDate[]{ startDate, endDate };
+    }
+    public static LocalDate[] getDatesByBasePeriodOptions2(BasePeriodOptions options, Week[] weeks){
+
+        LocalDate startDate = new LocalDate();
+        LocalDate endDate = new LocalDate();
+
+        switch (options.timeUnitId) {
+            case 5:
+                PeriodSelectOption startMonth = getMonthByIdQuarter(options.startDate.getYear(), options.startDateId);
+                PeriodSelectOption endMonth = getMonthByIdQuarter(options.startDate.getYear(), options.endDateId);
+
+                if(startMonth != null) startDate = startMonth.startDate;
+                if(endMonth != null) endDate = endMonth.endDate;
+                break;
+            case 4:
+                PeriodSelectOption startMonth2 = getMonthById(options.startDate.getYear(), options.startDateId);
+                PeriodSelectOption endMonth2 = getMonthById(options.startDate.getYear(), options.endDateId);
+
+                if(startMonth2 != null) startDate = startMonth2.startDate;
+                if(endMonth2 != null) endDate = endMonth2.endDate;
                 break;
             default:
                 break;

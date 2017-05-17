@@ -7,6 +7,7 @@ public class BasePeriodOptions extends BaseOptions {
      * Значение фильтра "Год" используется в связке с фильтром "Период, с"
      * Обязательное поле.
      */
+    public LocalDate startDate;
     public LocalDate startYear;
 
     /**
