@@ -23,7 +23,8 @@
             var tabsConfig = {
                 tabs: [
                     {title: "КБ 10-100", customParams: {processId: 1}},
-                    {title: "КБ 100+", customParams: {processId: 2}}],
+                    {title: "КБ 100-300", customParams: {processId: 2}},
+                    {title: "КБ 300+", customParams: {processId: 3}}],
                 sameMarkup: true,
                 dynamicConfig: {
                     jsFunc: function (tabs, params) {
@@ -31,6 +32,7 @@
 
                         tabs[0].visible(processIds.length == 0 || processIds.indexOf("1") !== -1);
                         tabs[1].visible(processIds.length == 0 || processIds.indexOf("2") !== -1);
+                        tabs[2].visible(processIds.length == 0 || processIds.indexOf("3") !== -1);
                     },
                     params: ["processIds"]
                 }
