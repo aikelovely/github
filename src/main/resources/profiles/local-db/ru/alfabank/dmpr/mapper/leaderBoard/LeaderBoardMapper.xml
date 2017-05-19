@@ -74,18 +74,19 @@
         <![CDATA[
 
        select
-          value_day valueDay,
+           kpi_name nameKpi,
           DG_NAME dgName,
-          kpi_name nameKpi,
-          ccode   codeKpi,
+          PRDTYPE_name periodName,
           description,
-          PRDTYPE_UK typePeriod
+          ccode   codeKpi,
+          PRDTYPE_UK typePeriod ,
+          value_day valueDay
          from table(PKG_LEADERBOARD_API.get_kpi5_description_data (
           p_DateFrom        => #{startDate},
           p_DateTill        => #{endDate},
           p_KPIIDs           => #{kpiId},
           p_PrdTypeUK =>   #{timeUnitId}
-        )) where rownum<15
+        )) where rownum<55
         ]]>
     </select>
 

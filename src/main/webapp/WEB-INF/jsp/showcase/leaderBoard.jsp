@@ -2104,10 +2104,31 @@
 //                }
 
                 $container.kendoGrid({
-                    dataSource: {data: jsonData[0].bag.data},
+                    toolbar: [{name: "excel",text:"Выгрузка в excel"} ],
+                    excel: {
+                        allPages: true,
+                        fileName: "Достижения.xlsx"
+                    },
+                    dataSource: {data: jsonData[0].bag.data,pagesize: 12
+                        },
+                    noRecords: true,
+//                    height: 200,
+                    messages: {
+                        noRecords: "На текущей странице нет данных"
+                    },
+                    filterable: true,
                     sortable: true,
                     columns: columns,
-                    detailInit: detailInit
+                    navigatable: true,
+                    selectable: true,
+                    detailInit: detailInit,
+                    reorderable: true,
+                    resizable: true,
+//                    pageable: true,
+                    pageable: {
+                        pageSize: 12
+                    }
+
                 });
             }
 
@@ -2116,14 +2137,33 @@
 
                 return [
                     {
-                        field: "dgName",
-                        title: "dgName",
-                        width: 200
+                        field: "nameKpi",
+                        title: "Проекция",
+                        width: 200,
+                        filterable: { multi: true, search: true, search: true }
                     },
                     {
-                        field: "nameKpi",
-                        title: "nameKpi"
-                    }];
+                        field: "dgName",
+                        title: "Дирекция"
+                        ,
+                        width: 150,
+                        filterable: { multi: true, search: true, search: true }
+                    },
+                    {
+                        field: "periodName",
+                        title: "Период",
+                        width: 80,
+                        filterable: { multi: true, search: true }
+                    },
+                    {
+                        field: "description",
+                        title: "Достижения по направлениям"
+                        ,
+                        width: 350,
+                        filterable: { multi: true, search: true }
+                    }
+
+                ];
             }
 
             function createQuarterDynamicChartDeprecated($container, filterData, jsonData, customParams) {
