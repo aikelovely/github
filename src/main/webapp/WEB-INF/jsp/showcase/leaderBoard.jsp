@@ -2107,7 +2107,8 @@
                     toolbar: [{name: "excel",text:"Выгрузка в excel"} ],
                     excel: {
                         allPages: true,
-                        fileName: "Достижения.xlsx"
+                        fileName: "Достижения.xlsx",
+                        filterable: true
                     },
                     dataSource: {data: jsonData[0].bag.data,pagesize: 12
                         },

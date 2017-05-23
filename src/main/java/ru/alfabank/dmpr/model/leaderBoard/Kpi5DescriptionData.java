@@ -12,4 +12,5 @@ public class Kpi5DescriptionData {
   public String codeKpi;
   public int typePeriod;
   public String description;
+  public String periodName;
 }

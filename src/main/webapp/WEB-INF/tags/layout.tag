@@ -56,6 +56,10 @@
 
 <script type="text/javascript" charset="UTF-8" src="<c:url value="/libs/jquery/jquery.js" />"></script>
 <script type="text/javascript" charset="UTF-8" src="<c:url value="/libs/json2/json2.js" />"></script>
+
+<script type="text/javascript" charset="UTF-8" src="<c:url value="/libs/jszip/jszip.js" />"></script>
+<script type="text/javascript" charset="UTF-8" src="<c:url value="/libs/jszip/jszip.min.js" />"></script>
+
 <script type="text/javascript" charset="UTF-8" src="<c:url value="/libs/bootstrap/js/bootstrap.js" />"></script>
 <script type="text/javascript" charset="UTF-8" src="<c:url value="/libs/knockout/knockout.debug.js" />"></script>
 <script type="text/javascript" charset="UTF-8" src="<c:url value="/libs/knockout-validation/knockout.validation.js" />"></script>
