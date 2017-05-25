@@ -22,6 +22,7 @@ public class NomDetailsReportRow implements Cloneable{
     public String calcType;
     public double cnt;
     public String portfolioFlag;
+    public String calcTypeName;
 
     public boolean isAbnormalEmission() {
         return isAbnormalEmission;
