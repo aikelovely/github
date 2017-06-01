@@ -303,7 +303,7 @@ public class NomReport extends BaseReport<NomOptions> {
 
         builder.addWorksheet(NomCountFinProd.class)
                 .bindTo(countKP)
-                .title("IEP-13-1 | IEP-16-1 | IEP-17-1")
+                .title("IEP-13-1|IEP-125-1|IEP-125-2|")
                 .columns(new ColumnFactoryWrapper() {
                     @Override
                     public void createColumns(ColumnFactory c) {
@@ -316,7 +316,7 @@ public class NomReport extends BaseReport<NomOptions> {
                         c.add("nameToFinProd").title("Наименование ПодКП");
                         c.add("shortName").title("ОО/ДО");
                         c.add("countAgg").title("Количество");
-                        c.add("portfolioFlg").title("Флаг портфельности КП");
+                        c.add("portfolioFlg").title("Флаг портфельности КП").width(15);
                     }
                 });
     }
