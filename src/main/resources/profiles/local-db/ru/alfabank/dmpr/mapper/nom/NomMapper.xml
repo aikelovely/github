@@ -66,7 +66,8 @@
             blk,
             calcType,
             cnt,
-            KP_portfolio_flag as portfolioFlag
+            KP_portfolio_flag as portfolioFlag,
+            CALCTYPE_name calcTypeName
         FROM TABLE (pkg_nom_api.get_kpi_data2excel_new(
         p_Date_From             => #{startDate},
         p_Date_Till             => #{endDate},
