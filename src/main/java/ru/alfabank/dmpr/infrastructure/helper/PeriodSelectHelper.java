@@ -30,6 +30,27 @@ public class PeriodSelectHelper {
         return result;
     }
 
+    public static PeriodSelectOption[] getQuarter(int year)
+    {
+        String[] quarters= {"1 квартал","2 квартал","3 квартал", "4 квартал"};
+        LocalDate date = new LocalDate(year, 1, 1);
+        LocalDate dateStart = new LocalDate(year, 1, 1);
+        PeriodSelectOption[] result = new PeriodSelectOption[4];
+        for(int i = 0; i < 12; i++) {
+            if (i==0||i==3||i==6||i==9) {
+                dateStart=date;
+            } ;
+            if (i==2||i==5||i==8||i==11) {
+
+            result[((i+1)/3)-1] = new PeriodSelectOption(((i+1)/3)-1, ((i+1)/3)-1,
+                    quarters[((i+1)/3)-1] + " '" + date.toString("YY"), dateStart,
+                    date.plusMonths(1).minusDays(1));
+            } ;
+            date = date.plusMonths(1);
+            }
+        return result;
+    }
+
     public static PeriodSelectOption getMonthById(int year, final long id) {
         return LinqWrapper.from(getMonths(year)).firstOrNull(new Predicate<PeriodSelectOption>() {
             @Override
@@ -38,7 +59,14 @@ public class PeriodSelectHelper {
             }
         });
     }
-
+    public static PeriodSelectOption getMonthByIdQuarter(int year, final long id) {
+        return LinqWrapper.from(getQuarter(year)).firstOrNull(new Predicate<PeriodSelectOption>() {
+            @Override
+            public boolean check(PeriodSelectOption item) {
+                return item.id == id;
+            }
+        });
+    }
     public static PeriodSelectOption getMonthByDate(final LocalDate date) {
         return LinqWrapper.from(getMonths(date.getYear())).firstOrNull(new Predicate<PeriodSelectOption>() {
             @Override
@@ -99,6 +127,36 @@ public class PeriodSelectHelper {
 
                 if(startMonth != null) startDate = startMonth.startDate;
                 if(endMonth != null) endDate = endMonth.endDate;
+                break;
+            default:
+                break;
+        }
+
+        if (endDate == null) {
+            endDate = startDate;
+        }
+
+        return new LocalDate[]{ startDate, endDate };
+    }
+    public static LocalDate[] getDatesByBasePeriodOptions2(BasePeriodOptions options, Week[] weeks){
+
+        LocalDate startDate = new LocalDate();
+        LocalDate endDate = new LocalDate();
+
+        switch (options.timeUnitId) {
+            case 5:
+                PeriodSelectOption startMonth = getMonthByIdQuarter(options.startDate.getYear(), options.startDateId);
+                PeriodSelectOption endMonth = getMonthByIdQuarter(options.startDate.getYear(), options.endDateId);
+
+                if(startMonth != null) startDate = startMonth.startDate;
+                if(endMonth != null) endDate = endMonth.endDate;
+                break;
+            case 4:
+                PeriodSelectOption startMonth2 = getMonthById(options.startDate.getYear(), options.startDateId);
+                PeriodSelectOption endMonth2 = getMonthById(options.startDate.getYear(), options.endDateId);
+
+                if(startMonth2 != null) startDate = startMonth2.startDate;
+                if(endMonth2 != null) endDate = endMonth2.endDate;
                 break;
             default:
                 break;

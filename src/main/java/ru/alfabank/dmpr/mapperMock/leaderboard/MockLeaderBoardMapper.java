@@ -4,10 +4,7 @@ import org.springframework.stereotype.Component;
 import ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean;
 import ru.alfabank.dmpr.mapper.leaderBoard.LeaderBoardMapper;
 import ru.alfabank.dmpr.model.BaseEntityWithCode;
-import ru.alfabank.dmpr.model.leaderBoard.ChartMetaData;
-import ru.alfabank.dmpr.model.leaderBoard.KpiDataItem;
-import ru.alfabank.dmpr.model.leaderBoard.LeaderBoardOptions;
-import ru.alfabank.dmpr.model.leaderBoard.ReportDashboardQualityBo;
+import ru.alfabank.dmpr.model.leaderBoard.*;
 
 import java.util.Objects;
 
@@ -31,6 +28,11 @@ public class MockLeaderBoardMapper implements LeaderBoardMapper {
         }
 
         return delegate.getKpiData(options);
+    }
+
+    @Override
+    public Kpi5DescriptionData[] getKpi5DescriptionData(LeaderBoardQueryOptions options) {
+        return new Kpi5DescriptionData[0];
     }
 
     @Override

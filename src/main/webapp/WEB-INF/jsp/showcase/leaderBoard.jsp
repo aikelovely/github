@@ -21,7 +21,7 @@
                 padding: 10px 4px;
             }
 
-            .tab-1, .tab-2, .tab-3, .tab-4, .tab-5 {
+            .tab-1, .tab-2, .tab-3, .tab-4, .tab-5, .tab-6 {
                 color: #fff !important;
             }
 
@@ -63,6 +63,14 @@
 
             .active .tab-5 {
                 background-color: #DEC53E !important;
+            }
+
+            .tab-6 {
+                background-color: rgba(102, 102, 102, 0.75) !important;
+            }
+
+            .active .tab-6 {
+                background-color: #474747 !important;
             }
 
             hr {
@@ -218,7 +226,8 @@
                                 "Клиенты",
                                 "Процессы и технологии",
                                 "Эффективность",
-                                "Риски"
+                                "Риски",
+                                "Достижения"
                             ]
                         }
                     },
@@ -298,107 +307,193 @@
                             dataSource: "LeaderBoardKpi23_24Chart"
                         }
                     },
-                    slaves: [{
-                        name: "withQuarter",
-                        filters: {
-                            quarter: {
-                                type: "Select",
-                                multiple: false,
-                                title: "Квартал",
-                                dataSource: {
-                                    data: [
-                                        {id: 1, name: "1 квартал"},
-                                        {id: 2, name: "2 квартал"},
-                                        {id: 3, name: "3 квартал"},
-                                        {id: 4, name: "4 квартал"}
-                                    ]
+                    slaves: [
+                        {
+                            name: "withQuarter",
+                            filters: {
+                                quarter: {
+                                    type: "Select",
+                                    multiple: false,
+                                    title: "Квартал",
+                                    dataSource: {
+                                        data: [
+                                            {id: 1, name: "1 квартал"},
+                                            {id: 2, name: "2 квартал"},
+                                            {id: 3, name: "3 квартал"},
+                                            {id: 4, name: "4 квартал"}
+                                        ]
+                                    },
+                                    forceShowCharts: true,
+                                    defaultValue: moment().quarter(),
+                                    width: 120
+                                }
+                            },
+                            charts: {
+                                kpi9PrevYearChart: {
+                                    jsFunc: createKpi9Chart,
+                                    dataSource: "LeaderBoardKpi9Chart",
+                                    customParams: {isPrevYear: true}
                                 },
-                                forceShowCharts: true,
-                                defaultValue: moment().quarter(),
-                                width: 120
-                            }
-                        },
-                        charts: {
-                            kpi9PrevYearChart: {
-                                jsFunc: createKpi9Chart,
-                                dataSource: "LeaderBoardKpi9Chart",
-                                customParams: {isPrevYear: true}
-                            },
-                            kpi9CurrentYearChart: {
-                                jsFunc: createKpi9Chart,
-                                dataSource: "LeaderBoardKpi9Chart",
-                                customParams: {isPrevYear: false}
-                            },
-                            kpi10PrevYearChart: {
-                                jsFunc: createKpi10Chart,
-                                dataSource: "LeaderBoardKpi10Chart",
-                                customParams: {
-                                    isPrevYear: true,
-                                    messagesContainer: "#kpi10PrevYearChartMessages"
-                                }
-                            },
-                            kpi10CurrentYearChart: {
-                                jsFunc: createKpi10Chart,
-                                dataSource: "LeaderBoardKpi10Chart",
-                                customParams: {
-                                    isPrevYear: false,
-                                    messagesContainer: "#kpi10CurrentYearChartMessages"
+                                kpi9CurrentYearChart: {
+                                    jsFunc: createKpi9Chart,
+                                    dataSource: "LeaderBoardKpi9Chart",
+                                    customParams: {isPrevYear: false}
+                                },
+                                kpi10PrevYearChart: {
+                                    jsFunc: createKpi10Chart,
+                                    dataSource: "LeaderBoardKpi10Chart",
+                                    customParams: {
+                                        isPrevYear: true,
+                                        messagesContainer: "#kpi10PrevYearChartMessages"
+                                    }
+                                },
+                                kpi10CurrentYearChart: {
+                                    jsFunc: createKpi10Chart,
+                                    dataSource: "LeaderBoardKpi10Chart",
+                                    customParams: {
+                                        isPrevYear: false,
+                                        messagesContainer: "#kpi10CurrentYearChartMessages"
+                                    }
                                 }
                             }
+                        }, {
+                            name: "kpi14",
+                            filters: {
+                                kpi14Value: {
+                                    type: "Select",
+                                    multiple: false,
+                                    title: "Затраты",
+                                    dataSource: {
+                                        data: [
+                                            {id: "1", name: "Более $500K"},
+                                            {id: "2", name: "Все"}
+                                        ]
+                                    },
+                                    defaultValue: "1",
+                                    width: 145,
+                                    forceShowCharts: true
+                                },
+                                timeUnitId: {
+                                    type: "Select",
+                                    multiple: false,
+                                    title: "Единица времени",
+                                    dataSource: {
+                                        url: "leaderBoardFilter/timeUnits"
+                                    },
+                                    defaultValue: "4",
+                                    width: 125
+                                    ,
+                                    onHide: function () {
+                                        app.viewModel.groups.DataTableGroup.showCharts();
+                                    }
+                                },
+                                kpiId: {
+                                    type: "Select",
+                                    multiple: false,
+                                    title: "Показатели  «Достижения»",
+                                    dataSource: {
+                                        url: "leaderBoardFilter/Kpi5"
+                                    },
+                                    optionsCaption: "Все",
+                                    width: 175 ,
+                                    onHide: function () {
+                                        app.viewModel.groups.DataTableGroup.showCharts();
+                                    }
+                                },
+                                startDateId: {
+                                    type: "Select",
+                                    multiple: false,
+                                    title: "Период, с",
+                                    dataSource: {
+                                        url: "leaderBoardFilter/startDates",
+                                        params: [{name: "startDate", group: "default", required: true},
+                                            {
+                                                name: "timeUnitId",
+                                                group: "kpi14",
+                                                required: true
+                                            }]
+                                    },
+                                    width: 265,
+                                    postInit: createStartDateIdSubscriptions ,
+                                    onHide: function () {
+                                        app.viewModel.groups.DataTableGroup.showCharts();
+                                    }
+                                    <%--defaultValue: ${startDateId}--%>
+                                },
+                                endDateId: {
+                                    type: "Select",
+                                    multiple: false,
+                                    title: "Период, по",
+                                    dataSource: {
+                                        url: "leaderBoardFilter/endDates",
+                                        params: [{name: "startDate", group: "default", required: true},
+                                            {
+                                                name: "timeUnitId",
+                                                group: "kpi14",
+                                                required: true
+                                            }]
+                                    },
+                                    width: 265,
+                                    postInit: createEndDateIdSubscriptions ,
+                                    onHide: function () {
+                                        app.viewModel.groups.DataTableGroup.showCharts();
+                                    }
+                                    <%--defaultValue: ${endDateId}--%>
+                                }
+                            },
+                            charts: {
+                                kpi14Chart: {
+                                    jsFunc: createQuarterDynamicChartDeprecated,
+                                    dataSource: "LeaderBoardKpi14Chart",
+                                    customParams: {valueSuffix: "%", smallLabels: true}
+                                }
+//                                ,
+//                                Kpi5DescriptionDataTable: {
+//                                    jsFunc: createKpi5DescriptionDataTable,
+//                                    dataSource: "leaderBoardDescriptionTable"
+//                                }
+                            }
+                            ,
+                            slaves: [{
+                                name: "DataTableGroup",
+                                charts: {
+                                    Kpi5DescriptionDataTable: {
+                                        jsFunc: createKpi5DescriptionDataTable,
+                                        dataSource: "leaderBoardDescriptionTable"
+                                    }
+                                }
+                                      }
+                                    ]
                         }
-                    }, {
-                        name: "kpi14",
+                    ]
+                },
+                    {
+                        name: "kpi8",
                         filters: {
-                            kpi14Value: {
-                                type: "Select",
-                                multiple: false,
-                                title: "Затраты",
-                                dataSource: {
-                                    data: [
-                                        {id: "1", name: "Более $500K"},
-                                        {id: "2", name: "Все"}
-                                    ]
+                            startDate: {
+                                type: "DatePicker",
+                                title: "Месяц",
+                                datepickerOptions: {
+                                    minViewMode: 1
                                 },
-                                defaultValue: "1",
-                                width: 145,
+                                defaultValue: moment().date(0).toDate(),
+                                lastDayOfMonth: true,
                                 forceShowCharts: true
                             }
                         },
                         charts: {
-                            kpi14Chart: {
-                                jsFunc: createQuarterDynamicChartDeprecated,
-                                dataSource: "LeaderBoardKpi14Chart",
-                                customParams: {valueSuffix: "%", smallLabels: true}
+                            kpi8_1Dynamic: {
+                                jsFunc: createKpi8Dynamic,
+                                dataSource: "LeaderBoardKpi8DynamicChart",
+                                customParams: {kpiCode: "KPIOB~8~1"}
+                            },
+                            kpi8_2Dynamic: {
+                                jsFunc: createKpi8Dynamic,
+                                dataSource: "LeaderBoardKpi8DynamicChart",
+                                customParams: {kpiCode: "KPIOB~8~2"}
                             }
                         }
                     }]
-                }, {
-                    name: "kpi8",
-                    filters: {
-                        startDate: {
-                            type: "DatePicker",
-                            title: "Месяц",
-                            datepickerOptions: {
-                                minViewMode: 1
-                            },
-                            defaultValue: moment().date(0).toDate(),
-                            lastDayOfMonth: true,
-                            forceShowCharts: true
-                        }
-                    },
-                    charts: {
-                        kpi8_1Dynamic: {
-                            jsFunc: createKpi8Dynamic,
-                            dataSource: "LeaderBoardKpi8DynamicChart",
-                            customParams: {kpiCode: "KPIOB~8~1"}
-                        },
-                        kpi8_2Dynamic: {
-                            jsFunc: createKpi8Dynamic,
-                            dataSource: "LeaderBoardKpi8DynamicChart",
-                            customParams: {kpiCode: "KPIOB~8~2"}
-                        }
-                    }
-                }]
             };
 
             function isSeriesFullOfZeros(series) {
@@ -541,8 +636,6 @@
                          */
 
 
-
-
 //                        if (value) {  }
 //                           if (kpiDataItem.currentValue) {  value = (kpiDataItem.currentValue).toFixed(1);}
 
@@ -565,19 +658,19 @@
                     value *= 100;
                 }
 //              округляем
-                if ((value === undefined) || (value ==null)  || isNaN(value))
-                {
-                    return  value;
+                if ((value === undefined) || (value == null) || isNaN(value)) {
+                    return value;
                 }
-                else
-                {value = roundPlus(value ,metaData.dataLabelPrecision);
-                    return  value;}
+                else {
+                    value = roundPlus(value, metaData.dataLabelPrecision);
+                    return value;
+                }
             }
 
             function roundPlus(x, n) { //x - число, n - количество знаков
-                if(isNaN(x) || isNaN(n)) return false;
-                var m = Math.pow(10,n);
-                return Math.round(x*m)/m;
+                if (isNaN(x) || isNaN(n)) return false;
+                var m = Math.pow(10, n);
+                return Math.round(x * m) / m;
 
             }
 
@@ -915,7 +1008,7 @@
                         if (config.yAxis.min == undefined) {
                             config.yAxis.min = Math.max(Math.min(currentValue, prevValue, planValue) - 5, 0);
 
-                            config.yAxis.max=Math.max(Math.max(currentValue, prevValue, planValue) - 1, 0);
+                            config.yAxis.max = Math.max(Math.max(currentValue, prevValue, planValue) - 1, 0);
                         }
 
 
@@ -1913,6 +2006,167 @@
                 });
             }
 
+
+            function createStartDateIdSubscriptions(config, filter, viewModel) {
+                filter.value.subscribe(function (currentValue) {
+                    var startDateIdFilter = viewModel.getFilter("kpi14.startDateId");
+                    var endDateIdFilter = viewModel.getFilter("kpi14.endDateId");
+                    if (startDateIdFilter.getSelectedOptions().length && endDateIdFilter.getSelectedOptions().length) {
+                        var startDateSelected = moment(startDateIdFilter.getSelectedOptions()[0].startDate);
+                        var endDateSelected = moment(endDateIdFilter.getSelectedOptions()[0].startDate);
+
+                        if (startDateSelected > endDateSelected) {
+                            var firstPositive = _.find(endDateIdFilter.options(), function (op) {
+                                return moment(op.startDate) >= startDateSelected;
+                            });
+
+                            if (firstPositive) {
+                                endDateIdFilter.value(firstPositive.id);
+                            }
+                        }
+                    }
+                });
+            }
+
+            function createEndDateIdSubscriptions(config, filter, viewModel) {
+                filter.value.subscribe(function (currentValue) {
+                    var startDateIdFilter = viewModel.getFilter("kpi14.startDateId");
+                    var endDateIdFilter = viewModel.getFilter("kpi14.endDateId");
+
+                    if (startDateIdFilter.getSelectedOptions().length && endDateIdFilter.getSelectedOptions().length) {
+                        var startDateSelected = moment(startDateIdFilter.getSelectedOptions()[0].startDate);
+                        var endDateSelected = moment(endDateIdFilter.getSelectedOptions()[0].startDate);
+
+                        if (startDateSelected > endDateSelected) {
+                            var firstPositive = _.findLast(startDateIdFilter.options(), function (op) {
+                                return moment(op.startDate) <= endDateSelected;
+                            });
+
+                            if (firstPositive) {
+                                startDateIdFilter.value(firstPositive.id);
+                            }
+                        }
+                    }
+                });
+            }
+
+            function createKpi5DescriptionDataTable($container, filterData, jsonData, customParams) {
+                //  var systemUnitOptions = app.viewModel.getFilter("systemUnitIds").getSelectedOptions(),
+                //       systemUnitName = systemUnitOptions.length > 0 ? systemUnitOptions[0].name : "Единица сети",
+                rows = jsonData;
+
+                var columns = getDetailsColumns();
+
+                var detailInit = null;
+
+//                if(systemUnitOptions.length > 1){
+//                    detailInit = function(e){
+//                        var $container = $("<div/>").appendTo(e.detailCell),
+//                                systemUnit = systemUnitOptions[1],
+//                                parentId = e.data.unitId;
+//
+//                        var extender = {
+//                            systemUnitIds: [systemUnit.id],
+//                            cityIds: filterData.systemUnitIds[0] == 1 ? [parentId] : filterData.cityIds,
+//                            salesChannelIds: filterData.systemUnitIds[0] == 2 ? [parentId] : filterData.salesChannelIds,
+//                            bpTypeIds: filterData.systemUnitIds[0] == 3 ? [parentId] : filterData.bpTypeIds,
+//                            dopOfficeIds: filterData.systemUnitIds[0] == 4 ? [parentId] : filterData.dopOfficeIds
+//                        };
+//
+//                        var filterData2Level = _.assign({}, filterData, extender);
+//
+//                        $container.kendoGrid({
+//                            dataSource: {
+//                                transport: {
+//                                    read: function (o) {
+//                                        var request = app.ajaxUtils.postData("MassOpenAccountDetailsTable",
+//                                                JSON.stringify(filterData2Level));
+//                                        request.done(function (ajaxResult) {
+//                                            if (ajaxResult.success) {
+//                                                if(ajaxResult.data && ajaxResult.data.length > 1){
+//                                                    ajaxResult.data.splice(-1, 1);
+//                                                }
+//                                                o.success(ajaxResult.data);
+//
+//                                                if (app.viewModel.showSQL()) {
+//                                                    console.log("\n" + ajaxResult.queryList[0].sql);
+//                                                }
+//                                            } else {
+//                                                app.showAlert(ajaxResult.message);
+//                                            }
+//                                        });
+//                                    }
+//                                }
+//                            },
+//                            columns: getDetailsColumns()
+//                        });
+//                    }
+//                }
+
+                $container.kendoGrid({
+                    toolbar: [{name: "excel",text:"Выгрузка в excel"} ],
+                    excel: {
+                        allPages: true,
+                        fileName: "Достижения.xlsx",
+                        filterable: true
+                    },
+                    dataSource: {data: jsonData[0].bag.data,pagesize: 12
+                        },
+                    noRecords: true,
+//                    height: 200,
+                    messages: {
+                        noRecords: "На текущей странице нет данных"
+                    },
+                    filterable: true,
+                    sortable: true,
+                    columns: columns,
+                    navigatable: true,
+                    selectable: true,
+                    detailInit: detailInit,
+                    reorderable: true,
+                    resizable: true,
+//                    pageable: true,
+                    pageable: {
+                        pageSize: 12
+                    }
+
+                });
+            }
+
+            function getDetailsColumns() {
+                var percentFormat = "{0:n1}%";
+
+                return [
+                    {
+                        field: "nameKpi",
+                        title: "Проекция",
+                        width: 200,
+                        filterable: { multi: true, search: true, search: true }
+                    },
+                    {
+                        field: "dgName",
+                        title: "Дирекция"
+                        ,
+                        width: 150,
+                        filterable: { multi: true, search: true, search: true }
+                    },
+                    {
+                        field: "periodName",
+                        title: "Период",
+                        width: 80,
+                        filterable: { multi: true, search: true }
+                    },
+                    {
+                        field: "description",
+                        title: "Достижения по направлениям"
+                        ,
+                        width: 350,
+                        filterable: { multi: true, search: true }
+                    }
+
+                ];
+            }
+
             function createQuarterDynamicChartDeprecated($container, filterData, jsonData, customParams) {
                 var chart = jsonData[0],
                         series = chart.series,
@@ -2158,7 +2412,7 @@
                             <%--</div>--%>
                             <%--</div>--%>
                             <%--</div>--%>
-                        <div class="col-xs-6" >
+                        <div class="col-xs-6">
                             <chart params="name: 'kpi22Chart'"></chart>
                         </div>
                     </div>
@@ -2223,6 +2477,42 @@
                         </div>
                         <chart params="name: 'placeholder5'" class="mb-0"></chart>
                     </div>
+
+                </tab>
+                <tab>
+                    <div class="filter-container">
+                        <div class="filter-row">
+                            <div class="filter-element">
+                                <filter params="name: 'timeUnitId', group: 'kpi14'"></filter>
+                            </div>
+                            <div class="filter-element">
+                                <filter params="name: 'kpiId', group: 'kpi14'"></filter>
+                            </div>
+                            <div class="filter-element">
+                                <filter params="name: 'startDateId', group: 'kpi14'"></filter>
+                            </div>
+                            <div class="filter-element">
+                                <filter params="name: 'endDateId', group: 'kpi14'"></filter>
+                            </div>
+                        </div>
+                        <filter-log params="group: 'kpi14'"></filter-log>
+                    </div>
+                    <div class="row mb-0">
+                            <%--<div class="col-xs-8">--%>
+                            <%--<chart params="name: 'kpi16Chart'"></chart>--%>
+                            <%--</div>--%>
+
+                        <chart params="name: 'Kpi5DescriptionDataTable', group: 'DataTableGroup'" class="mb-0"></chart>
+                    </div>
+                        <%--<div class="row mb-0">--%>
+                        <%--&lt;%&ndash;<div class="col-xs-8">&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;<chart params="name: 'kpi16Chart'"></chart>&ndash;%&gt;--%>
+                        <%--&lt;%&ndash;</div>&ndash;%&gt;--%>
+                        <%--<div class="col-xs-4">--%>
+                        <%--<chart params="name: 'kpi15ByYearChart'"></chart>--%>
+                        <%--</div>--%>
+                        <%--<chart params="name: 'placeholder5'" class="mb-0"></chart>--%>
+                        <%--</div>--%>
 
                 </tab>
             </tab-strip>

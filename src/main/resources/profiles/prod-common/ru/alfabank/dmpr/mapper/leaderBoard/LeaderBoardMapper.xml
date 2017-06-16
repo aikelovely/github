@@ -133,4 +133,27 @@
         ]]>
     </select>
 
+
+    <select id="getKpi5DescriptionData" useCache="false"
+            parameterType="ru.alfabank.dmpr.model.leaderBoard.LeaderBoardQueryOptions"
+            resultType="ru.alfabank.dmpr.model.leaderBoard.Kpi5DescriptionData">
+        <![CDATA[
+
+       select
+           kpi_name nameKpi,
+          DG_NAME dgName,
+          PRDTYPE_name periodName,
+          description,
+          ccode   codeKpi,
+          PRDTYPE_UK typePeriod ,
+          value_day valueDay
+         from table(PKG_LEADERBOARD_API.get_kpi5_description_data (
+          p_DateFrom        => #{startDate},
+          p_DateTill        => #{endDate},
+          p_KPIIDs           => #{kpiId},
+          p_PrdTypeUK =>   #{timeUnitId}
+        )) where rownum<75
+        ]]>
+    </select>
+
 </mapper>
