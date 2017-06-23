@@ -76,6 +76,27 @@
         ]]>
     </select>
 
+    <select id="getReport2" useCache="false" fetchSize="1000"
+            parameterType="ru.alfabank.dmpr.model.nom.NomQueryOptions"
+            resultType="ru.alfabank.dmpr.model.nom.NomReportData3excel">
+        <![CDATA[
+     select
+      bpmanperiod_prdstart_day  bpmanperiodPrdstartDay,
+      bpmanperiod_value_day bpmanperiodValueDay,
+      loanapplstatlog_value_day loanapplstatlogValueDay,
+      bpinnerproduct_ccode bpinnerproductCcode,
+      bpinnerproduct_name bpinnerproductName,
+      loanapplrb_deal_ref loanapplrbDealRef,
+      salesplace_name salesplaceName,
+      address_name addressName,
+      address_ccode addressCcode
+        FROM TABLE (pkg_nom_api.get_kpi_data3excel_new(
+        p_Date_From             => #{startDate},
+        p_Date_Till             => #{endDate}
+        ))
+        ]]>
+    </select>
+
     <select id="getCountKP" useCache="false" fetchSize="1000"
             parameterType="ru.alfabank.dmpr.model.nom.NomQueryOptions"
             resultType="ru.alfabank.dmpr.model.nom.NomCountFinProd">

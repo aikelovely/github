@@ -5,6 +5,7 @@ import ru.alfabank.dmpr.model.nom.NomCountFinProd;
 import ru.alfabank.dmpr.model.nom.NomDetailsReportRow;
 import ru.alfabank.dmpr.model.nom.NomKpiDataItem;
 import ru.alfabank.dmpr.model.nom.NomQueryOptions;
+import ru.alfabank.dmpr.model.nom.NomReportData3excel;
 
 /**
  * Маппер для фильтров витрины "Количество конечных продуктов для расчета UC ОБ"
@@ -29,7 +30,7 @@ public interface NomMapper {
      * @return
      */
     NomDetailsReportRow[] getReport(NomQueryOptions options);
-
+    NomReportData3excel[] getReport2(NomQueryOptions options);
     /**
      * Функция для выгрузки данных в Excel
      * @param options Параметры фильтров

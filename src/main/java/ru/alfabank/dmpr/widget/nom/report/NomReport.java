@@ -20,6 +20,7 @@ import ru.alfabank.dmpr.model.nom.NomCountFinProd;
 import ru.alfabank.dmpr.model.nom.NomDetailsReportRow;
 import ru.alfabank.dmpr.model.nom.NomOptions;
 import ru.alfabank.dmpr.model.nom.NomQueryOptions;
+import ru.alfabank.dmpr.model.nom.NomReportData3excel;
 import ru.alfabank.dmpr.repository.nom.NomFilterRepository;
 import ru.alfabank.dmpr.repository.nom.NomRepository;
 import ru.alfabank.dmpr.widget.BaseReport;
@@ -131,6 +132,7 @@ public class NomReport extends BaseReport<NomOptions> {
         NomDetailsReportRow[] abnormalEmissionsData;
 
         NomCountFinProd[] countKP = repository.getCountKP(queryOptions);
+        NomReportData3excel[] Report2 = repository.getReport2(queryOptions);
 
         if ((groupData == null || groupData.length == 0
                 || periodData == null || periodData.length == 0
@@ -317,6 +319,25 @@ public class NomReport extends BaseReport<NomOptions> {
                         c.add("shortName").title("ОО/ДО");
                         c.add("countAgg").title("Количество");
                         c.add("portfolioFlg").title("Флаг портфельности КП").width(15);
+                    }
+                });
+        builder.addWorksheet(NomReportData3excel.class)
+                .bindTo(Report2)
+                .title("Проверка КЗ FLECS")
+                .columns(new ColumnFactoryWrapper() {
+                    @Override
+                    public void createColumns(ColumnFactory c) {
+                        c.add("bpmanperiodPrdstartDay").title("Дата начала периода").format("dd.MM.yyyy");
+                        c.add("bpmanperiodValueDay").title("Дата конца периода").format("dd.MM.yyyy");
+                        c.add("loanapplstatlogValueDay").title("Дата учета заявки").format("dd.MM.yyyy");
+
+                        c.add("bpinnerproductCcode").title("Код ПодКП");
+                        c.add("bpinnerproductName").title("Наименование ПодКП");
+                        c.add("loanapplrbDealRef").title("ID заявки");
+
+                        c.add("salesplaceName").title("Точка продаж");
+                        c.add("addressName").title("Город точки продаж");
+                        c.add("addressCcode").title("Код города точки продаж");
                     }
                 });
     }
