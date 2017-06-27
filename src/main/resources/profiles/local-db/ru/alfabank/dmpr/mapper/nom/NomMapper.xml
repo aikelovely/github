@@ -84,6 +84,7 @@
       bpmanperiod_prdstart_day  bpmanperiodPrdstartDay,
       bpmanperiod_value_day bpmanperiodValueDay,
       loanapplstatlog_value_day loanapplstatlogValueDay,
+      timeunits_name timeunitsName,
       bpinnerproduct_ccode bpinnerproductCcode,
       bpinnerproduct_name bpinnerproductName,
       loanapplrb_deal_ref loanapplrbDealRef,
@@ -92,7 +93,8 @@
       address_ccode addressCcode
         FROM TABLE (pkg_nom_api.get_kpi_data3excel_new(
         p_Date_From             => #{startDate},
-        p_Date_Till             => #{endDate}
+        p_Date_Till             => #{endDate},
+                p_TimeUnit_ID           => #{timeUnitId}
         ))
         ]]>
     </select>

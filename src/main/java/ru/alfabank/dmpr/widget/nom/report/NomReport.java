@@ -122,9 +122,10 @@ public class NomReport extends BaseReport<NomOptions> {
     protected void configure(ReportBuilder builder, NomOptions options) {
         final int secondWorksheetTimeUnitId = options.timeUnitId == 3 ? 2 : options.timeUnitId;
         int thirdWorksheetTimeUnitId = 3;
-
         final NomQueryOptions queryOptions = new NomQueryOptions(options, filterRepository.getWeeks());
         NomDetailsReportRow[] groupData = repository.getReport(queryOptions);
+        NomReportData3excel[] Report2 = repository.getReport2(queryOptions);
+
         queryOptions.timeUnitId = secondWorksheetTimeUnitId;
         NomDetailsReportRow[] periodData = repository.getReport(queryOptions);
         queryOptions.timeUnitId = thirdWorksheetTimeUnitId;
@@ -132,7 +133,7 @@ public class NomReport extends BaseReport<NomOptions> {
         NomDetailsReportRow[] abnormalEmissionsData;
 
         NomCountFinProd[] countKP = repository.getCountKP(queryOptions);
-        NomReportData3excel[] Report2 = repository.getReport2(queryOptions);
+
 
         if ((groupData == null || groupData.length == 0
                 || periodData == null || periodData.length == 0
@@ -143,6 +144,22 @@ public class NomReport extends BaseReport<NomOptions> {
         }
 
         final Week[] weeks = filterRepository.getWeeks();
+
+        // Подписи для вкладки NomReportData3excel(обычные недели/месяцы)
+        LinqWrapper.from(Report2).each(new Action<NomReportData3excel>() {
+            @Override
+            public void act(final NomReportData3excel value) {
+                PeriodSelectOption periodEntity = secondWorksheetTimeUnitId == Period.month.getValue() ?
+                        PeriodSelectHelper.getMonthByDate(value.loanapplstatlogValueDay) : PeriodSelectHelper.getWeekByDate(value.loanapplstatlogValueDay, weeks);
+
+                if (periodEntity != null) {
+                    value.valueDayAsString = periodEntity.name;
+                } else {
+                    value.valueDayAsString = value.loanapplstatlogValueDay.toString();
+                }
+            }
+        });
+
 
         // Подписи для 2-ой вкладки (обычные недели/месяцы)
         LinqWrapper.from(periodData).each(new Action<NomDetailsReportRow>() {
@@ -327,14 +344,14 @@ public class NomReport extends BaseReport<NomOptions> {
                 .columns(new ColumnFactoryWrapper() {
                     @Override
                     public void createColumns(ColumnFactory c) {
-                        c.add("bpmanperiodPrdstartDay").title("Дата начала периода").format("dd.MM.yyyy");
-                        c.add("bpmanperiodValueDay").title("Дата конца периода").format("dd.MM.yyyy");
+                    //    c.add("bpmanperiodPrdstartDay").title("Дата начала периода").format("dd.MM.yyyy");
+                   //     c.add("bpmanperiodValueDay").title("Дата конца периода").format("dd.MM.yyyy");
+                        c.add("valueDayAsString").title("Период");
                         c.add("loanapplstatlogValueDay").title("Дата учета заявки").format("dd.MM.yyyy");
-
+                        c.add("timeunitsName").title("Тип периода");
                         c.add("bpinnerproductCcode").title("Код ПодКП");
                         c.add("bpinnerproductName").title("Наименование ПодКП");
                         c.add("loanapplrbDealRef").title("ID заявки");
-
                         c.add("salesplaceName").title("Точка продаж");
                         c.add("addressName").title("Город точки продаж");
                         c.add("addressCcode").title("Код города точки продаж");
