@@ -349,8 +349,8 @@ public class NomReport extends BaseReport<NomOptions> {
                     //    c.add("bpmanperiodPrdstartDay").title("Дата начала периода").format("dd.MM.yyyy");
                    //     c.add("bpmanperiodValueDay").title("Дата конца периода").format("dd.MM.yyyy");
                         c.add("valueDayAsString").title("Период");
-                        c.add("loanapplstatlogValueDay").title("Дата учета заявки").format("dd.MM.yyyy");
                         c.add("timeunitsName").title("Тип периода");
+                        c.add("loanapplstatlogValueDay").title("Дата учета заявки").format("dd.MM.yyyy");
                         c.add("bpinnerproductCcode").title("Код ПодКП");
                         c.add("bpinnerproductName").title("Наименование ПодКП");
                         c.add("loanapplrbDealRef").title("ID заявки");
