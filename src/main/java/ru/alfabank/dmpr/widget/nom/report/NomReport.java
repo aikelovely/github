@@ -114,6 +114,8 @@ public class NomReport extends BaseReport<NomOptions> {
                 if (!isAbnormalList) {
                     c.add("portfolioFlag").title("Флаг портфельности КП").width(20);
                 }
+                c.add("calcTypeName").title("Авт/Руч").width(20);
+
             }
         };
     }
