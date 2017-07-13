@@ -234,9 +234,17 @@
                                 Витрина показателей CTQ
                             </a>
                         </li>
+                        <li>
+                            <a href='<c:url value="/showcase/qualityIndicatorsDss" />'>
+                                Показатели качества ДСС с детализацией до сотрудников
+                            </a>
+                        </li>
                         <% } else { %>
                         <li class="disabled">
                             <a>Витрина показателей CTQ</a>
+                        </li>
+                        <li class="disabled">
+                            <a>Показатели качества ДСС с детализацией до сотрудников</a>
                         </li>
                         <% } %>
                     </ul>
