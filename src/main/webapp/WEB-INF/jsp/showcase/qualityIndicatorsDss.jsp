@@ -90,6 +90,15 @@
                             },
                             width: 125
                         },
+                        startYear: {
+                            type: "DatePicker",
+                            title: "Год",
+                            datepickerOptions: {
+                                minViewMode: 2,
+                                format: 'yyyy'
+                            },
+                            defaultValue: moment().startOf("year").toDate()
+                        },
                         systemUnitId: {
                             type: "Select",
                             multiple: false,
@@ -751,8 +760,16 @@
         <div class="filter-container">
             <div class="filter-row">
                 <div class="filter-element">
+                    <filter params="name: 'timeUnitId'"></filter>
+                </div>
+                <div class="filter-element">
+                    <filter params="name: 'startYear'"></filter>
+                </div>
+                <!-- ko if: groups.default.filters.timeUnitId.value() != 2 -->
+                <div class="filter-element">
                     <filter params="name: 'cityIds'"></filter>
                 </div>
+                <!-- /ko -->
                 <div class="filter-element">
                     <filter params="name: 'salesChannelIds'"></filter>
                 </div>
@@ -761,9 +778,6 @@
                 </div>
             </div>
             <div class="filter-row">
-                <div class="filter-element">
-                    <filter params="name: 'timeUnitId'"></filter>
-                </div>
                 <div class="filter-element">
                     <filter params="name: 'startDate'"></filter>
                 </div>
