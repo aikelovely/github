@@ -296,8 +296,8 @@
                                     dataSource: {
                                         url: "obQualityFilter/KPIs",
                                         params: [
-                                            {name: "kpiKindId", group: "default", required: true},
-                                            {name: "directionIds", group: "default", required: false},
+                                            {name: "startDate", group: "default", required: true},
+                                            {name: "endDate", group: "default", required: false},
                                             {name: "regionIds", group: "default", required: false},
                                             {name: "startYear", group: "default", required: true},
                                             {name: "endYear", group: "default", required: true},

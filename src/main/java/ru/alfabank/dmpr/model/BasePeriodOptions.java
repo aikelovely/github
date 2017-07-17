@@ -8,6 +8,7 @@ public class BasePeriodOptions extends BaseOptions {
      * Обязательное поле.
      */
     public LocalDate startDate;
+    public LocalDate endDate;
     public LocalDate startYear;
 
     /**

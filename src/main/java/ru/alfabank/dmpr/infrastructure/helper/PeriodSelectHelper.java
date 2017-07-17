@@ -114,6 +114,11 @@ public class PeriodSelectHelper {
         LocalDate endDate = new LocalDate();
 
         switch (options.timeUnitId) {
+            case 2:
+                //if период день , берем с датапикера
+                 startDate = options.startDate;
+                 endDate = options.endDate;
+                break;
             case 3:
                 Week startWeek = getWeekById(options.startDateId, weeks);
                 Week endWeek = getWeekById(options.endDateId, weeks);

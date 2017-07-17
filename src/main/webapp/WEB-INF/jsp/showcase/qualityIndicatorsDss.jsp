@@ -26,6 +26,28 @@
             var config = {
                 groups: [{
                     filters: {
+                        timeUnitId: {
+                            type: "Select",
+                            multiple: false,
+                            title: "Тип Периода",
+                            dataSource: {
+                                url: "QualityDssFilter/timeUnits"
+//                                ,
+//                                computed: {
+//                                    jsFunc: function (context) {
+//                                        var data = context.loadedData,
+//                                                startDate = moment(context.params.startDate),
+//                                                endDate = moment(context.params.endDate);
+//                                        var durationInDays = endDate.diff(startDate, "days");
+//                                        return _.filter(data, function (x) {
+//                                            return x.maxDays >= durationInDays;
+//                                        });
+//                                    },
+//                                    params: ["startDate", "endDate"]
+//                                }
+                            },
+                            width: 125
+                        },
                         cityIds: {
                             type: "Select",
                             multiple: true,
@@ -36,12 +58,33 @@
                                 url: "QualityDssFilter/Cities"
                             }
                         },
+                       divisionIds: {
+                            type: "Select",
+                            multiple: false,
+                            title: "Подразделение",
+//                           optionsCaption: "Все",
+ //                           enableClear: true,
+//                            withGroups: true,
+
+                            dataSource: {
+                                url: "QualityDssFilter/Division",
+                                params: [
+                                    {name: "startDate", group: "default", required: false},
+                                    {name: "endDate", group: "default", required: false},
+                                    {name: "startYear", group: "default", required: true},
+                                    {name: "endYear", group: "default", required: true},
+                                    {name: "startDateId", group: "default", required: true},
+                                    {name: "endDateId", group: "default", required: true},
+                                    {name: "timeUnitId", group: "default", required: true}
+                                ]
+                            }
+                        },
                         salesChannelIds: {
                             type: "Select",
                             multiple: true,
                             title: "Канал продаж",
                             dataSource: {
-                                url: "MassFilter/SalesChannel"
+                                url: "QualityDssFilter/SalesChannel"
                             }
                         },
                         dopOfficeIds: {
@@ -68,37 +111,7 @@
                             notBefore: "startDate",
                             defaultValue: moment().add(-1, 'days').startOf('day').toDate()
                         },
-                        timeUnitId: {
-                            type: "Select",
-                            multiple: false,
-                            title: "Тип Периода",
-                            dataSource: {
-                                url: "QualityDssFilter/timeUnits"
-//                                ,
-//                                computed: {
-//                                    jsFunc: function (context) {
-//                                        var data = context.loadedData,
-//                                                startDate = moment(context.params.startDate),
-//                                                endDate = moment(context.params.endDate);
-//                                        var durationInDays = endDate.diff(startDate, "days");
-//                                        return _.filter(data, function (x) {
-//                                            return x.maxDays >= durationInDays;
-//                                        });
-//                                    },
-//                                    params: ["startDate", "endDate"]
-//                                }
-                            },
-                            width: 125
-                        },
-                        startYear: {
-                            type: "DatePicker",
-                            title: "Год",
-                            datepickerOptions: {
-                                minViewMode: 2,
-                                format: 'yyyy'
-                            },
-                            defaultValue: moment().startOf("year").toDate()
-                        },
+
                         systemUnitId: {
                             type: "Select",
                             multiple: false,
@@ -110,6 +123,64 @@
                                 ]
                             },
                             width: 150
+                        },
+
+                        startYear: {
+                            type: "DatePicker",
+                            title: "Год",
+                            datepickerOptions: {
+                                minViewMode: 2,
+                                format: 'yyyy'
+                            },
+                            defaultValue: new Date(moment().add(2, 'month').year(), 0, 1),
+                            notAfter: "endYear",
+                            width: 90
+                        },
+                        startDateId: {
+                            type: "Select",
+                            multiple: false,
+                            title: "Период, с",
+                            dataSource: {
+                                url: "QualityDssFilter/startDates",
+                                params: [{name: "startYear", group: "default", required: true}, {
+                                    name: "timeUnitId",
+                                    group: "default",
+                                    required: true
+                                }]
+                            },
+                            defaultValue: moment().subtract(2, 'month').month(),
+                            width: 260,
+                            postInit: createStartDateIdSubscriptions
+                        },
+                        endYear: {
+                            type: "DatePicker",
+                            title: "Год",
+                            datepickerOptions: {
+                                minViewMode: 2,
+                                format: 'yyyy'
+                            },
+                            notBefore: "startYear",
+                            width: 90
+                        },
+                        endDateId: {
+                            type: "Select",
+                            multiple: false,
+                            title: "Период, по",
+                            dataSource: {
+                                url: "QualityDssFilter/endDates",
+                                params: [{name: "endYear", group: "default", required: true}, {
+                                    name: "timeUnitId",
+                                    group: "default",
+                                    required: true
+                                }]
+                            },
+                            defaultValue: moment().month(),
+                            width: 260,
+                            postInit: createEndDateIdSubscriptions
+                        },
+                        check1: {
+                            type: "CheckBox",
+                            title: "Учитывать время смежных подразделений"
                         }
                     },
                     charts: {
@@ -190,6 +261,50 @@
                     }
                 }
             };
+
+            function createStartDateIdSubscriptions(config, filter, viewModel) {
+                filter.value.subscribe(function (currentValue) {
+                    var startDateIdFilter = viewModel.getFilter("startDateId");
+                    var endDateIdFilter = viewModel.getFilter("endDateId");
+
+                    if (startDateIdFilter.getSelectedOptions().length && endDateIdFilter.getSelectedOptions().length) {
+                        var startDateSelected = moment(startDateIdFilter.getSelectedOptions()[0].startDate);
+                        var endDateSelected = moment(endDateIdFilter.getSelectedOptions()[0].startDate);
+
+                        if (startDateSelected > endDateSelected) {
+                            var firstPositive = _.find(endDateIdFilter.options(), function (op) {
+                                return moment(op.startDate) >= startDateSelected;
+                            });
+
+                            if (firstPositive) {
+                                endDateIdFilter.value(firstPositive.id);
+                            }
+                        }
+                    }
+                });
+            }
+
+            function createEndDateIdSubscriptions(config, filter, viewModel) {
+                filter.value.subscribe(function (currentValue) {
+                    var startDateIdFilter = viewModel.getFilter("startDateId");
+                    var endDateIdFilter = viewModel.getFilter("endDateId");
+
+                    if (startDateIdFilter.getSelectedOptions().length && endDateIdFilter.getSelectedOptions().length) {
+                        var startDateSelected = moment(startDateIdFilter.getSelectedOptions()[0].startDate);
+                        var endDateSelected = moment(endDateIdFilter.getSelectedOptions()[0].startDate);
+
+                        if (startDateSelected > endDateSelected) {
+                            var firstPositive = _.findLast(startDateIdFilter.options(), function (op) {
+                                return moment(op.startDate) <= endDateSelected;
+                            });
+
+                            if (firstPositive) {
+                                startDateIdFilter.value(firstPositive.id);
+                            }
+                        }
+                    }
+                });
+            }
 
             function createDynamicAvgDuration($container, filterData, jsonData, customParams) {
                 var chart = jsonData[0];
@@ -762,30 +877,42 @@
                 <div class="filter-element">
                     <filter params="name: 'timeUnitId'"></filter>
                 </div>
+                <!-- ko if: groups.default.filters.timeUnitId.value() != 2 -->
                 <div class="filter-element">
                     <filter params="name: 'startYear'"></filter>
                 </div>
-                <!-- ko if: groups.default.filters.timeUnitId.value() != 2 -->
+
                 <div class="filter-element">
-                    <filter params="name: 'cityIds'"></filter>
+                    <filter params="name: 'startDateId'"></filter>
                 </div>
                 <!-- /ko -->
-                <div class="filter-element">
-                    <filter params="name: 'salesChannelIds'"></filter>
-                </div>
-                <div class="filter-element">
-                    <filter params="name: 'dopOfficeIds'"></filter>
-                </div>
-            </div>
-            <div class="filter-row">
+                <!-- ko if: groups.default.filters.timeUnitId.value() == 2 -->
                 <div class="filter-element">
                     <filter params="name: 'startDate'"></filter>
                 </div>
+                <!-- /ko -->
+                <!-- ko if: groups.default.filters.timeUnitId.value() != 2 -->
+                <div class="filter-element">
+                    <filter params="name: 'endYear'"></filter>
+                </div>
+
+                <div class="filter-element">
+                    <filter params="name: 'endDateId'"></filter>
+                </div>
+                <!-- /ko -->
+                <!-- ko if: groups.default.filters.timeUnitId.value() == 2 -->
                 <div class="filter-element">
                     <filter params="name: 'endDate'"></filter>
                 </div>
+                <!-- /ko -->
+            </div>
+            <div class="filter-row">
                 <div class="filter-element">
-                    <filter params="name: 'systemUnitId'"></filter>
+                    <filter params="name: 'divisionIds' , group: 'default'"></filter>
+                </div>
+
+                <div class="filter-element">
+                    <filter params="name: 'check1'"></filter>
                 </div>
             </div>
             <div class="filter-row">
