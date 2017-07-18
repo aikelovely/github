@@ -62,12 +62,59 @@
                             type: "Select",
                             multiple: false,
                             title: "Подразделение",
-//                           optionsCaption: "Все",
- //                           enableClear: true,
-//                            withGroups: true,
-
                             dataSource: {
                                 url: "QualityDssFilter/Division",
+                                params: [
+                                    {name: "startDate", group: "default", required: false},
+                                    {name: "endDate", group: "default", required: false},
+                                    {name: "startYear", group: "default", required: true},
+                                    {name: "endYear", group: "default", required: true},
+                                    {name: "startDateId", group: "default", required: true},
+                                    {name: "endDateId", group: "default", required: true},
+                                    {name: "timeUnitId", group: "default", required: true}
+                                ]
+                            }
+                        },
+                        employeeIds: {
+                            type: "Select",
+                            multiple: false,
+                            title: "Сотрудник",
+                            dataSource: {
+                                url: "QualityDssFilter/Employee",
+                                params: [
+                                    {name: "startDate", group: "default", required: false},
+                                    {name: "endDate", group: "default", required: false},
+                                    {name: "startYear", group: "default", required: true},
+                                    {name: "endYear", group: "default", required: true},
+                                    {name: "startDateId", group: "default", required: true},
+                                    {name: "endDateId", group: "default", required: true},
+                                    {name: "timeUnitId", group: "default", required: true}
+                                ]
+                            }
+                        },
+                        operationIds: {
+                            type: "Select",
+                            multiple: false,
+                            title: "Операция",
+                            dataSource: {
+                                url: "QualityDssFilter/Operation",
+                                params: [
+                                    {name: "startDate", group: "default", required: false},
+                                    {name: "endDate", group: "default", required: false},
+                                    {name: "startYear", group: "default", required: true},
+                                    {name: "endYear", group: "default", required: true},
+                                    {name: "startDateId", group: "default", required: true},
+                                    {name: "endDateId", group: "default", required: true},
+                                    {name: "timeUnitId", group: "default", required: true}
+                                ]
+                            }
+                        },
+                        typeProductIds: {
+                            type: "Select",
+                            multiple: false,
+                            title: "Тип продукта",
+                            dataSource: {
+                                url: "QualityDssFilter/TypeProduct",
                                 params: [
                                     {name: "startDate", group: "default", required: false},
                                     {name: "endDate", group: "default", required: false},
@@ -910,7 +957,15 @@
                 <div class="filter-element">
                     <filter params="name: 'divisionIds' , group: 'default'"></filter>
                 </div>
-
+                <div class="filter-element">
+                    <filter params="name: 'employeeIds' , group: 'default'"></filter>
+                </div>
+                <div class="filter-element">
+                    <filter params="name: 'operationIds' , group: 'default'"></filter>
+                </div>
+                <div class="filter-element">
+                    <filter params="name: 'typeProductIds' , group: 'default'"></filter>
+                </div>
                 <div class="filter-element">
                     <filter params="name: 'check1'"></filter>
                 </div>
