@@ -11,7 +11,7 @@
         select id, name
         from table(pkg_mass_api.get_Region())
     </select>
-
+<!--gbfb-->
     <select id="getCities" resultType="ru.alfabank.dmpr.model.ChildEntity">
         select id, name, parent_id as parentId
         from table(pkg_mass_api.get_City()) where 1=1
