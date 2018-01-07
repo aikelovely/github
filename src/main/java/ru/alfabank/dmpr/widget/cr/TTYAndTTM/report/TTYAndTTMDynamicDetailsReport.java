@@ -62,7 +62,7 @@ public class TTYAndTTMDynamicDetailsReport extends BaseReport<TTYAndTTMOptions> 
                     @Override
                     public void createColumns(ColumnFactory c) {
                         c.add("name").title(systemUnit.name);
-                        c.add("processName").title("Процесс");
+                        c.add("processName").title("Процесс2");
                         c.add("value").title(options.paramType == ParamType.AvgDuration
                                 ? "Среднее значение"
                                 : "Процент в KPI").width(25);
