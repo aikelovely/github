@@ -2,7 +2,7 @@ package ru.alfabank.dmpr.model.unitCost;
 
 import org.joda.time.LocalDate;
 
-/** 2
+/** 2 ыва ывавыа выа ыва
  * Набор данных для формирования выгрузки в Excel.4
  */
 public class UnitCost2 {
