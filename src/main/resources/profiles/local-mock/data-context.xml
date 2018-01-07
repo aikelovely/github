@@ -85,6 +85,9 @@
     <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
         <constructor-arg value="ru.alfabank.dmpr.mapper.cr.TTYAndTTMMapper"/>
     </bean>
+    <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
+        <constructor-arg value="ru.alfabank.dmpr.mapper.qualityDss.QualityDssFilterMapper"/>
+    </bean>
     <!-- CTQ -->
     <bean class="ru.alfabank.dmpr.infrastructure.helper.dev.MockXlsGenericMapperBean">
         <constructor-arg value="ru.alfabank.dmpr.mapper.ctq.CTQFilterMapper"/>
