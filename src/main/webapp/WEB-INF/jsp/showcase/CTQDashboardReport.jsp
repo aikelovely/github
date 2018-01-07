@@ -12,16 +12,6 @@
                 groups: [{
                     name: "default",
                     filters: {
-                        timeUnitId: {
-                            type: "Select",
-                            multiple: false,
-                            title: "Тип периода",
-                            dataSource: {
-                                url: "CTQFilter/timeUnits"
-                            },
-                            defaultValue: 3,
-                            width: 150
-                        },
                         startYear: {
                             type: "DatePicker",
                             title: "Год",

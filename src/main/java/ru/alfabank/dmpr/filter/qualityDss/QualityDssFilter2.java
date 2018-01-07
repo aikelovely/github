@@ -10,7 +10,6 @@ import ru.alfabank.dmpr.infrastructure.linq.Predicate;
 import ru.alfabank.dmpr.infrastructure.linq.Selector;
 import ru.alfabank.dmpr.infrastructure.spring.Param;
 import ru.alfabank.dmpr.model.*;
-import ru.alfabank.dmpr.model.mass.TimeUnit;
 import ru.alfabank.dmpr.model.qualityDss.QualityDssOptions;
 import ru.alfabank.dmpr.repository.qualityDss.QualityDssFilterRepository;
 
@@ -20,7 +19,7 @@ import java.util.List;
  * Сервис, отвечающий за загрузку фильтров для витрин МАСС.
  */
 @Service
-public class QualityDssFilter {
+public class QualityDssFilter2 {
     @Autowired
     QualityDssFilterRepository repository;
 
@@ -82,7 +81,7 @@ public class QualityDssFilter {
         options2.startDate=startDate;
         LocalDate[] dates = PeriodSelectHelper.getDatesByBasePeriodOptions(options2, this.repository.getWeeks());
         QualityDssOptions qualityDssOptions  = new QualityDssOptions();
-        qualityDssOptions.reportIds=1;
+        qualityDssOptions.reportIds=2;
         qualityDssOptions.startDate = dates[0].toLocalDateTime(LocalTime.MIDNIGHT);
         qualityDssOptions.endDate = dates[1].toLocalDateTime(LocalTime.MIDNIGHT);
 
@@ -102,7 +101,7 @@ public class QualityDssFilter {
         options2.startDate=startDate;
         LocalDate[] dates = PeriodSelectHelper.getDatesByBasePeriodOptions(options2, this.repository.getWeeks());
         QualityDssOptions qualityDssOptions  = new QualityDssOptions();
-        qualityDssOptions.reportIds=1;
+        qualityDssOptions.reportIds=2;
         qualityDssOptions.startDate = dates[0].toLocalDateTime(LocalTime.MIDNIGHT);
         qualityDssOptions.endDate = dates[1].toLocalDateTime(LocalTime.MIDNIGHT);
 
@@ -122,7 +121,7 @@ public class QualityDssFilter {
         options2.startDate=startDate;
         LocalDate[] dates = PeriodSelectHelper.getDatesByBasePeriodOptions(options2, this.repository.getWeeks());
         QualityDssOptions qualityDssOptions  = new QualityDssOptions();
-        qualityDssOptions.reportIds=1;
+        qualityDssOptions.reportIds=2;
         qualityDssOptions.startDate = dates[0].toLocalDateTime(LocalTime.MIDNIGHT);
         qualityDssOptions.endDate = dates[1].toLocalDateTime(LocalTime.MIDNIGHT);
 
@@ -142,7 +141,7 @@ public class QualityDssFilter {
         options2.startDate=startDate;
         LocalDate[] dates = PeriodSelectHelper.getDatesByBasePeriodOptions(options2, this.repository.getWeeks());
         QualityDssOptions qualityDssOptions  = new QualityDssOptions();
-        qualityDssOptions.reportIds=1;
+        qualityDssOptions.reportIds=2;
         qualityDssOptions.startDate = dates[0].toLocalDateTime(LocalTime.MIDNIGHT);
         qualityDssOptions.endDate = dates[1].toLocalDateTime(LocalTime.MIDNIGHT);
 

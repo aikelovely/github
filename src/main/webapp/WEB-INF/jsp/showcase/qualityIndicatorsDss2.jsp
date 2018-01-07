@@ -2,7 +2,7 @@
 <%@taglib prefix="t" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="title" value="Оформление договорных документов кредита/гарантии. Декомпозиция"/>
+<c:set var="title" value="Оформление договорных документов факторинга. Декомпозиция"/>
 
 <t:layout title="${title}">
     <jsp:attribute name="css">
@@ -31,20 +31,7 @@
                             multiple: false,
                             title: "Тип Периода",
                             dataSource: {
-                                url: "QualityDssFilter/timeUnits"
-//                                ,
-//                                computed: {
-//                                    jsFunc: function (context) {
-//                                        var data = context.loadedData,
-//                                                startDate = moment(context.params.startDate),
-//                                                endDate = moment(context.params.endDate);
-//                                        var durationInDays = endDate.diff(startDate, "days");
-//                                        return _.filter(data, function (x) {
-//                                            return x.maxDays >= durationInDays;
-//                                        });
-//                                    },
-//                                    params: ["startDate", "endDate"]
-//                                }
+                                url: "QualityDssFilter2/timeUnits"
                             },
                             width: 125
                         },
@@ -55,7 +42,7 @@
                             enableClear: true,
                             withGroups: true,
                             dataSource: {
-                                url: "QualityDssFilter/Cities"
+                                url: "QualityDssFilter2/Cities"
                             }
                         },
                         divisionIds: {
@@ -63,7 +50,7 @@
                             multiple: false,
                             title: "Подразделение",
                             dataSource: {
-                                url: "QualityDssFilter/Division",
+                                url: "QualityDssFilter2/Division",
                                 params: [
                                     {name: "startDate", group: "default", required: false},
                                     {name: "endDate", group: "default", required: false},
@@ -80,7 +67,7 @@
                             multiple: false,
                             title: "Сотрудник",
                             dataSource: {
-                                url: "QualityDssFilter/Employee",
+                                url: "QualityDssFilter2/Employee",
                                 params: [
                                     {name: "startDate", group: "default", required: false},
                                     {name: "endDate", group: "default", required: false},
@@ -97,7 +84,7 @@
                             multiple: false,
                             title: "Операция",
                             dataSource: {
-                                url: "QualityDssFilter/Operation",
+                                url: "QualityDssFilter2/Operation",
                                 params: [
                                     {name: "startDate", group: "default", required: false},
                                     {name: "endDate", group: "default", required: false},
@@ -114,7 +101,7 @@
                             multiple: false,
                             title: "Тип продукта",
                             dataSource: {
-                                url: "QualityDssFilter/TypeProduct",
+                                url: "QualityDssFilter2/TypeProduct",
                                 params: [
                                     {name: "startDate", group: "default", required: false},
                                     {name: "endDate", group: "default", required: false},
@@ -131,7 +118,7 @@
                             multiple: true,
                             title: "Канал продаж",
                             dataSource: {
-                                url: "QualityDssFilter/SalesChannel"
+                                url: "QualityDssFilter2/SalesChannel"
                             }
                         },
                         dopOfficeIds: {
@@ -188,7 +175,7 @@
                             multiple: false,
                             title: "Период, с",
                             dataSource: {
-                                url: "QualityDssFilter/startDates",
+                                url: "QualityDssFilter2/startDates",
                                 params: [{name: "startYear", group: "default", required: true}, {
                                     name: "timeUnitId",
                                     group: "default",
@@ -214,7 +201,7 @@
                             multiple: false,
                             title: "Период, по",
                             dataSource: {
-                                url: "QualityDssFilter/endDates",
+                                url: "QualityDssFilter2/endDates",
                                 params: [{name: "endYear", group: "default", required: true}, {
                                     name: "timeUnitId",
                                     group: "default",

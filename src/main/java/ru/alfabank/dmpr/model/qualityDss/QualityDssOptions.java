@@ -17,7 +17,7 @@ public class QualityDssOptions extends BasePeriodOptions implements Cloneable {
     public String[] divisionIds;
 
 
-    public Integer reportIds=2;
+    public Integer reportIds;
 
     public LocalDateTime startDate;
     public LocalDateTime endDate;

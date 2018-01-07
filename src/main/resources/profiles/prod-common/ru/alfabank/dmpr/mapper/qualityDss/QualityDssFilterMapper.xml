@@ -14,7 +14,7 @@
 
     <select id="getCities" resultType="ru.alfabank.dmpr.model.ChildEntity">
         select id, name, parent_id as parentId
-        from table(pkg_mass_api.get_City()) where 2=2
+        from table(pkg_mass_api.get_City()) where 1=1
     </select>
 
     <select id="getDopOffices" resultType="ru.alfabank.dmpr.model.ChildEntity">
@@ -50,6 +50,46 @@
         week_start_date as startDate,
         week_end_date as endDate
         from table(pkg_quality_Dss_api.get_weeks)
+    </select>
+
+    <select id="getDivision" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        <![CDATA[
+        select id, name from table(pkg_quality_Dss_api.get_Division (
+          p_DateFrom => #{startDate},
+          p_DateTill => #{endDate},
+          p_ReportId => #{reportIds}
+          ))
+    ]]>
+    </select>
+
+    <select id="getEmployee" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        <![CDATA[
+        select id, name from table(pkg_quality_Dss_api.get_Employee (
+          p_DateFrom => #{startDate},
+          p_DateTill => #{endDate},
+          p_ReportId => #{reportIds}
+          ))
+    ]]>
+    </select>
+
+    <select id="getOperation" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        <![CDATA[
+        select id, name from table(pkg_quality_Dss_api.get_Operation(
+          p_DateFrom => #{startDate},
+          p_DateTill => #{endDate},
+          p_ReportId => #{reportIds}
+          ))
+    ]]>
+    </select>
+
+    <select id="getTypeProduct" resultType="ru.alfabank.dmpr.model.BaseEntity">
+        <![CDATA[
+        select id, name from table(pkg_quality_Dss_api.get_TypeProduct(
+          p_DateFrom => #{startDate},
+          p_DateTill => #{endDate},
+          p_ReportId => #{reportIds}
+          ))
+    ]]>
     </select>
 
 </mapper>

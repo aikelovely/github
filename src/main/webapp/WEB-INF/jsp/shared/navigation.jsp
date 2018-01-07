@@ -234,9 +234,15 @@
                                 Витрина показателей CTQ
                             </a>
                         </li>
+                        <li class="nav-divider"></li>
                         <li>
                             <a href='<c:url value="/showcase/qualityIndicatorsDss" />'>
-                                Показатели качества ДСС с детализацией до сотрудников
+                                Оформление договорных документов кредита/гарантии. Декомпозиция
+                            </a>
+                        </li>
+                        <li>
+                            <a href='<c:url value="/showcase/qualityIndicatorsDss2" />'>
+                                Оформление договорных документов факторинга. Декомпозиция
                             </a>
                         </li>
                         <% } else { %>
