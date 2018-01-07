@@ -72,6 +72,9 @@ public abstract class CardsCommonFilter {
      * Возвращает список "Дебет/Кредит"
      * @return
      */
+
+
+
     public BaseEntity[] getDebitOrCredits() {
         return repository.getDebitOrCredits();
     }
