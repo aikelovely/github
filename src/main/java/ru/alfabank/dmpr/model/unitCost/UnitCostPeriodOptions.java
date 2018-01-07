@@ -4,7 +4,7 @@ import org.joda.time.LocalDate;
 import ru.alfabank.dmpr.model.BaseOptions;
 
 /**
- * Набор значений фильтров витрины "UnitCost".
+ * Набор значений фильтров витрины "UnitCost".а выаыва
  */
 public class UnitCostPeriodOptions extends BaseOptions {
     /**
